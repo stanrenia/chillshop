@@ -1,0 +1,6 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "chillshop",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}
