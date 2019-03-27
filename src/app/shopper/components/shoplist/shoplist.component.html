@@ -1,0 +1,17 @@
+<div>
+  <form [formGroup]="shopListForm" (submit)="createShopList(shopListForm.value)">
+    <ion-item>
+      <ion-label position="floating">Label</ion-label>
+      <ion-input clearInput placeholder="New shop list" formControlName="label" required></ion-input>
+    </ion-item>
+  </form>
+</div>
+<ion-list>
+  <ion-item *ngFor="let shoplist of shoplists$ | async">
+    <ion-icon name="list" slot="start"></ion-icon>
+    {{shoplist.label}}
+    <div class="item-note" slot="end">
+      {{shoplist.categoryId}}
+    </div>
+  </ion-item>
+</ion-list>
