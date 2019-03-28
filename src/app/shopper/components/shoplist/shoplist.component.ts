@@ -26,7 +26,8 @@ export class ShoplistComponent implements OnInit {
     
   makeForm(): any {
     this.shopListForm = this.fb.group({
-      label: ['', Validators.required]
+      label: ['', Validators.required],
+      category: [undefined]
     });
   }
 
@@ -35,6 +36,7 @@ export class ShoplistComponent implements OnInit {
   }
 
   createShopList(formValue) {
+    console.info('Enter');
     if (!this.shopListForm.valid) {
       return;
     }
