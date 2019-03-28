@@ -35,6 +35,10 @@ export class ShoplistComponent implements OnInit {
   }
 
   createShopList(formValue) {
+    if (!this.shopListForm.valid) {
+      return;
+    }
+
     this.service.createShopList(formValue.label);
   }
 
