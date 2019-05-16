@@ -1,29 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { ShopListQuery } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
-import { ShopList } from '../../state/shoplist.state';
+import { ShopList, ShopListItem } from '../../state/shoplist.state';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 
 @Component({
-  selector: 'app-shoplist-manager',
-  templateUrl: './shoplist-manager.component.html',
-  styleUrls: ['./shoplist-manager.component.scss'],
+  selector: 'app-shoplist-edition',
+  templateUrl: './shoplist-edition.component.html',
+  styleUrls: ['./shoplist-edition.component.scss'],
 })
-export class ShoplistManagerComponent implements OnInit {
-  
-  shoplists$: Observable<ShopList[]>;
-  
+export class ShoplistEditionComponent implements OnInit {
+
+  items$: Observable<ShopListItem[]>;
+
   shopListForm: FormGroup;
-  displayForm = false;
-  
+
   constructor(
     private query: ShopListQuery,
     private service: ShopListService,
     private fb: FormBuilder
-    ) { 
-      this.makeForm();
-    }
+  ) {
+    this.makeForm();
+  }
 
   makeForm(): any {
     this.shopListForm = this.fb.group({
@@ -33,7 +32,8 @@ export class ShoplistManagerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.shoplists$ = this.query.selectAll();
+    const shopListId = 1;
+    this.items$ = this.query.getItemsByShopListId(1);
   }
 
   createShopList(formValue) {
@@ -42,6 +42,7 @@ export class ShoplistManagerComponent implements OnInit {
     }
 
     this.service.createShopList(formValue.label);
+    this.shopListForm.patchValue({ label: '' });
   }
 
 }

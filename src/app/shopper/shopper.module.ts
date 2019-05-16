@@ -9,6 +9,7 @@ import { ShopperPage } from './shopper.page';
 import { ShoplistComponent } from './components/shoplist/shoplist.component';
 import { ShoplistItemComponent } from './components/shoplist-item/shoplist-item.component';
 import { ShoplistManagerComponent } from './components/shoplist-manager/shoplist-manager.component';
+import { ShoplistEditionComponent } from './components/shoplist-edition/shoplist-edition.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ShopperPage, ShoplistManagerComponent, ShoplistComponent, ShoplistItemComponent]
+  declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistComponent, ShoplistItemComponent]
 })
 export class ShopperPageModule {}
