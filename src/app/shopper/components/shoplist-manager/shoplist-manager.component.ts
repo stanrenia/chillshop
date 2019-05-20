@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ShopListQuery } from '../../state/shoplist.query';
+import { ShopListQuery, ShopListUI } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ShopList } from '../../state/shoplist.state';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
@@ -12,7 +13,7 @@ import { ShopListService } from '../../state/shoplist.service';
 })
 export class ShoplistManagerComponent implements OnInit {
   
-  shoplists$: Observable<ShopList[]>;
+  shoplists$: Observable<ShopListUI[]>;
   
   shopListForm: FormGroup;
   displayForm = false;
@@ -33,7 +34,7 @@ export class ShoplistManagerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.shoplists$ = this.query.selectAll();
+    this.shoplists$ = this.query.getAllForUI();
   }
 
   createShopList(formValue) {
@@ -41,7 +42,13 @@ export class ShoplistManagerComponent implements OnInit {
       return;
     }
 
-    this.service.createShopList(formValue.label);
+    this.service.createShopList(formValue.label, formValue.category);
+
+    // Clear inputs
+    this.shopListForm.patchValue({
+      label: '',
+      category: ''
+    });
   }
 
 }

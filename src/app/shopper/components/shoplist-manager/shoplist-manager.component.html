@@ -1,14 +1,14 @@
 <div>
   <ion-button (click)="displayForm = !displayForm">
     <ion-icon slot="start" name="add"></ion-icon>
-    Add shoplist
+    Add shop list
   </ion-button>
 
   <form *ngIf="displayForm" [formGroup]="shopListForm" (submit)="createShopList(shopListForm.value)"
     (keydown.enter)="createShopList(shopListForm.value)">
     <ion-item>
       <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-      <ion-input #inShoplist clearInput placeholder="New shop list" formControlName="label" required></ion-input>
+      <ion-input #inShoplist clearInput placeholder="Name" formControlName="label" required></ion-input>
     </ion-item>
     <ion-item *ngIf="inShoplist.value && inShoplist.value.length > 0">
       <ion-icon name="bookmark" slot="start"></ion-icon>
@@ -22,7 +22,7 @@
     <ion-icon name="list" slot="start"></ion-icon>
     {{shoplist.label}}
     <div class="item-note" slot="end">
-      {{shoplist.categoryId}}
+      {{shoplist.categoryName}}
     </div>
   </ion-item>
 </ion-list>

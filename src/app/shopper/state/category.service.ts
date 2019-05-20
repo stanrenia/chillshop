@@ -7,8 +7,16 @@ export class CategoryService {
 
     constructor(private categoryStore: CategoryStore, private query: CategoryQuery) { }
 
-    createCategory(label: string) {
+    createCategory(label: string): Category {
+        // Do not create if label already exists
+        if (this.query.hasEntity(cat => cat.label === label)) {
+            return;
+        }
+
         const count = this.query.getCount();
-        this.categoryStore.add({ id: count + 1, label } as Category);
+        const newCategory = { id: count + 1, label } as Category;
+        this.categoryStore.add(newCategory);
+
+        return newCategory;
     }
 }

@@ -41,7 +41,7 @@ export class ShoplistEditionComponent implements OnInit {
       return;
     }
 
-    this.service.createShopList(formValue.label);
+    this.service.createShopList(formValue.label, null);
     this.shopListForm.patchValue({ label: '' });
   }
 
