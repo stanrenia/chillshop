@@ -2,7 +2,7 @@ import { QueryEntity, ID } from '@datorama/akita';
 import { ShopListState, ShopListStore, ShopList, ShopListItem } from './shoplist.state';
 import { Injectable } from '@angular/core';
 import { Observable, of, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, auditTime } from 'rxjs/operators';
 import { CategoryQuery } from './category.query';
 
 @Injectable({ providedIn: 'root' })
@@ -16,8 +16,8 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
       this.selectAll(),
       this.categoryQuery.selectAll({ asObject: true })
     ).pipe(
+      auditTime(0),
       map(([shoplists, categories]) => {
-        console.info('CAT', categories);
         return shoplists.map(sl => {
           const cat = categories[sl.categoryId];
 
@@ -30,22 +30,6 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
         })
       })
     );
-
-    // return this.selectAll().pipe(
-    //   map((shoplists: ShopList[]) => shoplists.map(sl => {
-
-    //     console.info('Nb Cat: ', this.categoryQuery.getCount());
-    //     const cat = this.categoryQuery.getEntity(sl.categoryId);
-
-    //     return <ShopListUI>{
-    //       id: sl.id,
-    //       label: sl.label,
-    //       categoryName: cat && cat.label,
-    //       itemCount: sl.items && sl.items.length
-    //     }
-    //   })
-    //   )
-    // )
   }
 
   public getItemsByShopListId(id: string | number): Observable<ShopListItem[]> {

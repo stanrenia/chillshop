@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShopListQuery, ShopListUI } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ShopList } from '../../state/shoplist.state';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 

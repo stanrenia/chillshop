@@ -1,5 +1,5 @@
 import { QueryEntity } from '@datorama/akita';
-import { CategoryState, CategoryStore, Category } from './Category.state';
+import { CategoryState, CategoryStore, Category } from './category.state';
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
