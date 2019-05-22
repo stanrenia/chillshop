@@ -6,11 +6,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 
 @Component({
-  selector: 'app-shoplist',
-  templateUrl: './shoplist.component.html',
-  styleUrls: ['./shoplist.component.scss'],
+  selector: 'app-shoplist-edition',
+  templateUrl: './shoplist-edition.component.html',
+  styleUrls: ['./shoplist-edition.component.scss'],
 })
-export class ShoplistComponent implements OnInit {
+export class ShoplistEditionComponent implements OnInit {
 
   items$: Observable<ShopListItem[]>;
 
