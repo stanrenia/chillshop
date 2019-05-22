@@ -3,6 +3,7 @@ import { ShopListQuery, ShopListUI } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-shoplist-manager',
@@ -19,7 +20,9 @@ export class ShoplistManagerComponent implements OnInit {
   constructor(
     private query: ShopListQuery,
     private service: ShopListService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute
     ) { 
       this.makeForm();
     }
@@ -47,6 +50,11 @@ export class ShoplistManagerComponent implements OnInit {
       label: '',
       category: ''
     });
+  }
+
+  goToEdit(shoplist: ShopListUI) {
+    this.router.navigate(['edit', shoplist.id], { relativeTo: this.route });
+    // this.router.navigate(['shopper', 'edit', shoplist.id]);
   }
 
 }

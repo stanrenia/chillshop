@@ -18,7 +18,7 @@
 </div>
 <ion-list>
   <ion-list-header>Your shop lists</ion-list-header>
-  <ion-item *ngFor="let shoplist of shoplists$ | async">
+  <ion-item *ngFor="let shoplist of shoplists$ | async" (click)="goToEdit(shoplist)">
     <ion-icon name="list" slot="start"></ion-icon>
     {{shoplist.label}}
     <div class="item-note" slot="end">
