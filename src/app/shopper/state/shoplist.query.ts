@@ -3,11 +3,11 @@ import { ShopListState, ShopListStore, ShopList, ShopListItem } from './shoplist
 import { Injectable } from '@angular/core';
 import { Observable, of, combineLatest } from 'rxjs';
 import { map, auditTime } from 'rxjs/operators';
-import { CategoryQuery } from './category.query';
+import { ShoplistCategoryQuery } from './shoplist-category.query';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
-  constructor(protected store: ShopListStore, private categoryQuery: CategoryQuery) {
+  constructor(protected store: ShopListStore, private categoryQuery: ShoplistCategoryQuery) {
     super(store);
   }
 

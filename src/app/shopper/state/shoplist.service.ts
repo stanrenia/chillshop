@@ -1,13 +1,13 @@
 import { ShopListStore, ShopList } from './shoplist.state';
 import { Injectable } from '@angular/core';
 import { ShopListQuery } from './shoplist.query';
-import { CategoryService } from './category.service';
+import { ShoplistCategoryService } from './shoplist-category.service';
 import { transaction } from '@datorama/akita';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListService {
 
-    constructor(private shopListStore: ShopListStore, private query: ShopListQuery, private categoryService: CategoryService) { }
+    constructor(private shopListStore: ShopListStore, private query: ShopListQuery, private categoryService: ShoplistCategoryService) { }
 
     @transaction()
     createShopList(label: string, categoryName: string) {
