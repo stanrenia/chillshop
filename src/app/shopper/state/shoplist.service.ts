@@ -1,8 +1,8 @@
-import { ShopListStore, ShopList } from './shoplist.state';
+import { ShopListStore, ShopList, ShopListItem } from './shoplist.state';
 import { Injectable } from '@angular/core';
 import { ShopListQuery } from './shoplist.query';
 import { ShoplistCategoryService } from './shoplist-category.service';
-import { transaction } from '@datorama/akita';
+import { transaction, ID } from '@datorama/akita';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListService {
@@ -19,5 +19,23 @@ export class ShopListService {
         
         const count = this.query.getCount();
         this.shopListStore.add({ id: count + 1, label, categoryId } as ShopList);
+    }
+
+    @transaction()
+    createShopListItem(shoplistId: ID, label: string, categoryName: string) {
+        let categoryId;
+        if (categoryName) {
+            const cat = this.categoryService.createCategory(categoryName);
+            categoryId = cat && cat.id;
+        }
+        
+        // TODO CONTINUE
+        // const item: ShopListItem = {
+        //     productId
+        // }
+
+        this.shopListStore.update(shoplistId, entity => ({
+           items: [...entity.items, ] 
+        }));
     }
 }

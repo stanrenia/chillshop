@@ -5,6 +5,8 @@ import { ShopListItem } from '../../state/shoplist.state';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 import { AppTitleService } from '../../services/app-title.service';
+import { ActivatedRoute } from '@angular/router';
+import { ID } from '@datorama/akita';
 
 @Component({
   selector: 'app-shoplist-edition',
@@ -15,37 +17,42 @@ export class ShoplistEditionComponent {
 
   items$: Observable<ShopListItem[]>;
 
-  shopListForm: FormGroup;
+  itemForm: FormGroup;
+  shoplistId: ID;
 
   constructor(
     private query: ShopListQuery,
     private service: ShopListService,
     private fb: FormBuilder,
-    private appTitleService: AppTitleService
+    private appTitleService: AppTitleService,
+    private route: ActivatedRoute
   ) {
     this.makeForm();
   }
 
   makeForm(): any {
-    this.shopListForm = this.fb.group({
+    this.itemForm = this.fb.group({
       label: ['', Validators.required],
       category: [undefined]
     });
   }
 
   ionViewWillEnter() {
-    const shopListId = 1;
-    this.items$ = this.query.getItemsByShopListId(shopListId);
-    this.appTitleService.setTitle(`Shopper - Edition ${shopListId}`);
+    this.route.params.subscribe(params => {
+      this.shoplistId = params.id;
+      this.items$ = this.query.getItemsByShopListId(this.shoplistId);
+      this.appTitleService.setTitle(`Shopper - Edition ${this.shoplistId}`);
+    })
+
   }
 
-  createShopList(formValue) {
-    if (!this.shopListForm.valid) {
+  createShoplistItem(formValue) {
+    if (!this.itemForm.valid) {
       return;
     }
 
-    this.service.createShopList(formValue.label, null);
-    this.shopListForm.patchValue({ label: '' });
+    this.service.createShopListItem(this.shoplistId, formValue.label, null);
+    this.itemForm.patchValue({ label: '' });
   }
 
 }

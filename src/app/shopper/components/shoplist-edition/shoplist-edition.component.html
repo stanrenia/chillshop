@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="shopListForm" (submit)="createShopList(shopListForm.value)" (keydown.enter)="createShopList(shopListForm.value)">
+  <form [formGroup]="itemForm" (submit)="createShoplistItem(itemForm.value)" (keydown.enter)="createShoplistItem(itemForm.value)">
     <ion-item>
       <ion-icon name="add-circle-outline" slot="start"></ion-icon>
       <ion-input #inShoplist clearInput placeholder="New Item" formControlName="label" required></ion-input>
