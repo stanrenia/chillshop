@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ShopListQuery } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
-import { ShopList, ShopListItem } from '../../state/shoplist.state';
+import { ShopListItem } from '../../state/shoplist.state';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
+import { AppTitleService } from '../../services/app-title.service';
 
 @Component({
   selector: 'app-shoplist-edition',
   templateUrl: './shoplist-edition.component.html',
   styleUrls: ['./shoplist-edition.component.scss'],
 })
-export class ShoplistEditionComponent implements OnInit {
+export class ShoplistEditionComponent {
 
   items$: Observable<ShopListItem[]>;
 
@@ -19,7 +20,8 @@ export class ShoplistEditionComponent implements OnInit {
   constructor(
     private query: ShopListQuery,
     private service: ShopListService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private appTitleService: AppTitleService
   ) {
     this.makeForm();
   }
@@ -31,9 +33,10 @@ export class ShoplistEditionComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     const shopListId = 1;
-    this.items$ = this.query.getItemsByShopListId(1);
+    this.items$ = this.query.getItemsByShopListId(shopListId);
+    this.appTitleService.setTitle(`Shopper - Edition ${shopListId}`);
   }
 
   createShopList(formValue) {
