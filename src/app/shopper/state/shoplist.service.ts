@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { ShopListQuery } from './shoplist.query';
 import { ShoplistCategoryService } from './shoplist-category.service';
 import { transaction, ID } from '@datorama/akita';
+import { ProductService } from './product.service';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListService {
 
-    constructor(private shopListStore: ShopListStore, private query: ShopListQuery, private categoryService: ShoplistCategoryService) { }
+    constructor(private shopListStore: ShopListStore, private query: ShopListQuery, private categoryService: ShoplistCategoryService,
+        private productService: ProductService) { }
 
     @transaction()
     createShopList(label: string, categoryName: string) {
@@ -23,11 +25,7 @@ export class ShopListService {
 
     @transaction()
     createShopListItem(shoplistId: ID, label: string, categoryName: string) {
-        let categoryId;
-        if (categoryName) {
-            const cat = this.categoryService.createCategory(categoryName);
-            categoryId = cat && cat.id;
-        }
+        this.productService.createProduct(label, categoryName);
         
         // TODO CONTINUE
         // const item: ShopListItem = {
