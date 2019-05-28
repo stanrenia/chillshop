@@ -7,6 +7,8 @@ import { ShopListService } from '../../state/shoplist.service';
 import { AppTitleService } from '../../services/app-title.service';
 import { ActivatedRoute } from '@angular/router';
 import { ID } from '@datorama/akita';
+import { ProductUI } from '../../state/product.state';
+import { ProductQuery } from '../../state/product.query';
 
 @Component({
   selector: 'app-shoplist-edition',
@@ -16,6 +18,7 @@ import { ID } from '@datorama/akita';
 export class ShoplistEditionComponent {
 
   items$: Observable<ShopListItem[]>;
+  product$: Observable<ProductUI[]>;
 
   itemForm: FormGroup;
   shoplistId: ID;
@@ -25,14 +28,15 @@ export class ShoplistEditionComponent {
     private service: ShopListService,
     private fb: FormBuilder,
     private appTitleService: AppTitleService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private productQuery: ProductQuery
   ) {
     this.makeForm();
   }
 
   makeForm(): any {
     this.itemForm = this.fb.group({
-      label: ['', Validators.required],
+      name: ['', Validators.required],
       category: [undefined]
     });
   }
@@ -42,8 +46,9 @@ export class ShoplistEditionComponent {
       this.shoplistId = params.id;
       this.items$ = this.query.getItemsByShopListId(this.shoplistId);
       this.appTitleService.setTitle(`Shopper - Edition ${this.shoplistId}`);
-    })
+    });
 
+    this.product$ = this.productQuery.getProducts();
   }
 
   createShoplistItem(formValue) {
@@ -51,8 +56,8 @@ export class ShoplistEditionComponent {
       return;
     }
 
-    this.service.createShopListItem(this.shoplistId, formValue.label, null);
-    this.itemForm.patchValue({ label: '' });
+    this.service.createShopListItem(this.shoplistId, formValue.name, null);
+    this.itemForm.patchValue({ name: '' });
   }
 
 }

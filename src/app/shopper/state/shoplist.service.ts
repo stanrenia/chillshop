@@ -24,16 +24,16 @@ export class ShopListService {
     }
 
     @transaction()
-    createShopListItem(shoplistId: ID, label: string, categoryName: string) {
-        this.productService.createProduct(label, categoryName);
+    createShopListItem(shoplistId: ID, productName: string, categoryName: string) {
+        this.productService.createProduct(productName, categoryName);
         
         // TODO CONTINUE
         // const item: ShopListItem = {
         //     productId
         // }
 
-        this.shopListStore.update(shoplistId, entity => ({
-           items: [...entity.items, ] 
-        }));
+        // this.shopListStore.update(shoplistId, entity => ({
+        //    items: [...entity.items, ] 
+        // }));
     }
 }
