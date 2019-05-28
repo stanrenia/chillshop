@@ -41,6 +41,7 @@
     "@angular/compiler": "~7.2.2",
     "@angular/compiler-cli": "~7.2.2",
     "@angular/language-service": "~7.2.2",
+    "@datorama/akita-cli": "^4.0.2",
     "@datorama/akita-ngdevtools": "^1.0.4",
     "@ionic/angular-toolkit": "~1.4.0",
     "@types/jasmine": "~2.8.8",
@@ -59,5 +60,10 @@
     "tslint": "~5.12.0",
     "typescript": "~3.1.6"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "akitaCli": {
+    "customFolderName": "true",
+    "template": "angular",
+    "basePath": "./src/app/"
+  }
 }
