@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProductStore, Product } from './product.state';
 import { ProductQuery } from './product.query';
-import { guid } from '@datorama/akita';
-import { query } from '@angular/core/src/render3';
+import { guid, ID } from '@datorama/akita';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -10,16 +9,19 @@ export class ProductService {
     constructor(private store: ProductStore, private query: ProductQuery) {
     }
 
-    createProduct(name: string, categoryName: string): any {
+    createProduct(name: string, categoryName: string): ID {
+        const productsSameName = this.query.getAll({ filterBy: product => product.name === name, limitTo: 1 });
+        const currentProduct = productsSameName.length && productsSameName[0];
 
-        if (this.query.hasEntity(e => e.name === name)) {
-            return;
+        // Product already exists
+        if (currentProduct) {
+            return currentProduct.id;
         }
 
         let categoryId;
 
         const product = { id: guid(), name, categoryId } as Product;
         this.store.add(product);
-        this.store.ui.update(product.id, e => ({ name }));
+        return product.id;
     }
 }

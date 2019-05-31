@@ -1,26 +1,15 @@
 <div>
-  <form [formGroup]="itemForm" (submit)="createShoplistItem(itemForm.value)" (keydown.enter)="createShoplistItem(itemForm.value)">
+  <form [formGroup]="itemForm" (submit)="createShoplistItem(itemForm.value)"
+    (keydown.enter)="createShoplistItem(itemForm.value)">
     <ion-item>
       <ion-icon name="add-circle-outline" slot="start"></ion-icon>
       <ion-input #inShoplist clearInput placeholder="New Item" formControlName="name" required></ion-input>
     </ion-item>
-    <ion-item *ngIf="inShoplist.value && inShoplist.value.length > 0">
-      <ion-icon name="bookmark" slot="start"></ion-icon>
-      <ion-input clearInput placeholder="Category ?" formControlName="category"></ion-input>
-    </ion-item>
   </form>
-</div>
-<div>
   <ion-list>
-    <ion-list-header>Products</ion-list-header>
-    <ion-item *ngFor="let p of product$ | async">
-      <p>Name: {{ p | json }} </p>
+    <ion-list-header>Your list items <ion-button (click)="debug()">DEBUG</ion-button></ion-list-header>
+    <ion-item *ngFor="let item of items$ | async">
+      <app-shoplist-item [item]="item"></app-shoplist-item>
     </ion-item>
   </ion-list>
 </div>
-<ion-list>
-  <ion-list-header>Your list items</ion-list-header>
-  <ion-item *ngFor="let item of items$ | async">
-    <app-shoplist-item [item]="item"></app-shoplist-item>
-  </ion-item>
-</ion-list>

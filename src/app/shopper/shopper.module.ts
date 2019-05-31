@@ -9,6 +9,7 @@ import { ShoplistItemComponent } from './components/shoplist-item/shoplist-item.
 import { ShoplistManagerComponent } from './components/shoplist-manager/shoplist-manager.component';
 import { ShoplistEditionComponent } from './components/shoplist-edition/shoplist-edition.component';
 import { ShopperRoutingModule } from './shopper-routing.module';
+import { EditionPopoverComponent } from './components/edition-popover/edition-popover.component';
 
 
 
@@ -20,6 +21,7 @@ import { ShopperRoutingModule } from './shopper-routing.module';
     IonicModule,
     ShopperRoutingModule
   ],
-  declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistComponent, ShoplistItemComponent]
+  declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistComponent, ShoplistItemComponent, EditionPopoverComponent],
+  entryComponents: [EditionPopoverComponent]
 })
 export class ShopperPageModule {}
