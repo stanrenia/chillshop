@@ -70,18 +70,22 @@ export class ShoplistEditionComponent {
 
     const itemId = this.service.createShopListItem(this.shoplistId, formValue.name, null);
     this.itemForm.patchValue({ name: '' });
-    this.presentToast(itemId);
+    this.presentToast(itemId, formValue.name);
   }
 
-  private async presentToast(itemId: ID) {
+  private async presentToast(itemId: ID, itemName: string) {
     const toast = await this.toastCtrl.create({
+      message: `${itemName} added.`,
+      color: 'secondary',
+      cssClass: 'edition-toast-button',
       buttons: [{
         text: 'Edit',
         handler: () => {
           this.presentPopover(itemId);
-        }
-      }],
-      message: `${itemId} added.`
+        },
+        icon: 'create',
+        // side: 'start'
+      }]
     });
 
     toast.present();
@@ -94,7 +98,8 @@ export class ShoplistEditionComponent {
       // cssClass: 'edition-popover',
       // event: ev,
       translucent: true,
-      showBackdrop: true
+      showBackdrop: true,
+      backdropDismiss: false
     });
     return await popover.present();
   }

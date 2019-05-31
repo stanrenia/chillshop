@@ -2,7 +2,7 @@ import { ShopListStore, ShopList, ShopListItem } from './shoplist.state';
 import { Injectable } from '@angular/core';
 import { ShopListQuery } from './shoplist.query';
 import { ShoplistCategoryService } from './shoplist-category.service';
-import { transaction, ID, guid } from '@datorama/akita';
+import { transaction, ID, guid, arrayUpdate, arrayAdd } from '@datorama/akita';
 import { ProductService } from './product.service';
 
 @Injectable({ providedIn: 'root' })
@@ -18,9 +18,9 @@ export class ShopListService {
             const cat = this.categoryService.createCategory(categoryName);
             categoryId = cat && cat.id;
         }
-        
+
         const count = this.query.getCount();
-        this.shopListStore.add({ id: count + 1, label, categoryId } as ShopList);
+        this.shopListStore.add({ id: count + 1, label, items: [], categoryId } as ShopList);
     }
 
     @transaction()
@@ -28,15 +28,24 @@ export class ShopListService {
         // Create product if not exists
         const productId = this.productService.createProduct(productName, categoryName);
 
-        const item = { id : guid(), productId } as ShopListItem;
+        const item = { id: guid(), productId, quantity: 1 } as ShopListItem;
 
-        this.shopListStore.update(shoplistId, entity => {
-            let items = entity.items || [];
-            items = [...items, item];
+        this.shopListStore.update(shoplistId, entity => ({
+            items: arrayAdd(entity.items, item)
+        }));
+        // this.shopListStore.update(shoplistId, entity => {
+        //     let items = entity.items || [];
+        //     items = [...items, item];
 
-            return { items };
-        });
+        //     return { items };
+        // });
 
         return item.id;
+    }
+
+    updateItem(shoplistId: ID, itemId: ID, item: Partial<ShopListItem>) {
+        this.shopListStore.update(shoplistId, entity => ({
+            items: arrayUpdate(entity.items, itemId, { quantity: item.quantity })
+        }));
     }
 }
