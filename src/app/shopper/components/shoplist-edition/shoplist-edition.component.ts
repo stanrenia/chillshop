@@ -73,6 +73,10 @@ export class ShoplistEditionComponent {
     this.presentToast(itemId, formValue.name);
   }
 
+  editItem(item: ShopListItemUI) {
+    this.presentPopover(item.id);
+  }
+
   private async presentToast(itemId: ID, itemName: string) {
     const toast = await this.toastCtrl.create({
       message: `${itemName} added.`,

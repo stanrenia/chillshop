@@ -33,12 +33,6 @@ export class ShopListService {
         this.shopListStore.update(shoplistId, entity => ({
             items: arrayAdd(entity.items, item)
         }));
-        // this.shopListStore.update(shoplistId, entity => {
-        //     let items = entity.items || [];
-        //     items = [...items, item];
-
-        //     return { items };
-        // });
 
         return item.id;
     }

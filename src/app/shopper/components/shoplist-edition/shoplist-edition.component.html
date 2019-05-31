@@ -8,7 +8,7 @@
   </form>
   <ion-list>
     <ion-list-header>Your list items <ion-button (click)="debug()" color="tertiary">DEBUG</ion-button></ion-list-header>
-    <ion-item *ngFor="let item of items$ | async">
+    <ion-item *ngFor="let item of items$ | async" (click)="editItem(item)">
       <app-shoplist-item [item]="item"></app-shoplist-item>
     </ion-item>
   </ion-list>
