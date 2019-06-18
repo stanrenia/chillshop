@@ -71,6 +71,7 @@ export class ShoplistEditionComponent {
     const itemId = this.service.createShopListItem(this.shoplistId, formValue.name, null);
     this.itemForm.patchValue({ name: '' });
     this.presentToast(itemId, formValue.name);
+    this.itemForm.reset();
   }
 
   editItem(item: ShopListItemUI) {
@@ -102,8 +103,7 @@ export class ShoplistEditionComponent {
       // cssClass: 'edition-popover',
       // event: ev,
       translucent: true,
-      showBackdrop: true,
-      backdropDismiss: false
+      showBackdrop: true
     });
     return await popover.present();
   }
