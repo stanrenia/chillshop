@@ -58,6 +58,10 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   public getShopListName(id: string | number): string {
     return this.getEntity(id).label;
   }
+
+  public getShopListItem(shoplistId: ID, itemId: ID): ShopListItem {
+    return this.getEntity(shoplistId).items.find(i => i.id === itemId);
+  }
 }
 
 export interface ShopListUI {

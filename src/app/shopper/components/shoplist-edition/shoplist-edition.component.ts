@@ -79,8 +79,10 @@ export class ShoplistEditionComponent {
   }
 
   private async presentToast(itemId: ID, itemName: string) {
+    const message = this.getToastMessage(itemId, itemName);
+
     const toast = await this.toastCtrl.create({
-      message: `${itemName} added.`,
+      message,
       color: 'secondary',
       cssClass: 'edition-toast-button',
       buttons: [{
@@ -94,6 +96,18 @@ export class ShoplistEditionComponent {
     });
 
     toast.present();
+  }
+
+  private getToastMessage(itemId: ID, itemName: string): string {
+    const quantity = this.query.getShopListItem(this.shoplistId, itemId).quantity;
+    let message = '';
+    if (quantity === 1) {
+      message = `${itemName} added.`;
+    }
+    else {
+      message = `Another ${itemName} was added. (Total: ${quantity})`;
+    }
+    return message;
   }
 
   private async presentPopover(itemId: ID) {

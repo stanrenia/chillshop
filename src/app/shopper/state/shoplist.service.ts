@@ -2,7 +2,7 @@ import { ShopListStore, ShopList, ShopListItem } from './shoplist.state';
 import { Injectable } from '@angular/core';
 import { ShopListQuery } from './shoplist.query';
 import { ShoplistCategoryService } from './shoplist-category.service';
-import { transaction, ID, guid, arrayUpdate, arrayAdd } from '@datorama/akita';
+import { transaction, ID, guid, arrayUpdate, arrayAdd, arrayFind } from '@datorama/akita';
 import { ProductService } from './product.service';
 
 @Injectable({ providedIn: 'root' })
@@ -28,13 +28,30 @@ export class ShopListService {
         // Create product if not exists
         const productId = this.productService.createProduct(productName, categoryName);
 
-        const item = { id: guid(), productId, quantity: 1 } as ShopListItem;
+        const currentItems = this.query.getEntity(shoplistId).items;
+        const existingItem = currentItems.find(i => i.productId === productId);
 
-        this.shopListStore.update(shoplistId, entity => ({
-            items: arrayAdd(entity.items, item)
-        }));
+        let entityId;
+        // If item exists, increment its quantity by 1
+        if (existingItem) {
+            const quantity = existingItem.quantity + 1;
+            this.shopListStore.update(shoplistId, entity => ({
+                items: arrayUpdate(entity.items, existingItem.id, { quantity })
+            }));
+            
+            entityId = existingItem.id;
+        // Otherwise, create the item
+        } else {
+            const item = { id: guid(), productId, quantity: 1 } as ShopListItem;
+            
+            this.shopListStore.update(shoplistId, entity => ({
+                items: arrayAdd(entity.items, item)
+            }));
 
-        return item.id;
+            entityId = item.id;
+        }
+
+        return entityId;
     }
 
     updateItem(shoplistId: ID, itemId: ID, item: Partial<ShopListItem>) {
