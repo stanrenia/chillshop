@@ -85,6 +85,7 @@ export class ShoplistEditionComponent {
       message,
       color: 'secondary',
       cssClass: 'edition-toast-button',
+      duration: 5,
       buttons: [{
         text: 'Edit',
         handler: () => {
