@@ -4,6 +4,13 @@
       <ion-icon name="add-circle-outline" slot="start"></ion-icon>
       <ion-input (keyup.enter)="createShoplistItem(itemForm.value)" clearInput placeholder="New Item" formControlName="name" required></ion-input>
     </ion-item>
+    <div class="autocomplete-container" *ngIf="itemForm.value.name?.length > 2">
+      <ion-list>
+          <ion-item>PRODUCT A</ion-item>
+          <ion-item>PRODUCT B</ion-item>
+          <ion-item>PRODUCT C</ion-item>
+      </ion-list>
+    </div>
   </form>
   <ion-list>
     <ion-list-header>Your list items <ion-button (click)="debug()" color="tertiary">DEBUG</ion-button></ion-list-header>
