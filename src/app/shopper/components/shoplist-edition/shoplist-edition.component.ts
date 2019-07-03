@@ -11,7 +11,8 @@ import { ProductQuery } from '../../state/product.query';
 import { Product } from '../../state/product.state';
 import { PopoverController, ToastController } from '@ionic/angular';
 import { EditionPopoverComponent } from '../edition-popover/edition-popover.component';
-import { map, distinctUntilChanged, take } from 'rxjs/operators';
+import { map, distinctUntilChanged, take, debounce, debounceTime } from 'rxjs/operators';
+import { ProductService } from '../../state/product.service';
 
 @Component({
   selector: 'app-shoplist-edition',
@@ -33,6 +34,7 @@ export class ShoplistEditionComponent {
     private appTitleService: AppTitleService,
     private route: ActivatedRoute,
     private productQuery: ProductQuery,
+    private productService: ProductService,
     private popoverController: PopoverController,
     private toastCtrl: ToastController
   ) {
@@ -60,17 +62,26 @@ export class ShoplistEditionComponent {
       this.appTitleService.setTitle(`Shopper - Edition : ${this.query.getShopListName(this.shoplistId)}`);
     });
 
-    this.product$ = this.productQuery.getProducts();
+    this.setInputObservables();
+    this.product$ = this.productQuery.selectVisibleProducts();
   }
 
-  createShoplistItem(formValue) {
+  private setInputObservables(): any {
+    this.itemForm.get('name').valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(200)
+    ).subscribe(nextName => {
+      this.productService.setFilter({ name: nextName });
+    });
+  }
+
+  createShoplistItem(itemName: string) {
     if (!this.itemForm.valid) {
       return;
     }
 
-    const itemId = this.service.createShopListItem(this.shoplistId, formValue.name, null);
-    this.itemForm.patchValue({ name: '' });
-    this.presentToast(itemId, formValue.name);
+    const itemId = this.service.createShopListItem(this.shoplistId, itemName, null);
+    this.presentToast(itemId, itemName);
     this.itemForm.reset();
   }
 

@@ -1,7 +1,8 @@
 import { QueryEntity } from '@datorama/akita';
 import { Injectable } from '@angular/core';
 import { ProductState, Product, ProductStore } from './product.state';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ProductQuery extends QueryEntity<ProductState, Product> {  
@@ -9,7 +10,12 @@ export class ProductQuery extends QueryEntity<ProductState, Product> {
     super(store);
   }
 
-  getProducts(): Observable<Product[]> {
-    return this.selectAll();
+  selectVisibleProducts(): Observable<Product[]> {
+    return this.select(state => state.ui.filter)
+      .pipe(
+        map(filter => this.getAll({ filterBy: product => {
+          return product.name && product.name.includes(filter.name);
+        }}))
+      );
   }
 }

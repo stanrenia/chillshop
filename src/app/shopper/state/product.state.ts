@@ -7,13 +7,30 @@ export interface Product {
     categoryId: string;
 }
 
-export interface ProductState extends EntityState<Product>{
+export interface ProductFilter {
+  name: string;
 }
+
+export interface ProductState extends EntityState<Product>{
+  ui: {
+    filter: ProductFilter
+  }
+}
+
+const initialState: Partial<ProductState> = {
+  ui: {
+    filter: { name: '' }
+  }
+};
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'product' })
 export class ProductStore extends EntityStore<ProductState, Product> {
   constructor() {
-    super();
+    super(initialState);
+  }
+
+  setFilter(filter: ProductFilter) {
+    this.update( { ui: { filter } } );
   }
 }

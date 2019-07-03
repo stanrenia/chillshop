@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductStore, Product } from './product.state';
+import { ProductStore, Product, ProductFilter } from './product.state';
 import { ProductQuery } from './product.query';
 import { guid, ID } from '@datorama/akita';
 
@@ -23,5 +23,9 @@ export class ProductService {
         const product = { id: guid(), name, categoryId } as Product;
         this.store.add(product);
         return product.id;
+    }
+
+    setFilter(filter: ProductFilter): void {
+        this.store.setFilter(filter);
     }
 }
