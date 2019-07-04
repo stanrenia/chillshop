@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ShopListItem } from '../../state/shoplist.state';
+import { ShopListItemUI } from '../../state/shoplist.query';
 
 @Component({
   selector: 'app-shoplist-item',
@@ -8,7 +8,7 @@ import { ShopListItem } from '../../state/shoplist.state';
 })
 export class ShoplistItemComponent implements OnInit {
 
-  @Input() item: ShopListItem;
+  @Input() item: ShopListItemUI;
 
   constructor() { }
 

@@ -3,11 +3,16 @@ import { ShopListState, ShopListStore, ShopList, ShopListItem } from './shoplist
 import { Injectable } from '@angular/core';
 import { Observable, of, combineLatest } from 'rxjs';
 import { map, auditTime } from 'rxjs/operators';
-import { CategoryQuery } from './category.query';
+import { ShoplistCategoryQuery } from './shoplist-category.query';
+import { ProductQuery } from './product.query';
+
+export interface ShopListItemUI extends ShopListItem {
+  productName: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
-  constructor(protected store: ShopListStore, private categoryQuery: CategoryQuery) {
+  constructor(protected store: ShopListStore, private categoryQuery: ShoplistCategoryQuery, private productQuery: ProductQuery) {
     super(store);
   }
 
@@ -32,9 +37,30 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
     );
   }
 
-  public getItemsByShopListId(id: string | number): Observable<ShopListItem[]> {
-    const items = this.getEntity(id).items || [];
-    return of(items);
+  public getItemsByShopListId(id: string | number): Observable<ShopListItemUI[]> {
+    const items$ = this.selectEntity(id).pipe(
+      map(sl => {
+        if (sl.items && sl.items.length) {
+          return sl.items.map(item => {
+            const product = this.productQuery.getEntity(item.productId);
+
+            return { ...item, productName: product.name } as ShopListItemUI;
+          });
+        }
+
+        return [];
+      })
+    )
+
+    return items$;
+  }
+
+  public getShopListName(id: string | number): string {
+    return this.getEntity(id).label;
+  }
+
+  public getShopListItem(shoplistId: ID, itemId: ID): ShopListItem {
+    return this.getEntity(shoplistId).items.find(i => i.id === itemId);
   }
 }
 
