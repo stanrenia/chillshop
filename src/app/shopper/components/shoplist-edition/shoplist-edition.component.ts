@@ -11,7 +11,7 @@ import { ProductQuery } from '../../state/product.query';
 import { Product } from '../../state/product.state';
 import { PopoverController, ToastController } from '@ionic/angular';
 import { EditionPopoverComponent } from '../edition-popover/edition-popover.component';
-import { map, distinctUntilChanged, take, debounce, debounceTime } from 'rxjs/operators';
+import { map, distinctUntilChanged, take, debounce, debounceTime, filter } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
 
 @Component({
@@ -23,6 +23,7 @@ export class ShoplistEditionComponent {
 
   items$: Observable<ShopListItemUI[]>;
   product$: Observable<Product[]>;
+  products: Product[] = [];
 
   itemForm: FormGroup;
   shoplistId: ID;
@@ -63,11 +64,15 @@ export class ShoplistEditionComponent {
     });
 
     this.setInputObservables();
-    this.product$ = this.productQuery.selectVisibleProducts();
+    this.productQuery.selectVisibleProducts()
+      .subscribe(products => {
+        this.products = products;
+      });
   }
 
   private setInputObservables(): any {
     this.itemForm.get('name').valueChanges.pipe(
+      filter((name: string) => name && name.length > 2),
       distinctUntilChanged(),
       debounceTime(200)
     ).subscribe(nextName => {
