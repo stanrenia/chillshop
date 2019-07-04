@@ -1,0 +1,17 @@
+<div *ngIf="item">
+  <div class="ion-text-center ion-text-capitalize title">{{ item.productName }}</div>
+  <div>
+    <ion-item>
+      <ion-label>Quantity</ion-label>
+      <ion-input #qty type="number" [value]="item.quantity"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Category</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+  </div>
+  <div class="button-group">
+    <ion-button color="light" (click)="cancel()">Cancel</ion-button>
+    <ion-button (click)="save(qty.value)">OK</ion-button>
+  </div>
+</div>

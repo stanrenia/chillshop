@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ShopListQuery, ShopListUI } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AppTitleService } from '../../services/app-title.service';
 
 @Component({
   selector: 'app-shoplist-manager',
   templateUrl: './shoplist-manager.component.html',
   styleUrls: ['./shoplist-manager.component.scss'],
 })
-export class ShoplistManagerComponent implements OnInit {
+export class ShoplistManagerComponent {
   
   shoplists$: Observable<ShopListUI[]>;
   
@@ -22,7 +23,8 @@ export class ShoplistManagerComponent implements OnInit {
     private service: ShopListService,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private appTitleService: AppTitleService
     ) { 
       this.makeForm();
     }
@@ -34,9 +36,15 @@ export class ShoplistManagerComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.appTitleService.setTitle('Shopper');
     this.shoplists$ = this.query.getAllForUI();
   }
+
+  // Use ionViewWillEnter instead for Page components
+  // ngOnInit() {
+  
+  // }
 
   createShopList(formValue) {
     if (!this.shopListForm.valid) {
@@ -54,7 +62,6 @@ export class ShoplistManagerComponent implements OnInit {
 
   goToEdit(shoplist: ShopListUI) {
     this.router.navigate(['edit', shoplist.id], { relativeTo: this.route });
-    // this.router.navigate(['shopper', 'edit', shoplist.id]);
   }
 
 }

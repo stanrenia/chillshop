@@ -1,18 +1,18 @@
 import { EntityState, EntityStore, StoreConfig, ID } from '@datorama/akita';
 import { Injectable } from '@angular/core';
 
-export interface Category {
+export interface ShoplistCategory {
     id: ID;
     label: string;
     icon: string;
 }
 
-export interface CategoryState extends EntityState<Category>{
+export interface ShoplistCategoryState extends EntityState<ShoplistCategory>{
 }
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'category' })
-export class CategoryStore extends EntityStore<CategoryState, Category> {
+export class ShoplistCategoryStore extends EntityStore<ShoplistCategoryState, ShoplistCategory> {
   constructor() {
     super();
   }
