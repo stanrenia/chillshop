@@ -42,11 +42,12 @@ export class ShopListService {
             entityId = existingItem.id;
         // Otherwise, create the item
         } else {
-            const item = { id: guid(), productId, quantity: 1 } as ShopListItem;
+            const item = { id: guid(), productId, quantity: 1, checked: false } as ShopListItem;
             
             this.shopListStore.update(shoplistId, entity => ({
                 items: arrayAdd(entity.items, item)
             }));
+
 
             entityId = item.id;
         }
@@ -54,9 +55,13 @@ export class ShopListService {
         return entityId;
     }
 
-    updateItem(shoplistId: ID, itemId: ID, item: Partial<ShopListItem>) {
+    updateItem(shoplistId: ID, itemId: ID, propsToUpdate: Partial<ShopListItem>) {
         this.shopListStore.update(shoplistId, entity => ({
-            items: arrayUpdate(entity.items, itemId, { quantity: item.quantity })
+            items: arrayUpdate(entity.items, itemId, propsToUpdate)
         }));
+    }
+
+    toggleItemCheck(shoplistId: ID, item: ShopListItem): any {
+        this.updateItem(shoplistId, item.id, { checked: !item.checked });
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ShopListItemUI } from '../../state/shoplist.query';
 
 @Component({
@@ -9,9 +9,19 @@ import { ShopListItemUI } from '../../state/shoplist.query';
 export class ShoplistItemComponent implements OnInit {
 
   @Input() item: ShopListItemUI;
+  @Output() checkChanged: EventEmitter<boolean> = new EventEmitter();
+  @Output() editClicked: EventEmitter<void> = new EventEmitter(); 
 
   constructor() { }
 
   ngOnInit() {}
+
+  onCheckChanged() {
+    this.checkChanged.emit();
+  }
+
+  onEditClicked() {
+    this.editClicked.emit();
+  }
 
 }
