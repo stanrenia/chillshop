@@ -94,6 +94,10 @@ export class ShoplistEditionComponent {
     this.presentPopover(item.id);
   }
 
+  toggleItemCheck(item: ShopListItemUI) {
+    this.service.toggleItemCheck(this.shoplistId, item);
+  }
+
   private async presentToast(itemId: ID, itemName: string) {
     const message = this.getToastMessage(itemId, itemName);
 
@@ -137,6 +141,10 @@ export class ShoplistEditionComponent {
       showBackdrop: true
     });
     return await popover.present();
+  }
+
+  trackByFn(index, item: ShopListItem) {
+    return item.id;
   }
 
   private async dismissToast() {
