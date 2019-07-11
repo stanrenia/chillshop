@@ -25,6 +25,10 @@ export class ProductService {
         return product.id;
     }
 
+    updateProduct(productId: ID, propsToUpdate: Partial<Product>) {
+        this.store.update(productId, propsToUpdate);
+    }
+
     setFilter(filter: ProductFilter): void {
         this.store.setFilter(filter);
     }

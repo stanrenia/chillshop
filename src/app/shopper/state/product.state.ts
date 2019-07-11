@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 export interface Product {
     id: ID;
     name: string;
+    aliases: string[];
     categoryId: string;
 }
 

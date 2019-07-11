@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ShopListQuery, ShopListItemUI } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
 import { ShopListItem } from '../../state/shoplist.state';
@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ID } from '@datorama/akita';
 import { ProductQuery } from '../../state/product.query';
 import { Product } from '../../state/product.state';
-import { PopoverController, ToastController } from '@ionic/angular';
+import { PopoverController, ToastController, IonList } from '@ionic/angular';
 import { EditionPopoverComponent } from '../edition-popover/edition-popover.component';
 import { map, distinctUntilChanged, take, debounce, debounceTime, filter } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
@@ -27,6 +27,8 @@ export class ShoplistEditionComponent {
 
   itemForm: FormGroup;
   shoplistId: ID;
+
+  @ViewChild(IonList) ionList: IonList;
 
   constructor(
     private query: ShopListQuery,
@@ -135,12 +137,13 @@ export class ShoplistEditionComponent {
     const popover = await this.popoverController.create({
       component: EditionPopoverComponent,
       componentProps: {edition: { shoplistId: this.shoplistId , itemId }},
-      // cssClass: 'edition-popover',
-      // event: ev,
       translucent: true,
       showBackdrop: true
     });
-    return await popover.present();
+    
+    await popover.present();
+
+    this.ionList.closeSlidingItems();
   }
 
   trackByFn(index, item: ShopListItem) {
