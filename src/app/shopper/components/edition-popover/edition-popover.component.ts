@@ -31,8 +31,8 @@ export class EditionPopoverComponent {
     });
   }
 
-  save(quantity: number) {
-    const item: Partial<ShopListItem> = { quantity };
+  save(productName: string, quantity: number) {
+    const item: Partial<ShopListItemUI> = { productName, quantity };
     this.shoplistService.updateItem(this.shoplistId, this.item.id, item);
 
     this.popoverCtrl.dismiss();

@@ -5,7 +5,6 @@ export interface ShopListItem {
     id: ID;
     quantity: number;
     checked: boolean;
-    alias: string;
     productId: string;
 }
 

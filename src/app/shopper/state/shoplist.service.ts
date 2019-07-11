@@ -1,6 +1,6 @@
 import { ShopListStore, ShopList, ShopListItem } from './shoplist.state';
 import { Injectable } from '@angular/core';
-import { ShopListQuery } from './shoplist.query';
+import { ShopListQuery, ShopListItemUI } from './shoplist.query';
 import { ShoplistCategoryService } from './shoplist-category.service';
 import { transaction, ID, guid, arrayUpdate, arrayAdd, arrayFind } from '@datorama/akita';
 import { ProductService } from './product.service';
@@ -55,7 +55,14 @@ export class ShopListService {
         return entityId;
     }
 
-    updateItem(shoplistId: ID, itemId: ID, propsToUpdate: Partial<ShopListItem>) {
+    updateItem(shoplistId: ID, itemId: ID, propsToUpdate: Partial<ShopListItemUI>) {
+        var item = this.query.getEntity(shoplistId).items.find(i => i.id == itemId);
+        
+        if (propsToUpdate.productName) {
+            this.productService.updateProduct(item.productId, { name: propsToUpdate.productName});
+            delete propsToUpdate.productName;
+        }
+
         this.shopListStore.update(shoplistId, entity => ({
             items: arrayUpdate(entity.items, itemId, propsToUpdate)
         }));
