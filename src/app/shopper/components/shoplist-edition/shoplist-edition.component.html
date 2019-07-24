@@ -1,21 +1,23 @@
-<div>
-  <form [formGroup]="itemForm">
-    <ion-item>
-      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-      <ion-input (keyup.enter)="createShoplistItem(itemForm.value.name)" clearInput placeholder="New Item"
-        formControlName="name" required></ion-input>
-    </ion-item>
-    <div class="autocomplete-container" *ngIf="products?.length && itemForm.value.name?.length > 2">
-      <ion-list>
-        <ion-item *ngFor="let product of products" (click)="createShoplistItem(product.name)" [button]="true">
-          {{ product.name }}</ion-item>
-      </ion-list>
-    </div>
-  </form>
+<form [formGroup]="itemForm">
+  <ion-item>
+    <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+    <ion-input (keyup.enter)="createShoplistItem(itemForm.value.name)" clearInput placeholder="New Item"
+      formControlName="name" required></ion-input>
+  </ion-item>
+  <div class="autocomplete-container" *ngIf="products?.length && itemForm.value.name?.length > 2">
+    <ion-list>
+      <ion-item *ngFor="let product of products" (click)="createShoplistItem(product.name)" [button]="true">
+        {{ product.name }}</ion-item>
+    </ion-list>
+  </div>
+</form>
+
+<ion-content>
   <ion-list>
-    <ion-list-header>Your list items <ion-button (click)="debug()" color="tertiary">DEBUG</ion-button>
+    <ion-list-header>
+      <ion-button (click)="debug()" color="tertiary">DEBUG</ion-button>
     </ion-list-header>
     <app-shoplist-item *ngFor="let item of items$ | async; trackBy: trackByFn" [item]="item"
       (editClicked)="editItem(item)" (checkChanged)="toggleItemCheck(item)"></app-shoplist-item>
   </ion-list>
-</div>
+</ion-content>
