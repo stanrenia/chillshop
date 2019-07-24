@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, PopoverController } from '@ionic/angular';
 import { ShopListQuery, ShopListItemUI } from '../../state/shoplist.query';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ShopListService } from '../../state/shoplist.service';
 import { ShopListItem } from '../../state/shoplist.state';
 import { ID } from '@datorama/akita/src';
@@ -24,15 +24,15 @@ export class EditionPopoverComponent {
     this.shoplistId = shoplistId;
 
     this.shoplistQuery.getItemsByShopListId(shoplistId).pipe(
-      map(items => items.find(i => i.id === itemId))
-    ).subscribe(item => {
-      this.item = item;
-
-    });
+      map(items => items.find(i => i.id === itemId)),
+      tap(item => {
+        this.item = item;
+      })
+    ).subscribe();
   }
 
-  save(productName: string, quantity: number) {
-    const item: Partial<ShopListItemUI> = { productName, quantity };
+  save({ productName, quantity, category }: { productName: string, quantity: number, category: string }) {
+    const item: Partial<ShopListItemUI> = { productName, quantity, productCategoryName: category };
     this.shoplistService.updateItem(this.shoplistId, this.item.id, item);
 
     this.popoverCtrl.dismiss();

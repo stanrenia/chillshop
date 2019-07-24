@@ -4,12 +4,13 @@ import { ShopListQuery, ShopListItemUI } from './shoplist.query';
 import { ShoplistCategoryService } from './shoplist-category.service';
 import { transaction, ID, guid, arrayUpdate, arrayAdd, arrayFind } from '@datorama/akita';
 import { ProductService } from './product.service';
+import { ProductCategoryService } from './product-category.service';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListService {
 
     constructor(private shopListStore: ShopListStore, private query: ShopListQuery, private categoryService: ShoplistCategoryService,
-        private productService: ProductService) { }
+        private productService: ProductService, private productCategoryService: ProductCategoryService) { }
 
     @transaction()
     createShopList(label: string, categoryName: string) {
@@ -59,8 +60,13 @@ export class ShopListService {
         var item = this.query.getEntity(shoplistId).items.find(i => i.id == itemId);
         
         if (propsToUpdate.productName) {
-            this.productService.updateProduct(item.productId, { name: propsToUpdate.productName});
+            this.productService.updateProduct(item.productId, { name: propsToUpdate.productName });
             delete propsToUpdate.productName;
+        }
+        
+        if (propsToUpdate.productCategoryName) {
+            this.productService.updateProductCategory(item.productId, propsToUpdate.productCategoryName);
+            delete propsToUpdate.productCategoryName;
         }
 
         this.shopListStore.update(shoplistId, entity => ({

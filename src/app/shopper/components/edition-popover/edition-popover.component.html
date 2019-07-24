@@ -9,11 +9,11 @@
     </ion-item>
     <ion-item>
       <ion-label>Category</ion-label>
-      <ion-input></ion-input>
+      <ion-input #category [value]="item.productCategoryName"></ion-input>
     </ion-item>
   </div>
   <div class="button-group">
     <ion-button color="light" (click)="cancel()">Cancel</ion-button>
-    <ion-button (click)="save(name.value, qty.value)">OK</ion-button>
+    <ion-button (click)="save({productName: name.value, quantity: qty.value, category: category.value})">OK</ion-button>
   </div>
 </div>

@@ -11,7 +11,7 @@ import { ProductQuery } from '../../state/product.query';
 import { Product } from '../../state/product.state';
 import { PopoverController, ToastController, IonList } from '@ionic/angular';
 import { EditionPopoverComponent } from '../edition-popover/edition-popover.component';
-import { map, distinctUntilChanged, take, debounce, debounceTime, filter } from 'rxjs/operators';
+import { map, distinctUntilChanged, take, debounce, debounceTime, filter, tap } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
 
 @Component({
@@ -49,13 +49,6 @@ export class ShoplistEditionComponent {
       name: ['', Validators.required],
       category: [undefined]
     });
-
-    this.itemForm.valueChanges.pipe(
-      map(values => values.name),
-      distinctUntilChanged()
-    ).subscribe(name => {
-      this.dismissToast();
-    });
   }
 
   ionViewWillEnter() {
@@ -66,6 +59,7 @@ export class ShoplistEditionComponent {
     });
 
     this.setInputObservables();
+
     this.productQuery.selectVisibleProducts()
       .subscribe(products => {
         this.products = products;
@@ -76,20 +70,22 @@ export class ShoplistEditionComponent {
     this.itemForm.get('name').valueChanges.pipe(
       filter((name: string) => name && name.length > 2),
       distinctUntilChanged(),
-      debounceTime(200)
-    ).subscribe(nextName => {
-      this.productService.setFilter({ name: nextName });
-    });
+      debounceTime(200),
+      tap(nextName => {
+        this.productService.setFilter({ name: nextName });
+        this.dismissToast();
+      })
+    ).subscribe();
   }
 
-  createShoplistItem(itemName: string) {
+  async createShoplistItem(itemName: string) {
     if (!this.itemForm.valid) {
       return;
     }
 
     const itemId = this.service.createShopListItem(this.shoplistId, itemName, null);
-    this.presentToast(itemId, itemName);
     this.itemForm.reset();
+    this.presentToast(itemId, itemName);
   }
 
   editItem(item: ShopListItemUI) {
@@ -107,7 +103,7 @@ export class ShoplistEditionComponent {
       message,
       color: 'secondary',
       cssClass: 'edition-toast-button',
-      duration: 5,
+      duration: 5000,
       buttons: [{
         text: 'Edit',
         handler: () => {
@@ -136,11 +132,11 @@ export class ShoplistEditionComponent {
   private async presentPopover(itemId: ID) {
     const popover = await this.popoverController.create({
       component: EditionPopoverComponent,
-      componentProps: {edition: { shoplistId: this.shoplistId , itemId }},
+      componentProps: { edition: { shoplistId: this.shoplistId, itemId } },
       translucent: true,
       showBackdrop: true
     });
-    
+
     await popover.present();
 
     this.ionList.closeSlidingItems();
@@ -153,7 +149,7 @@ export class ShoplistEditionComponent {
   private async dismissToast() {
     const currentToast = await this.toastCtrl.getTop();
     if (currentToast) {
-      currentToast.dismiss();
+      // currentToast.dismiss();
     }
   }
 

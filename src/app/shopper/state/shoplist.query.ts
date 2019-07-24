@@ -5,14 +5,12 @@ import { Observable, of, combineLatest } from 'rxjs';
 import { map, auditTime } from 'rxjs/operators';
 import { ShoplistCategoryQuery } from './shoplist-category.query';
 import { ProductQuery } from './product.query';
-
-export interface ShopListItemUI extends ShopListItem {
-  productName: string;
-}
+import { ProductCategoryQuery } from './product-category.query';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
-  constructor(protected store: ShopListStore, private categoryQuery: ShoplistCategoryQuery, private productQuery: ProductQuery) {
+  constructor(protected store: ShopListStore, private categoryQuery: ShoplistCategoryQuery, private productQuery: ProductQuery,
+    private productCategoryQuery: ProductCategoryQuery) {
     super(store);
   }
 
@@ -43,8 +41,13 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
         if (sl.items && sl.items.length) {
           return sl.items.map(item => {
             const product = this.productQuery.getEntity(item.productId);
+            const category = this.productCategoryQuery.getEntity(product.categoryId);
 
-            return { ...item, productName: product.name } as ShopListItemUI;
+            return { 
+              ...item, 
+              productName: product.name, 
+              productCategoryName: category && category.name 
+            } as ShopListItemUI;
           });
         }
 
@@ -69,4 +72,9 @@ export interface ShopListUI {
   label: string;
   categoryName?: string;
   itemCount?: number;
+}
+
+export interface ShopListItemUI extends ShopListItem {
+  productName: string;
+  productCategoryName: string;
 }
