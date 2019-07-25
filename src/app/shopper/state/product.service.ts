@@ -31,9 +31,9 @@ export class ProductService {
     }
 
     updateProductCategory(productId: ID, productCategoryName: string): void {
-        const categoryId = this.query.getEntity(productId).categoryId;
-        const existingCategoryId = this.productCategoryService.createOrUpdate(categoryId, productCategoryName);
-        this.updateProduct(productId, { categoryId: existingCategoryId });
+        const categoryId = this.productCategoryService.create(productCategoryName);
+        
+        this.updateProduct(productId, { categoryId });
     }
 
     setFilter(filter: ProductFilter): void {

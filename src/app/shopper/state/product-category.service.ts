@@ -8,20 +8,21 @@ export class ProductCategoryService {
 
     constructor(private store: ProductCategoryStore, private query: ProductCategoryQuery) {
     }
-    
-    createOrUpdate(categoryId: ID, categoryName: string): ID {
+
+    create(categoryName: string): ID {
         const sameNameCategories = this.query.getAll({limitTo: 1, filterBy: e => e.name === categoryName});
         
         if (sameNameCategories && sameNameCategories.length) {
             return sameNameCategories[0].id;
         }
 
-        if (!categoryId) {
-            categoryId = guid();
-        }
-        
-        this.store.upsert(categoryId, { name: categoryName });
+        const id = guid();
+        this.store.add({
+            id,
+            name: categoryName,
+            categoryId: null
+        });
 
-        return categoryId;
+        return id;
     }
 }

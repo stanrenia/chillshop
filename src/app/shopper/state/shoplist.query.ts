@@ -46,7 +46,8 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
             return { 
               ...item, 
               productName: product.name, 
-              productCategoryName: category && category.name 
+              productCategoryName: category && category.name,
+              productCategoryId: category && category.id,
             } as ShopListItemUI;
           });
         }
@@ -58,12 +59,44 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
     return items$;
   }
 
+  public getItemsGroupByCategory(id: ID): Observable<ShopListItemGroup[]> {
+    return this.getItemsByShopListId(id).pipe(
+      map(uiItems => {
+        let itemGroups = [];
+        if (uiItems && uiItems.length) {
+          const grouping = this.groupItemsByCategory(uiItems);
+
+          itemGroups = Object.values(grouping)
+            .sort((a, b) => ('' + a.categoryName).localeCompare(b.categoryName));
+        }
+
+        return itemGroups;
+      })
+    )
+  }
+
   public getShopListName(id: string | number): string {
     return this.getEntity(id).label;
   }
 
   public getShopListItem(shoplistId: ID, itemId: ID): ShopListItem {
     return this.getEntity(shoplistId).items.find(i => i.id === itemId);
+  }
+
+  private groupItemsByCategory(uiItems: ShopListItemUI[]): {[id: string]: ShopListItemGroup} {
+    return uiItems.reduce((acc, next) => {
+      if (!acc[next.productCategoryId]) {
+        acc[next.productCategoryId] = <ShopListItemGroup>{
+          categoryId: next.productCategoryId,
+          categoryName: next.productCategoryName,
+          items: []
+        }
+      }
+
+      acc[next.productCategoryId].items.push(next);
+      
+      return acc;
+    }, {});
   }
 }
 
@@ -77,4 +110,11 @@ export interface ShopListUI {
 export interface ShopListItemUI extends ShopListItem {
   productName: string;
   productCategoryName: string;
+  productCategoryId: ID;
+}
+
+export interface ShopListItemGroup {
+  categoryId: ID;
+  categoryName: string;
+  items: ShopListItemUI[];
 }

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { ShopListQuery, ShopListItemUI } from '../../state/shoplist.query';
+import { ShopListQuery, ShopListItemUI, ShopListItemGroup } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
 import { ShopListItem } from '../../state/shoplist.state';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -21,7 +21,7 @@ import { ProductService } from '../../state/product.service';
 })
 export class ShoplistEditionComponent {
 
-  items$: Observable<ShopListItemUI[]>;
+  itemGroups$: Observable<ShopListItemGroup[]>;
   product$: Observable<Product[]>;
   products: Product[] = [];
 
@@ -54,16 +54,18 @@ export class ShoplistEditionComponent {
   ionViewWillEnter() {
     this.route.params.subscribe(params => {
       this.shoplistId = params.id;
-      this.items$ = this.query.getItemsByShopListId(this.shoplistId);
+      this.itemGroups$ = this.query.getItemsGroupByCategory(this.shoplistId);
       this.appTitleService.setTitle(`Shopper - Edition : ${this.query.getShopListName(this.shoplistId)}`);
     });
 
     this.setInputObservables();
 
     this.productQuery.selectVisibleProducts()
-      .subscribe(products => {
-        this.products = products;
-      });
+      .pipe(
+        tap(products => {
+          this.products = products;
+        })
+      ).subscribe();
   }
 
   private setInputObservables(): any {
@@ -142,20 +144,24 @@ export class ShoplistEditionComponent {
     this.ionList.closeSlidingItems();
   }
 
-  trackByFn(index, item: ShopListItem) {
+  itemGroupTrackByFn(index, itemGroup: ShopListItemGroup) {
+    return itemGroup.categoryId;
+  }
+
+  itemTrackByFn(index, item: ShopListItem) {
     return item.id;
   }
 
   private async dismissToast() {
     const currentToast = await this.toastCtrl.getTop();
     if (currentToast) {
-      // currentToast.dismiss();
+      currentToast.dismiss();
     }
   }
 
   debug() {
-    this.items$.pipe(take(1)).subscribe(sl => {
-      this.presentPopover(sl[0].id);
-    })
+    // this.items$.pipe(take(1)).subscribe(sl => {
+    //   this.presentPopover(sl[0].id);
+    // })
   }
 }

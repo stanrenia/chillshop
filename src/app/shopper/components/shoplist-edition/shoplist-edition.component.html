@@ -14,10 +14,18 @@
 
 <ion-content>
   <ion-list>
-    <ion-list-header>
+    <!-- <ion-list-header>
       <ion-button (click)="debug()" color="tertiary">DEBUG</ion-button>
-    </ion-list-header>
-    <app-shoplist-item *ngFor="let item of items$ | async; trackBy: trackByFn" [item]="item"
-      (editClicked)="editItem(item)" (checkChanged)="toggleItemCheck(item)"></app-shoplist-item>
+    </ion-list-header> -->
+    
+    <ion-item-group *ngFor="let itemGroup of itemGroups$ | async; trackBy: itemGroupTrackByFn">
+      <ion-item-divider>
+        <ion-label>{{ itemGroup.categoryName }}</ion-label>
+      </ion-item-divider>
+
+      <app-shoplist-item *ngFor="let item of itemGroup.items; trackBy: itemTrackByFn" 
+        [item]="item" (editClicked)="editItem(item)" (checkChanged)="toggleItemCheck(item)"></app-shoplist-item>
+
+    </ion-item-group>
   </ion-list>
 </ion-content>
