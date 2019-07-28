@@ -19,12 +19,15 @@
     </ion-list-header> -->
     
     <ion-item-group *ngFor="let itemGroup of itemGroups$ | async; trackBy: itemGroupTrackByFn">
-      <ion-item-divider>
-        <ion-label>{{ itemGroup.categoryName }}</ion-label>
+      <ion-item-divider (click)="toggleHide(itemGroup)">
+        <ion-icon name="{{ itemGroup.hideItems ? 'eye-off' : 'eye'}}"></ion-icon>
+        <ion-label>&nbsp;{{ itemGroup.categoryName }}</ion-label>
       </ion-item-divider>
 
-      <app-shoplist-item *ngFor="let item of itemGroup.items; trackBy: itemTrackByFn" 
-        [item]="item" (editClicked)="editItem(item)" (checkChanged)="toggleItemCheck(item)"></app-shoplist-item>
+      <div *ngIf="!itemGroup.hideItems">
+        <app-shoplist-item *ngFor="let item of itemGroup.items; trackBy: itemTrackByFn" 
+          [item]="item" (editClicked)="editItem(item)" (checkChanged)="toggleItemCheck(item)"></app-shoplist-item>
+      </div>
 
     </ion-item-group>
   </ion-list>

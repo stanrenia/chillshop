@@ -16,12 +16,32 @@ export interface ShopList {
 }
 
 export interface ShopListState extends EntityState<ShopList>{
+  ui: ShopListUIState
+}
+
+export interface ShopListUIState {
+  itemGroups: {
+    hiddenIds: ID[]
+  };
+}
+
+const initialState: Partial<ShopListState> = {
+  ui: {
+    itemGroups: {
+      hiddenIds: []
+    }
+  }
 }
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'shopper' })
 export class ShopListStore extends EntityStore<ShopListState, ShopList> {
+
   constructor() {
-    super();
+    super(initialState);
+  }
+
+  updateUIState(nextUiState: ShopListUIState): any {
+    this.update({ui: nextUiState});
   }
 }

@@ -98,6 +98,10 @@ export class ShoplistEditionComponent {
     this.service.toggleItemCheck(this.shoplistId, item);
   }
 
+  toggleHide(itemGroup: ShopListItemGroup) {
+    this.service.toggleItemGroupVisibility(itemGroup);
+  }
+
   private async presentToast(itemId: ID, itemName: string) {
     const message = this.getToastMessage(itemId, itemName);
 

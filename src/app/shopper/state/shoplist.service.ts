@@ -1,6 +1,6 @@
-import { ShopListStore, ShopList, ShopListItem } from './shoplist.state';
+import { ShopListStore, ShopList, ShopListItem, ShopListUIState } from './shoplist.state';
 import { Injectable } from '@angular/core';
-import { ShopListQuery, ShopListItemUI } from './shoplist.query';
+import { ShopListQuery, ShopListItemUI, ShopListItemGroup } from './shoplist.query';
 import { ShoplistCategoryService } from './shoplist-category.service';
 import { transaction, ID, guid, arrayUpdate, arrayAdd, arrayFind } from '@datorama/akita';
 import { ProductService } from './product.service';
@@ -76,5 +76,27 @@ export class ShopListService {
 
     toggleItemCheck(shoplistId: ID, item: ShopListItem): any {
         this.updateItem(shoplistId, item.id, { checked: !item.checked });
+    }
+
+    toggleItemGroupVisibility(itemGroup: ShopListItemGroup): any {
+        const uiState = this.query.getValue().ui;
+        
+        const hiddenIds = [...uiState.itemGroups.hiddenIds];
+        if (itemGroup.hideItems) {
+            const indexToRemove = hiddenIds.findIndex(id => id === itemGroup.categoryId);
+            hiddenIds.splice(indexToRemove, 1);
+        } else {
+            hiddenIds.push(itemGroup.categoryId);
+        }
+
+        const nextUiState = <ShopListUIState>{
+            ...uiState,
+            itemGroups: {
+                ...uiState.itemGroups,
+                hiddenIds
+            }
+        };
+
+        this.shopListStore.updateUIState(nextUiState);
     }
 }

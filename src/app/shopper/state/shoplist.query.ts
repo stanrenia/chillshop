@@ -1,7 +1,7 @@
 import { QueryEntity, ID } from '@datorama/akita';
 import { ShopListState, ShopListStore, ShopList, ShopListItem } from './shoplist.state';
 import { Injectable } from '@angular/core';
-import { Observable, of, combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, auditTime } from 'rxjs/operators';
 import { ShoplistCategoryQuery } from './shoplist-category.query';
 import { ProductQuery } from './product.query';
@@ -60,13 +60,21 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   }
 
   public getItemsGroupByCategory(id: ID): Observable<ShopListItemGroup[]> {
-    return this.getItemsByShopListId(id).pipe(
-      map(uiItems => {
+    return combineLatest(
+      this.getItemsByShopListId(id),
+      this.select(state => state.ui.itemGroups.hiddenIds)
+    )
+    .pipe(
+      map(([uiItems, hiddenItemGroups]) => {
         let itemGroups = [];
         if (uiItems && uiItems.length) {
           const grouping = this.groupItemsByCategory(uiItems);
 
           itemGroups = Object.values(grouping)
+            .map(group => {
+              group.hideItems = hiddenItemGroups.includes(group.categoryId);
+              return group;
+            })
             .sort((a, b) => ('' + a.categoryName).localeCompare(b.categoryName));
         }
 
@@ -117,4 +125,5 @@ export interface ShopListItemGroup {
   categoryId: ID;
   categoryName: string;
   items: ShopListItemUI[];
+  hideItems: boolean;
 }
