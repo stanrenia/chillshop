@@ -78,7 +78,7 @@ export class ShopListService {
         this.updateItem(shoplistId, item.id, { checked: !item.checked });
     }
 
-    toggleItemGroupVisibility(itemGroup: ShopListItemGroup): any {
+    toggleItemGroupVisibility(itemGroup: ShopListItemGroup): void {
         const uiState = this.query.getValue().ui;
         
         const hiddenIds = [...uiState.itemGroups.hiddenIds];
@@ -94,6 +94,24 @@ export class ShopListService {
             itemGroups: {
                 ...uiState.itemGroups,
                 hiddenIds
+            }
+        };
+
+        this.shopListStore.updateUIState(nextUiState);
+    }
+
+    setCategoryFilter(categoryName): void {
+        const uiState = this.query.getValue().ui;
+
+        if (categoryName === '') {
+            categoryName = null;
+        }
+
+        const nextUiState = {
+            ...uiState,
+            filters: {
+                ...uiState.filters,
+                categories: categoryName
             }
         };
 

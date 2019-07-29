@@ -9,7 +9,7 @@ import { ShoplistItemComponent } from './components/shoplist-item/shoplist-item.
 import { ShoplistManagerComponent } from './components/shoplist-manager/shoplist-manager.component';
 import { ShoplistEditionComponent } from './components/shoplist-edition/shoplist-edition.component';
 import { ShopperRoutingModule } from './shopper-routing.module';
-import { EditionPopoverComponent } from './components/edition-popover/edition-popover.component';
+import { EditionModalComponent } from './components/edition-modal/edition-modal.component';
 
 
 
@@ -21,7 +21,7 @@ import { EditionPopoverComponent } from './components/edition-popover/edition-po
     IonicModule,
     ShopperRoutingModule
   ],
-  declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistComponent, ShoplistItemComponent, EditionPopoverComponent],
-  entryComponents: [EditionPopoverComponent]
+  declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistComponent, ShoplistItemComponent, EditionModalComponent],
+  entryComponents: [EditionModalComponent]
 })
 export class ShopperPageModule {}

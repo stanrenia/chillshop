@@ -23,12 +23,18 @@ export interface ShopListUIState {
   itemGroups: {
     hiddenIds: ID[]
   };
+  filters: {
+    categories: string;
+  }
 }
 
 const initialState: Partial<ShopListState> = {
   ui: {
     itemGroups: {
       hiddenIds: []
+    },
+    filters: {
+      categories: null
     }
   }
 }

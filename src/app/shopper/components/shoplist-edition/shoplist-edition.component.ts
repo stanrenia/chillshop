@@ -9,9 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ID } from '@datorama/akita';
 import { ProductQuery } from '../../state/product.query';
 import { Product } from '../../state/product.state';
-import { PopoverController, ToastController, IonList } from '@ionic/angular';
-import { EditionPopoverComponent } from '../edition-popover/edition-popover.component';
-import { map, distinctUntilChanged, take, debounce, debounceTime, filter, tap } from 'rxjs/operators';
+import { ToastController, IonList, ModalController } from '@ionic/angular';
+import { EditionModalComponent } from '../edition-modal/edition-modal.component';
+import { distinctUntilChanged, debounceTime, filter, tap } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
 
 @Component({
@@ -38,7 +38,7 @@ export class ShoplistEditionComponent {
     private route: ActivatedRoute,
     private productQuery: ProductQuery,
     private productService: ProductService,
-    private popoverController: PopoverController,
+    private modalController: ModalController,
     private toastCtrl: ToastController
   ) {
     this.makeForm();
@@ -58,7 +58,7 @@ export class ShoplistEditionComponent {
       this.appTitleService.setTitle(`Shopper - Edition : ${this.query.getShopListName(this.shoplistId)}`);
     });
 
-    this.setInputObservables();
+    this.setFormObservables();
 
     this.productQuery.selectVisibleProducts()
       .pipe(
@@ -68,7 +68,7 @@ export class ShoplistEditionComponent {
       ).subscribe();
   }
 
-  private setInputObservables(): any {
+  private setFormObservables(): any {
     this.itemForm.get('name').valueChanges.pipe(
       filter((name: string) => name && name.length > 2),
       distinctUntilChanged(),
@@ -91,7 +91,7 @@ export class ShoplistEditionComponent {
   }
 
   editItem(item: ShopListItemUI) {
-    this.presentPopover(item.id);
+    this.presentModal(item.id);
   }
 
   toggleItemCheck(item: ShopListItemUI) {
@@ -113,7 +113,7 @@ export class ShoplistEditionComponent {
       buttons: [{
         text: 'Edit',
         handler: () => {
-          this.presentPopover(itemId);
+          this.presentModal(itemId);
         },
         icon: 'create',
         // side: 'start'
@@ -135,24 +135,21 @@ export class ShoplistEditionComponent {
     return message;
   }
 
-  private async presentPopover(itemId: ID) {
-    const popover = await this.popoverController.create({
-      component: EditionPopoverComponent,
-      componentProps: { edition: { shoplistId: this.shoplistId, itemId } },
-      translucent: true,
-      showBackdrop: true
+  private async presentModal(itemId: ID) {
+    const modal = await this.modalController.create({
+      component: EditionModalComponent,
+      componentProps: { edition: { shoplistId: this.shoplistId, itemId } }
     });
 
-    await popover.present();
-
+    await modal.present();
     this.ionList.closeSlidingItems();
   }
 
-  itemGroupTrackByFn(index, itemGroup: ShopListItemGroup) {
+  itemGroupTrackByFn(itemGroup: ShopListItemGroup) {
     return itemGroup.categoryId;
   }
 
-  itemTrackByFn(index, item: ShopListItem) {
+  itemTrackByFn(item: ShopListItem) {
     return item.id;
   }
 
@@ -164,8 +161,5 @@ export class ShoplistEditionComponent {
   }
 
   debug() {
-    // this.items$.pipe(take(1)).subscribe(sl => {
-    //   this.presentPopover(sl[0].id);
-    // })
   }
 }

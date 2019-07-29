@@ -6,6 +6,7 @@ import { map, auditTime } from 'rxjs/operators';
 import { ShoplistCategoryQuery } from './shoplist-category.query';
 import { ProductQuery } from './product.query';
 import { ProductCategoryQuery } from './product-category.query';
+import { ProductCategory } from './product-category.state';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
@@ -105,6 +106,17 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
       
       return acc;
     }, {});
+  }
+
+  public selectVisibleProductCategories(): Observable<ProductCategory[]> {
+    return combineLatest(
+      this.productCategoryQuery.selectAll(),
+      this.select(state => state.ui.filters.categories)
+    ).pipe(
+      map(([categories, categoryFilter]) => {
+        return categories.filter(cat => cat.name.includes(categoryFilter));
+      })
+    )
   }
 }
 

@@ -1,0 +1,27 @@
+<div *ngIf="item" [formGroup]="itemForm">
+  <div class="ion-text-center title">
+    <ion-input formControlName="productName" [value]="item.productName"></ion-input>
+  </div>
+  <div class="content">
+    <ion-item>
+      <ion-label>Quantity</ion-label>
+      <ion-input formControlName="quantity" type="number" [value]="item.quantity"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Category</ion-label>
+      <ion-input formControlName="productCategoryName" [value]="item.productCategoryName"></ion-input>
+    </ion-item>
+    <div *ngIf="categories?.length && itemForm.dirty && itemForm.value.productCategoryName?.length > 1"
+        class="autocomplete-container">
+      <ion-list>
+        <ion-item *ngFor="let cat of categories" (click)="selectCategory(cat.name)">
+          {{ cat.name }}
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+  <div class="button-group">
+    <ion-button color="light" (click)="cancel()">Cancel</ion-button>
+    <ion-button (click)="save()">OK</ion-button>
+  </div>
+</div>
