@@ -4,16 +4,16 @@
     <ion-input (keyup.enter)="createShoplistItem(itemForm.value.name)" clearInput placeholder="New Item"
       formControlName="name" required></ion-input>
   </ion-item>
-  <div class="autocomplete-container" *ngIf="products?.length && itemForm.value.name?.length > 2">
+  <div class="autocomplete-container" *ngIf="itemForm.value.name?.length > 2 && (products$ | async) as products">
     <ion-list>
-      <ion-item *ngFor="let product of products" (click)="createShoplistItem(product.name)" [button]="true">
+      <ion-item *ngFor="let product of products; trackBy: trackByIdFn" (click)="createShoplistItem(product.name)" [button]="true">
         {{ product.name }}</ion-item>
     </ion-list>
   </div>
 </form>
 
 <ion-content>
-  <ion-list>
+  <ion-list #itemList>
     <!-- <ion-list-header>
       <ion-button (click)="debug()" color="tertiary">DEBUG</ion-button>
     </ion-list-header> -->
@@ -21,11 +21,12 @@
     <ion-item-group *ngFor="let itemGroup of itemGroups$ | async; trackBy: itemGroupTrackByFn">
       <ion-item-divider (click)="toggleHide(itemGroup)">
         <ion-icon name="{{ itemGroup.hideItems ? 'eye-off' : 'eye'}}"></ion-icon>
-        <ion-label>&nbsp;{{ itemGroup.categoryName }}</ion-label>
+        <ion-label [ngClass]="{'text-line-through': itemGroup.checkedCount == itemGroup.items.length}">&nbsp;{{ itemGroup.categoryName }}</ion-label>
+        <ion-badge slot="end" color="secondary" class="category-badge">{{ itemGroup.checkedCount }} / {{ itemGroup.items.length }}</ion-badge>
       </ion-item-divider>
 
       <div *ngIf="!itemGroup.hideItems">
-        <app-shoplist-item *ngFor="let item of itemGroup.items; trackBy: itemTrackByFn" 
+        <app-shoplist-item *ngFor="let item of itemGroup.items; trackBy: trackByIdFn" 
           [item]="item" (editClicked)="editItem(item)" (checkChanged)="toggleItemCheck(item)"></app-shoplist-item>
       </div>
 

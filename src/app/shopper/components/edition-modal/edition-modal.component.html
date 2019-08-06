@@ -1,4 +1,4 @@
-<div *ngIf="item" [formGroup]="itemForm">
+<div *ngIf="item$ | async as item" [formGroup]="itemForm">
   <div class="ion-text-center title">
     <ion-input formControlName="productName" [value]="item.productName"></ion-input>
   </div>
@@ -11,7 +11,7 @@
       <ion-label>Category</ion-label>
       <ion-input formControlName="productCategoryName" [value]="item.productCategoryName"></ion-input>
     </ion-item>
-    <div *ngIf="categories?.length && itemForm.dirty && itemForm.value.productCategoryName?.length > 1"
+    <div *ngIf="itemForm.dirty && itemForm.value.productCategoryName?.length > 1 && categories$ | async as categories"
         class="autocomplete-container">
       <ion-list>
         <ion-item *ngFor="let cat of categories" (click)="selectCategory(cat.name)">

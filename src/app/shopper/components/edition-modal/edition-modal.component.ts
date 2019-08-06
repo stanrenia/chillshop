@@ -6,6 +6,7 @@ import { ShopListService } from '../../state/shoplist.service';
 import { ID } from '@datorama/akita/src';
 import { ProductCategory } from '../../state/product-category.state';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edition-modal',
@@ -15,14 +16,15 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class EditionModalComponent {
 
   itemForm: FormGroup;
-  item: ShopListItemUI;
-  shoplistId: ID;
-  categories: ProductCategory[] = [];
+  item$: Observable<ShopListItemUI>;
+  private shoplistId: ID;
+  private itemId: ID;
+  categories$: Observable<ProductCategory[]>;
 
   constructor(
     private fb: FormBuilder,
-    private navParams: NavParams, 
-    private shoplistQuery: ShopListQuery, 
+    private navParams: NavParams,
+    private shoplistQuery: ShopListQuery,
     private modalCtrl: ModalController,
     private shoplistService: ShopListService) {
       this.createForm();
@@ -31,20 +33,18 @@ export class EditionModalComponent {
   ionViewWillEnter() {
     const { shoplistId, itemId } = this.navParams.data.edition;
     this.shoplistId = shoplistId;
+    this.itemId = itemId;
 
-    this.shoplistQuery.getItemsByShopListId(shoplistId).pipe(
+    this.item$ = this.shoplistQuery.getItemsByShopListId(shoplistId).pipe(
       map(items => items.find(i => i.id === itemId)),
       tap(item => {
-        this.item = item;
         this.patchForm(item);
       })
-    ).subscribe();
+    );
 
-    this.shoplistQuery.selectVisibleProductCategories().pipe(
-      tap(categories => {
-        this.categories = categories;
-      })
-    ).subscribe();
+    this.categories$ = this.shoplistQuery.selectVisibleProductCategories().pipe(
+      map(categories => categories && categories.length > 0 ? categories : null)
+    );
 
     this.setFormObservables();
   }
@@ -52,7 +52,7 @@ export class EditionModalComponent {
   save() {
     const { productName, quantity, productCategoryName } = this.itemForm.value;
     const item: Partial<ShopListItemUI> = { productName, quantity, productCategoryName };
-    this.shoplistService.updateItem(this.shoplistId, this.item.id, item);
+    this.shoplistService.updateItem(this.shoplistId, this.itemId, item);
 
     this.modalCtrl.dismiss();
   }

@@ -39,6 +39,7 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   public getItemsByShopListId(id: string | number): Observable<ShopListItemUI[]> {
     const items$ = this.selectEntity(id).pipe(
       map(sl => {
+        console.info('1st Obs');
         if (sl.items && sl.items.length) {
           return sl.items.map(item => {
             const product = this.productQuery.getEntity(item.productId);
@@ -55,7 +56,7 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
 
         return [];
       })
-    )
+    );
 
     return items$;
   }
@@ -79,6 +80,8 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
             .sort((a, b) => ('' + a.categoryName).localeCompare(b.categoryName));
         }
 
+        console.info('BLABLA', uiItems.length, hiddenItemGroups);
+
         return itemGroups;
       })
     )
@@ -98,12 +101,17 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
         acc[next.productCategoryId] = <ShopListItemGroup>{
           categoryId: next.productCategoryId,
           categoryName: next.productCategoryName,
+          checkedCount: 0,
           items: []
         }
       }
 
+      if (next.checked) {
+        acc[next.productCategoryId].checkedCount += 1;
+      }
+
       acc[next.productCategoryId].items.push(next);
-      
+
       return acc;
     }, {});
   }
@@ -138,4 +146,5 @@ export interface ShopListItemGroup {
   categoryName: string;
   items: ShopListItemUI[];
   hideItems: boolean;
+  checkedCount: number;
 }

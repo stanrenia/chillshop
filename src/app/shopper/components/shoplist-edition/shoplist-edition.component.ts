@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ShopListQuery, ShopListItemUI, ShopListItemGroup } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
-import { ShopListItem } from '../../state/shoplist.state';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 import { AppTitleService } from '../../services/app-title.service';
@@ -11,7 +10,7 @@ import { ProductQuery } from '../../state/product.query';
 import { Product } from '../../state/product.state';
 import { ToastController, IonList, ModalController } from '@ionic/angular';
 import { EditionModalComponent } from '../edition-modal/edition-modal.component';
-import { distinctUntilChanged, debounceTime, filter, tap } from 'rxjs/operators';
+import { distinctUntilChanged, debounceTime, filter, tap, map } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
 
 @Component({
@@ -22,13 +21,12 @@ import { ProductService } from '../../state/product.service';
 export class ShoplistEditionComponent {
 
   itemGroups$: Observable<ShopListItemGroup[]>;
-  product$: Observable<Product[]>;
-  products: Product[] = [];
+  products$: Observable<Product[]>;
 
   itemForm: FormGroup;
   shoplistId: ID;
 
-  @ViewChild(IonList) ionList: IonList;
+  @ViewChild('itemList') ionList: IonList;
 
   constructor(
     private query: ShopListQuery,
@@ -60,12 +58,11 @@ export class ShoplistEditionComponent {
 
     this.setFormObservables();
 
-    this.productQuery.selectVisibleProducts()
+    // Since the subscription is made in the template with an AsyncPipe inside a NgIf, return null in order to hide products suggestions.
+    this.products$ = this.productQuery.selectVisibleProducts()
       .pipe(
-        tap(products => {
-          this.products = products;
-        })
-      ).subscribe();
+        map(products => products && products.length > 0 ? products : null)
+      );
   }
 
   private setFormObservables(): any {
@@ -149,8 +146,8 @@ export class ShoplistEditionComponent {
     return itemGroup.categoryId;
   }
 
-  itemTrackByFn(item: ShopListItem) {
-    return item.id;
+  trackByIdFn(ngForElement: {id: ID}) {
+    return ngForElement.id;
   }
 
   private async dismissToast() {
