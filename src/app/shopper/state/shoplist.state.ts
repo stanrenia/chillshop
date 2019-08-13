@@ -16,7 +16,7 @@ export interface ShopList {
 }
 
 export interface ShopListState extends EntityState<ShopList>{
-  ui: ShopListUIState
+  ui: ShopListUIState;
 }
 
 export interface ShopListUIState {
@@ -25,7 +25,7 @@ export interface ShopListUIState {
   };
   filters: {
     categories: string;
-  }
+  };
 }
 
 const initialState: Partial<ShopListState> = {
@@ -37,7 +37,7 @@ const initialState: Partial<ShopListState> = {
       categories: null
     }
   }
-}
+};
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'shopper' })

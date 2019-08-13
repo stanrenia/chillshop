@@ -11,8 +11,10 @@
       <ion-label>Category</ion-label>
       <ion-input formControlName="productCategoryName" [value]="item.productCategoryName"></ion-input>
     </ion-item>
-    <div *ngIf="itemForm.dirty && itemForm.value.productCategoryName?.length > 1 && categories$ | async as categories"
-        class="autocomplete-container">
+    <div *ngIf="itemForm.dirty &&
+          itemForm.value.productCategoryName?.length > 1 
+          && categories$ | async as categories" 
+          class="autocomplete-container">
       <ion-list>
         <ion-item *ngFor="let cat of categories" (click)="selectCategory(cat.name)">
           {{ cat.name }}
