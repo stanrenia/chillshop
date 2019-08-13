@@ -91,6 +91,10 @@ export class ShoplistEditionComponent {
     this.presentModal(item.id);
   }
 
+  setItemsOrder(sortedItems: ShopListItemUI[]) {
+    this.service.setItemsOrder(this.shoplistId, sortedItems);
+  }
+
   toggleItemCheck(item: ShopListItemUI) {
     this.service.toggleItemCheck(this.shoplistId, item);
   }
@@ -113,7 +117,6 @@ export class ShoplistEditionComponent {
           this.presentModal(itemId);
         },
         icon: 'create',
-        // side: 'start'
       }]
     });
 
@@ -157,6 +160,8 @@ export class ShoplistEditionComponent {
     }
   }
 
-  debug() {
+  doReorder(ev: any) {
+    ev.detail.complete();
   }
+
 }

@@ -57,7 +57,7 @@ export class ShopListService {
     }
 
     updateItem(shoplistId: ID, itemId: ID, propsToUpdate: Partial<ShopListItemUI>) {
-        var item = this.query.getEntity(shoplistId).items.find(i => i.id == itemId);
+        const item = this.query.getEntity(shoplistId).items.find(i => i.id === itemId);
         
         if (propsToUpdate.productName) {
             this.productService.updateProduct(item.productId, { name: propsToUpdate.productName });
@@ -116,5 +116,10 @@ export class ShopListService {
         };
 
         this.shopListStore.updateUIState(nextUiState);
+    }
+
+    setItemsOrder(shoplistId: ID, sortedItems: ShopListItemUI[]): void {
+        // TODO order items within the same group
+        // => item group order state
     }
 }

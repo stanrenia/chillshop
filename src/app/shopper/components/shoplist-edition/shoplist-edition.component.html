@@ -14,10 +14,6 @@
 
 <ion-content>
   <ion-list #itemList>
-    <!-- <ion-list-header>
-      <ion-button (click)="debug()" color="tertiary">DEBUG</ion-button>
-    </ion-list-header> -->
-    
     <ion-item-group *ngFor="let itemGroup of itemGroups$ | async; trackBy: itemGroupTrackByFn">
       <ion-item-divider (click)="toggleHide(itemGroup)">
         <ion-icon name="{{ itemGroup.hideItems ? 'eye-off' : 'eye'}}"></ion-icon>
@@ -25,11 +21,9 @@
         <ion-badge slot="end" color="secondary" class="category-badge">{{ itemGroup.checkedCount }} / {{ itemGroup.items.length }}</ion-badge>
       </ion-item-divider>
 
-      <div *ngIf="!itemGroup.hideItems">
-        <app-shoplist-item *ngFor="let item of itemGroup.items; trackBy: trackByIdFn" 
-          [item]="item" (editClicked)="editItem(item)" (checkChanged)="toggleItemCheck(item)"></app-shoplist-item>
-      </div>
-
+      <app-shoplist-item-group *ngIf="!itemGroup.hideItems" 
+        [itemGroup]="itemGroup" (editClicked)="editItem($event)" (checkChanged)="toggleItemCheck($event)" (reordered)="setItemsOrder($event)"></app-shoplist-item-group>
+      
     </ion-item-group>
   </ion-list>
 </ion-content>
