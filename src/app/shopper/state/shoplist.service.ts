@@ -80,7 +80,7 @@ export class ShopListService {
 
     toggleItemGroupVisibility(itemGroup: ShopListItemGroup): void {
         const uiState = this.query.getValue().ui;
-        
+
         const hiddenIds = [...uiState.itemGroups.hiddenIds];
         if (itemGroup.hideItems) {
             const indexToRemove = hiddenIds.findIndex(id => id === itemGroup.categoryId);
@@ -100,6 +100,7 @@ export class ShopListService {
         this.shopListStore.updateUIState(nextUiState);
     }
 
+
     setCategoryFilter(categoryName): void {
         const uiState = this.query.getValue().ui;
 
@@ -118,8 +119,20 @@ export class ShopListService {
         this.shopListStore.updateUIState(nextUiState);
     }
 
-    setItemsOrder(shoplistId: ID, sortedItems: ShopListItemUI[]): void {
-        // TODO order items within the same group
-        // => item group order state
+    setItemsOrder(categoryId: ID, sortedItems: ShopListItemUI[]): void {
+        const uiState = this.query.getValue().ui;
+
+        const nextUiState: ShopListUIState = {
+            ...uiState,
+            itemGroups: {
+                ...uiState.itemGroups,
+                sortedItemsById: {
+                    ...uiState.itemGroups.sortedItemsById,
+                    [categoryId]: sortedItems.map(i => i.id)
+                }
+            }
+         };
+
+        this.shopListStore.updateUIState(nextUiState);
     }
 }

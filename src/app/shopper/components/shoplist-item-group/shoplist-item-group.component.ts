@@ -26,7 +26,7 @@ export class ShoplistItemGroupComponent implements OnInit {
   }
 
   doReorder(ev: any) {
-    const sortedItems = ev.detail.complete(this.itemGroup.items);
+    const sortedItems: ShopListItemUI[] = ev.detail.complete(this.itemGroup.items);
     this.reordered.emit(sortedItems);
   }
 

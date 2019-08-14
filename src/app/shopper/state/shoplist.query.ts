@@ -7,11 +7,12 @@ import { ShoplistCategoryQuery } from './shoplist-category.query';
 import { ProductQuery } from './product.query';
 import { ProductCategoryQuery } from './product-category.query';
 import { ProductCategory } from './product-category.state';
+import { ArrayUtils } from '../services/utils/array-utils';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   constructor(protected store: ShopListStore, private categoryQuery: ShoplistCategoryQuery, private productQuery: ProductQuery,
-    private productCategoryQuery: ProductCategoryQuery) {
+    private productCategoryQuery: ProductCategoryQuery, private arrayUtils: ArrayUtils) {
     super(store);
   }
 
@@ -39,7 +40,6 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   public getItemsByShopListId(id: string | number): Observable<ShopListItemUI[]> {
     const items$ = this.selectEntity(id).pipe(
       map(sl => {
-        console.info('1st Obs');
         if (sl.items && sl.items.length) {
           return sl.items.map(item => {
             const product = this.productQuery.getEntity(item.productId);
@@ -64,10 +64,12 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   public getItemsGroupByCategory(id: ID): Observable<ShopListItemGroup[]> {
     return combineLatest(
       this.getItemsByShopListId(id),
-      this.select(state => state.ui.itemGroups.hiddenIds)
+      this.select(state => state.ui.itemGroups)
     )
     .pipe(
-      map(([uiItems, hiddenItemGroups]) => {
+      map(([uiItems, uiItemGroups]) => {
+        const hiddenItemGroups = uiItemGroups.hiddenIds;
+
         let itemGroups = [];
         if (uiItems && uiItems.length) {
           const grouping = this.groupItemsByCategory(uiItems);
@@ -75,16 +77,16 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
           itemGroups = Object.values(grouping)
             .map(group => {
               group.hideItems = hiddenItemGroups.includes(group.categoryId);
+              const sortedIds = uiItemGroups.sortedItemsById[group.categoryId] || [];
+              group.items = this.arrayUtils.sortFromReferenceList<ShopListItemUI>(group.items, sortedIds, e => e.id);
               return group;
             })
             .sort((a, b) => ('' + a.categoryName).localeCompare(b.categoryName));
         }
 
-        console.info('BLABLA', uiItems.length, hiddenItemGroups);
-
         return itemGroups;
       })
-    )
+    );
   }
 
   public getShopListName(id: string | number): string {

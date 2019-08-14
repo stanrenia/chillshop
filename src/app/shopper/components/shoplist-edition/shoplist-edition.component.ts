@@ -91,8 +91,8 @@ export class ShoplistEditionComponent {
     this.presentModal(item.id);
   }
 
-  setItemsOrder(sortedItems: ShopListItemUI[]) {
-    this.service.setItemsOrder(this.shoplistId, sortedItems);
+  setItemsOrder(itemGroup: ShopListItemGroup, sortedItems: ShopListItemUI[]) {
+    this.service.setItemsOrder(itemGroup.categoryId, sortedItems);
   }
 
   toggleItemCheck(item: ShopListItemUI) {

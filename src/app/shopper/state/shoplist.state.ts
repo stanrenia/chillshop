@@ -15,23 +15,29 @@ export interface ShopList {
     items: ShopListItem[];
 }
 
-export interface ShopListState extends EntityState<ShopList>{
+export interface ShopListState extends EntityState<ShopList> {
   ui: ShopListUIState;
 }
 
 export interface ShopListUIState {
   itemGroups: {
-    hiddenIds: ID[]
+    hiddenIds: ID[],
+    sortedItemsById: IdsByCategoryId
   };
   filters: {
     categories: string;
   };
 }
 
+export interface IdsByCategoryId {
+  [categoryId: string]: ID[];
+}
+
 const initialState: Partial<ShopListState> = {
   ui: {
     itemGroups: {
-      hiddenIds: []
+      hiddenIds: [],
+      sortedItemsById: {}
     },
     filters: {
       categories: null
