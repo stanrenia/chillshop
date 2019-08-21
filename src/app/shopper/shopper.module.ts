@@ -4,12 +4,11 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ShopperPage } from './shopper.page';
-import { ShoplistComponent } from './components/shoplist/shoplist.component';
-import { ShoplistItemComponent } from './components/shoplist-item/shoplist-item.component';
+import { ShoplistItemGroupComponent } from './components/shoplist-item-group/shoplist-item-group.component';
 import { ShoplistManagerComponent } from './components/shoplist-manager/shoplist-manager.component';
 import { ShoplistEditionComponent } from './components/shoplist-edition/shoplist-edition.component';
 import { ShopperRoutingModule } from './shopper-routing.module';
-import { EditionPopoverComponent } from './components/edition-popover/edition-popover.component';
+import { EditionModalComponent } from './components/edition-modal/edition-modal.component';
 
 
 
@@ -21,7 +20,7 @@ import { EditionPopoverComponent } from './components/edition-popover/edition-po
     IonicModule,
     ShopperRoutingModule
   ],
-  declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistComponent, ShoplistItemComponent, EditionPopoverComponent],
-  entryComponents: [EditionPopoverComponent]
+  declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistItemGroupComponent, EditionModalComponent],
+  entryComponents: [EditionModalComponent]
 })
 export class ShopperPageModule {}

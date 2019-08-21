@@ -15,8 +15,10 @@
       <ion-input clearInput placeholder="Category ?" formControlName="category"></ion-input>
     </ion-item>
   </form>
+</div>
+
+<ion-content>
   <ion-list>
-    <ion-list-header>Your shop lists</ion-list-header>
     <ion-item *ngFor="let shoplist of shoplists$ | async" (click)="goToEdit(shoplist)">
       <ion-icon name="list" slot="start"></ion-icon>
       {{shoplist.label}}
@@ -25,4 +27,4 @@
       </div>
     </ion-item>
   </ion-list>
-</div>
+</ion-content>

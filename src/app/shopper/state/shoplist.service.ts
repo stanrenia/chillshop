@@ -1,15 +1,16 @@
-import { ShopListStore, ShopList, ShopListItem } from './shoplist.state';
+import { ShopListStore, ShopList, ShopListItem, ShopListUIState } from './shoplist.state';
 import { Injectable } from '@angular/core';
-import { ShopListQuery, ShopListItemUI } from './shoplist.query';
+import { ShopListQuery, ShopListItemUI, ShopListItemGroup } from './shoplist.query';
 import { ShoplistCategoryService } from './shoplist-category.service';
 import { transaction, ID, guid, arrayUpdate, arrayAdd, arrayFind } from '@datorama/akita';
 import { ProductService } from './product.service';
+import { ProductCategoryService } from './product-category.service';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListService {
 
     constructor(private shopListStore: ShopListStore, private query: ShopListQuery, private categoryService: ShoplistCategoryService,
-        private productService: ProductService) { }
+        private productService: ProductService, private productCategoryService: ProductCategoryService) { }
 
     @transaction()
     createShopList(label: string, categoryName: string) {
@@ -56,11 +57,16 @@ export class ShopListService {
     }
 
     updateItem(shoplistId: ID, itemId: ID, propsToUpdate: Partial<ShopListItemUI>) {
-        var item = this.query.getEntity(shoplistId).items.find(i => i.id == itemId);
+        const item = this.query.getEntity(shoplistId).items.find(i => i.id === itemId);
         
         if (propsToUpdate.productName) {
-            this.productService.updateProduct(item.productId, { name: propsToUpdate.productName});
+            this.productService.updateProduct(item.productId, { name: propsToUpdate.productName });
             delete propsToUpdate.productName;
+        }
+        
+        if (propsToUpdate.productCategoryName) {
+            this.productService.updateProductCategory(item.productId, propsToUpdate.productCategoryName);
+            delete propsToUpdate.productCategoryName;
         }
 
         this.shopListStore.update(shoplistId, entity => ({
@@ -70,5 +76,63 @@ export class ShopListService {
 
     toggleItemCheck(shoplistId: ID, item: ShopListItem): any {
         this.updateItem(shoplistId, item.id, { checked: !item.checked });
+    }
+
+    toggleItemGroupVisibility(itemGroup: ShopListItemGroup): void {
+        const uiState = this.query.getValue().ui;
+
+        const hiddenIds = [...uiState.itemGroups.hiddenIds];
+        if (itemGroup.hideItems) {
+            const indexToRemove = hiddenIds.findIndex(id => id === itemGroup.categoryId);
+            hiddenIds.splice(indexToRemove, 1);
+        } else {
+            hiddenIds.push(itemGroup.categoryId);
+        }
+
+        const nextUiState = <ShopListUIState>{
+            ...uiState,
+            itemGroups: {
+                ...uiState.itemGroups,
+                hiddenIds
+            }
+        };
+
+        this.shopListStore.updateUIState(nextUiState);
+    }
+
+
+    setCategoryFilter(categoryName): void {
+        const uiState = this.query.getValue().ui;
+
+        if (categoryName === '') {
+            categoryName = null;
+        }
+
+        const nextUiState = {
+            ...uiState,
+            filters: {
+                ...uiState.filters,
+                categories: categoryName
+            }
+        };
+
+        this.shopListStore.updateUIState(nextUiState);
+    }
+
+    setItemsOrder(categoryId: ID, sortedItems: ShopListItemUI[]): void {
+        const uiState = this.query.getValue().ui;
+
+        const nextUiState: ShopListUIState = {
+            ...uiState,
+            itemGroups: {
+                ...uiState.itemGroups,
+                sortedItemsById: {
+                    ...uiState.itemGroups.sortedItemsById,
+                    [categoryId]: sortedItems.map(i => i.id)
+                }
+            }
+         };
+
+        this.shopListStore.updateUIState(nextUiState);
     }
 }

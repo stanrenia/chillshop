@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { ProductStore, Product, ProductFilter } from './product.state';
 import { ProductQuery } from './product.query';
 import { guid, ID } from '@datorama/akita';
+import { ProductCategoryService } from './product-category.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
 
-    constructor(private store: ProductStore, private query: ProductQuery) {
+    constructor(private store: ProductStore, private query: ProductQuery, private productCategoryService: ProductCategoryService) {
     }
 
     createProduct(name: string, categoryName: string): ID {
@@ -27,6 +28,12 @@ export class ProductService {
 
     updateProduct(productId: ID, propsToUpdate: Partial<Product>) {
         this.store.update(productId, propsToUpdate);
+    }
+
+    updateProductCategory(productId: ID, productCategoryName: string): void {
+        const categoryId = this.productCategoryService.create(productCategoryName);
+        
+        this.updateProduct(productId, { categoryId });
     }
 
     setFilter(filter: ProductFilter): void {

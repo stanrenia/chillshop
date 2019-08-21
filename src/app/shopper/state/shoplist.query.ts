@@ -1,18 +1,18 @@
 import { QueryEntity, ID } from '@datorama/akita';
 import { ShopListState, ShopListStore, ShopList, ShopListItem } from './shoplist.state';
 import { Injectable } from '@angular/core';
-import { Observable, of, combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, auditTime } from 'rxjs/operators';
 import { ShoplistCategoryQuery } from './shoplist-category.query';
 import { ProductQuery } from './product.query';
-
-export interface ShopListItemUI extends ShopListItem {
-  productName: string;
-}
+import { ProductCategoryQuery } from './product-category.query';
+import { ProductCategory } from './product-category.state';
+import { ArrayUtils } from '../services/utils/array-utils';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
-  constructor(protected store: ShopListStore, private categoryQuery: ShoplistCategoryQuery, private productQuery: ProductQuery) {
+  constructor(protected store: ShopListStore, private categoryQuery: ShoplistCategoryQuery, private productQuery: ProductQuery,
+    private productCategoryQuery: ProductCategoryQuery, private arrayUtils: ArrayUtils) {
     super(store);
   }
 
@@ -43,16 +43,50 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
         if (sl.items && sl.items.length) {
           return sl.items.map(item => {
             const product = this.productQuery.getEntity(item.productId);
+            const category = this.productCategoryQuery.getEntity(product.categoryId);
 
-            return { ...item, productName: product.name } as ShopListItemUI;
+            return { 
+              ...item, 
+              productName: product.name, 
+              productCategoryName: category && category.name,
+              productCategoryId: category && category.id,
+            } as ShopListItemUI;
           });
         }
 
         return [];
       })
-    )
+    );
 
     return items$;
+  }
+
+  public getItemsGroupByCategory(id: ID): Observable<ShopListItemGroup[]> {
+    return combineLatest(
+      this.getItemsByShopListId(id),
+      this.select(state => state.ui.itemGroups)
+    )
+    .pipe(
+      map(([uiItems, uiItemGroups]) => {
+        const hiddenItemGroups = uiItemGroups.hiddenIds;
+
+        let itemGroups = [];
+        if (uiItems && uiItems.length) {
+          const grouping = this.groupItemsByCategory(uiItems);
+
+          itemGroups = Object.values(grouping)
+            .map(group => {
+              group.hideItems = hiddenItemGroups.includes(group.categoryId);
+              const sortedIds = uiItemGroups.sortedItemsById[group.categoryId] || [];
+              group.items = this.arrayUtils.sortFromReferenceList<ShopListItemUI>(group.items, sortedIds, e => e.id);
+              return group;
+            })
+            .sort((a, b) => ('' + a.categoryName).localeCompare(b.categoryName));
+        }
+
+        return itemGroups;
+      })
+    );
   }
 
   public getShopListName(id: string | number): string {
@@ -62,6 +96,39 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   public getShopListItem(shoplistId: ID, itemId: ID): ShopListItem {
     return this.getEntity(shoplistId).items.find(i => i.id === itemId);
   }
+
+  private groupItemsByCategory(uiItems: ShopListItemUI[]): {[id: string]: ShopListItemGroup} {
+    return uiItems.reduce((acc, next) => {
+      if (!acc[next.productCategoryId]) {
+        acc[next.productCategoryId] = <ShopListItemGroup>{
+          categoryId: next.productCategoryId,
+          categoryName: next.productCategoryName,
+          checkedCount: 0,
+          items: []
+        }
+      }
+
+      if (next.checked) {
+        acc[next.productCategoryId].checkedCount += 1;
+      }
+
+      acc[next.productCategoryId].items.push(next);
+
+      return acc;
+    }, {});
+  }
+
+  public selectVisibleProductCategories(): Observable<ProductCategory[]> {
+    return combineLatest(
+      this.productCategoryQuery.selectAll(),
+      this.select(state => state.ui.filters.categories)
+    ).pipe(
+      map(([categories, categoryFilter]) => {
+        const substr = categoryFilter && categoryFilter.toLocaleLowerCase();
+        return categories.filter(cat => cat.name.toLocaleLowerCase().includes(substr));
+      })
+    );
+  }
 }
 
 export interface ShopListUI {
@@ -69,4 +136,18 @@ export interface ShopListUI {
   label: string;
   categoryName?: string;
   itemCount?: number;
+}
+
+export interface ShopListItemUI extends ShopListItem {
+  productName: string;
+  productCategoryName: string;
+  productCategoryId: ID;
+}
+
+export interface ShopListItemGroup {
+  categoryId: ID;
+  categoryName: string;
+  items: ShopListItemUI[];
+  hideItems: boolean;
+  checkedCount: number;
 }
