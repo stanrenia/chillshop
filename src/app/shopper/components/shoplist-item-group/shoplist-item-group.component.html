@@ -1,0 +1,17 @@
+<ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+  <ion-item-sliding *ngFor="let item of itemGroup.items; trackBy: trackByIdFn">
+    <ion-item-options side="start">
+      <ion-item-option (click)="onEditClicked(item)">Edit</ion-item-option>
+    </ion-item-options>
+    <ion-item [button]="false">
+      <ion-checkbox
+        [checked]="item.checked"
+        (ionChange)="onCheckChanged(item)"
+        slot="start"
+      ></ion-checkbox>
+      <ion-label [ngClass]="{ 'text-line-through': item.checked }">{{ item.productName }}</ion-label>
+      <ion-badge color="primary">{{ item.quantity }}</ion-badge>
+      <ion-reorder slot="end"></ion-reorder>
+    </ion-item>
+  </ion-item-sliding>
+</ion-reorder-group>

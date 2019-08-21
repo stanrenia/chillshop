@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShoplistItemComponent } from './shoplist-item.component';
+import { ShoplistItemGroupComponent } from './shoplist-item-group.component';
 
 describe('ShoplistItemComponent', () => {
-  let component: ShoplistItemComponent;
-  let fixture: ComponentFixture<ShoplistItemComponent>;
+  let component: ShoplistItemGroupComponent;
+  let fixture: ComponentFixture<ShoplistItemGroupComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShoplistItemComponent ],
+      declarations: [ ShoplistItemGroupComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShoplistItemComponent);
+    fixture = TestBed.createComponent(ShoplistItemGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

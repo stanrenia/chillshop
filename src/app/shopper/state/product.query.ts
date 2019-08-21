@@ -14,7 +14,8 @@ export class ProductQuery extends QueryEntity<ProductState, Product> {
     return this.select(state => state.ui.filter)
       .pipe(
         map(filter => this.getAll({ filterBy: product => {
-          return product.name && product.name.includes(filter.name);
+          const substr = filter.name && filter.name.toLocaleLowerCase();
+          return product.name && product.name.toLocaleLowerCase().includes(substr);
         }}))
       );
   }

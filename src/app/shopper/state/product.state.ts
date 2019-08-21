@@ -5,7 +5,7 @@ export interface Product {
     id: ID;
     name: string;
     aliases: string[];
-    categoryId: string;
+    categoryId: ID;
 }
 
 export interface ProductFilter {
