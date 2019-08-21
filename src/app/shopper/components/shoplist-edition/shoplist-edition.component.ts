@@ -26,7 +26,7 @@ export class ShoplistEditionComponent {
   itemForm: FormGroup;
   shoplistId: ID;
 
-  @ViewChild('itemList') ionList: IonList;
+  @ViewChild('itemList', { static: true }) ionList: IonList;
 
   constructor(
     private query: ShopListQuery,
