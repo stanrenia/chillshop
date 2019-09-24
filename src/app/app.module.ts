@@ -9,6 +9,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { akitaDevtools } from '@datorama/akita';
+import { ChillModule } from './common/chill.module';
+import { InjectorModule } from './common/injector.module';
 
 akitaDevtools();
 
@@ -18,7 +20,8 @@ akitaDevtools();
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    ChillModule
   ],
   providers: [
     StatusBar,
