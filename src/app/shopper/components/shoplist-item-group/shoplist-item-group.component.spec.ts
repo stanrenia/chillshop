@@ -1,16 +1,16 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShoplistItemGroupComponent } from './shoplist-item-group.component';
 
-describe('ShoplistItemComponent', () => {
+describe('ShoplistItemGroupComponent', () => {
   let component: ShoplistItemGroupComponent;
   let fixture: ComponentFixture<ShoplistItemGroupComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ShoplistItemGroupComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));
@@ -18,10 +18,17 @@ describe('ShoplistItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ShoplistItemGroupComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    component.itemGroup = {
+      categoryId: 1,
+      categoryName: 'Cat',
+      checkedCount: 2,
+      hideItems: false,
+      items: []
+    };
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });
