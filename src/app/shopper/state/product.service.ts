@@ -3,15 +3,19 @@ import { ProductStore, Product, ProductFilter } from './product.state';
 import { ProductQuery } from './product.query';
 import { guid, ID } from '@datorama/akita';
 import { ProductCategoryService } from './product-category.service';
+import { EnableOffline } from 'src/app/common/decorators/offline.service';
+import { ProductOfflineService } from './product-offline.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
 
-    constructor(private store: ProductStore, private query: ProductQuery, private productCategoryService: ProductCategoryService) {
+    constructor(private store: ProductStore, private query: ProductQuery, private productCategoryService: ProductCategoryService, 
+     ) {
     }
 
+    @EnableOffline(ProductOfflineService)
     createProduct(name: string, categoryName: string): ID {
-        const productsSameName = this.query.getAll({ filterBy: product => product.name === name, limitTo: 1 });
+        const productsSameName = this.query.getAll({ filterBy: p => p.name === name, limitTo: 1 });
         const currentProduct = productsSameName.length && productsSameName[0];
 
         // Product already exists
@@ -40,3 +44,4 @@ export class ProductService {
         this.store.setFilter(filter);
     }
 }
+
