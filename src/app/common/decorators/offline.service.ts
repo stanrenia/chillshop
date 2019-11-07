@@ -10,12 +10,12 @@ export function EnableOffline(cls: Function) {
 
             if (connectionService && !connectionService.isOnline()) {
                 if (offlineService[key]) {
-                    offlineService[key].apply(offlineService, args);
+                    return offlineService[key].apply(offlineService, args);
                 } else {
                     console.warn(`@EnableOffline cannot find ${String(key)} method.`);
                 }
             } else {
-                original.apply(this, args);
+                return original.apply(this, args);
             }
         };
 
