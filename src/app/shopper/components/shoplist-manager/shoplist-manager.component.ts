@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ShopListQuery, ShopListUI } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,7 +11,7 @@ import { AppTitleService } from '../../services/app-title.service';
   templateUrl: './shoplist-manager.component.html',
   styleUrls: ['./shoplist-manager.component.scss'],
 })
-export class ShoplistManagerComponent {
+export class ShoplistManagerComponent implements OnInit {
   
   shoplists$: Observable<ShopListUI[]>;
   
@@ -36,15 +36,14 @@ export class ShoplistManagerComponent {
     });
   }
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.appTitleService.setTitle('Shopper');
     this.shoplists$ = this.query.getAllForUI();
   }
 
-  // Use ionViewWillEnter instead for Page components
-  // ngOnInit() {
+  ionViewWillEnter() {
   
-  // }
+  }
 
   createShopList(formValue) {
     if (!this.shopListForm.valid) {
