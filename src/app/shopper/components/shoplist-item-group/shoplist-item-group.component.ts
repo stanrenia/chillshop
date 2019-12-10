@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ShopListItemGroup, ShopListItemUI } from '../../state/shoplist.query';
 
 @Component({
   selector: 'app-shoplist-item-group',
   templateUrl: './shoplist-item-group.component.html',
   styleUrls: ['./shoplist-item-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShoplistItemGroupComponent implements OnInit {
 

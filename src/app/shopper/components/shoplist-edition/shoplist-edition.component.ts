@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ShopListQuery, ShopListItemUI, ShopListItemGroup } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -18,7 +18,7 @@ import { ProductService } from '../../state/product.service';
   templateUrl: './shoplist-edition.component.html',
   styleUrls: ['./shoplist-edition.component.scss'],
 })
-export class ShoplistEditionComponent {
+export class ShoplistEditionComponent implements OnInit {
 
   itemGroups$: Observable<ShopListItemGroup[]>;
   products$: Observable<Product[]>;
@@ -49,7 +49,7 @@ export class ShoplistEditionComponent {
     });
   }
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.route.params.subscribe(params => {
       this.shoplistId = params.id;
       this.itemGroups$ = this.query.getItemsGroupByCategory(this.shoplistId);
