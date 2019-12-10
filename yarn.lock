@@ -509,20 +509,20 @@
     typescript "3.4.3"
     ws "^6.1.4"
 
-"@ionic/angular@4.7.0":
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/@ionic/angular/-/angular-4.7.0.tgz#a06b6aa50c962f049dcd8c349030e0a996d057e1"
-  integrity sha512-m4lMAm1wZb+oBAg4TBaI7DImDs8FLxG+z2dbqyRh1KGRbd1SExvyDq0Rleebl/AJBwiYHfCWltye1MEffUZBfA==
+"@ionic/angular@^4.7.0":
+  version "4.11.5"
+  resolved "https://registry.yarnpkg.com/@ionic/angular/-/angular-4.11.5.tgz#543273faab43985a4eed81aa48896b7c3b839e67"
+  integrity sha512-OV9mIVejVhsoysLLP8mG6kWgVJ/kEyQAIK6UVXHYvK/50ZFLsKJKacBjBkn1fkXaZ4LfuPmJDRmFWUur5PWrEQ==
   dependencies:
-    "@ionic/core" "4.7.0"
+    "@ionic/core" "4.11.5"
     tslib "^1.9.3"
 
-"@ionic/core@4.7.0":
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-4.7.0.tgz#0a90d85fa659d5e1e9ee93cb2c255986c2893ada"
-  integrity sha512-lE5Hsu07tzMYrnpznj4fcQPTFF5AilLzVr9K83wfiL7GDionWWMoBfyvgDAKM0ikS+mlmtyae0ENc2qQDzGRkA==
+"@ionic/core@4.11.5":
+  version "4.11.5"
+  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-4.11.5.tgz#905c53984129cdcad9f9a06f76c8856a59a95ba0"
+  integrity sha512-+TrMpTdya6JBd4RELLVkulXh5dNZNHypsGMKlYCJJcIZwsvObO9+uzxBhGSOX7+F7eMuR341FUcTMb0fib9TNA==
   dependencies:
-    ionicons "^4.6.2"
+    ionicons "^4.6.3"
     tslib "^1.10.0"
 
 "@ionic/discover@^0.3.3":
@@ -4380,7 +4380,7 @@ invert-kv@^2.0.0:
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-2.0.0.tgz#7393f5afa59ec9ff5f67a27620d11c226e3eec02"
   integrity sha512-wPVv/y/QQ/Uiirj/vh3oP+1Ww+AWehmi1g5fFWGPF6IpCBCDVrhgHRMvrLfdYcwDh3QJbGXDW4JAuzxElLSqKA==
 
-ionicons@^4.6.2:
+ionicons@^4.6.3:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/ionicons/-/ionicons-4.6.3.tgz#e4f3a3e9b66761eb8c0db27798cc1a8ce97777d2"
   integrity sha512-cgP+VIr2cTJpMfFyVHTerq6n2jeoiGboVoe3GlaAo5zoSBDAEXORwUZhv6m+lCyxlsHCS3nqPUE+MKyZU71t8Q==
