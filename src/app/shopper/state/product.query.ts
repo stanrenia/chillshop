@@ -1,7 +1,7 @@
 import { QueryEntity } from '@datorama/akita';
 import { Injectable } from '@angular/core';
 import { ProductState, Product, ProductStore } from './product.state';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
