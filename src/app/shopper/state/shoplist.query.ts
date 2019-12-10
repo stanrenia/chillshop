@@ -17,10 +17,10 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   }
 
   public getAllForUI(): Observable<ShopListUI[]> {
-    return combineLatest(
+    return combineLatest([
       this.selectAll(),
       this.categoryQuery.selectAll({ asObject: true })
-    ).pipe(
+    ]).pipe(
       auditTime(0),
       map(([shoplists, categories]) => {
         return shoplists.map(sl => {
@@ -62,9 +62,10 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   }
 
   public getItemsGroupByCategory(id: ID): Observable<ShopListItemGroup[]> {
-    return combineLatest(
+    return combineLatest([
       this.getItemsByShopListId(id),
       this.select(state => state.ui.itemGroups)
+    ]
     )
     .pipe(
       map(([uiItems, uiItemGroups]) => {
@@ -119,10 +120,10 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   }
 
   public selectVisibleProductCategories(): Observable<ProductCategory[]> {
-    return combineLatest(
+    return combineLatest([
       this.productCategoryQuery.selectAll(),
       this.select(state => state.ui.filters.categories)
-    ).pipe(
+    ]).pipe(
       map(([categories, categoryFilter]) => {
         const substr = categoryFilter && categoryFilter.toLocaleLowerCase();
         return categories.filter(cat => cat.name.toLocaleLowerCase().includes(substr));
