@@ -2,7 +2,7 @@ import { ShopListStore, ShopList, ShopListItem, ShopListUIState } from './shopli
 import { Injectable } from '@angular/core';
 import { ShopListQuery, ShopListItemUI, ShopListItemGroup } from './shoplist.query';
 import { ShoplistCategoryService } from './shoplist-category.service';
-import { transaction, ID, guid, arrayUpdate, arrayAdd, arrayFind } from '@datorama/akita';
+import { transaction, ID, guid, arrayUpdate, arrayAdd, arrayRemove } from '@datorama/akita';
 import { ProductService } from './product.service';
 import { ProductCategoryService } from './product-category.service';
 
@@ -71,6 +71,12 @@ export class ShopListService {
 
         this.shopListStore.update(shoplistId, entity => ({
             items: arrayUpdate(entity.items, itemId, propsToUpdate)
+        }));
+    }
+
+    removeItem(shoplistId: ID, itemId: ID) {
+        this.shopListStore.update(shoplistId, entity => ({
+            items: arrayRemove(entity.items, itemId)
         }));
     }
 

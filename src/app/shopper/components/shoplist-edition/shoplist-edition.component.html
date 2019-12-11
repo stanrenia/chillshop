@@ -22,7 +22,8 @@
       </ion-item-divider>
 
       <app-shoplist-item-group *ngIf="!itemGroup.hideItems" 
-        [itemGroup]="itemGroup" (editClicked)="editItem($event)" (checkChanged)="toggleItemCheck($event)" (reordered)="setItemsOrder(itemGroup, $event)"></app-shoplist-item-group>
+        [itemGroup]="itemGroup" (editClicked)="editItem($event)" (checkChanged)="toggleItemCheck($event)"
+        (removeClicked)="removeItem($event)" (reordered)="setItemsOrder(itemGroup, $event)"></app-shoplist-item-group>
       
     </ion-item-group>
   </ion-list>

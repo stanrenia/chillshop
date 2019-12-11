@@ -91,6 +91,10 @@ export class ShoplistEditionComponent implements OnInit {
     this.presentModal(item.id);
   }
 
+  removeItem(item: ShopListItemUI) {
+    this.service.removeItem(this.shoplistId, item.id);
+  }
+
   setItemsOrder(itemGroup: ShopListItemGroup, sortedItems: ShopListItemUI[]) {
     this.service.setItemsOrder(itemGroup.categoryId, sortedItems);
   }
