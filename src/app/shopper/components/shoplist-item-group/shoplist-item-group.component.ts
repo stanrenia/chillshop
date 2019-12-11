@@ -12,6 +12,7 @@ export class ShoplistItemGroupComponent implements OnInit {
   @Input() itemGroup: ShopListItemGroup;
   @Output() checkChanged: EventEmitter<ShopListItemUI> = new EventEmitter();
   @Output() editClicked: EventEmitter<ShopListItemUI> = new EventEmitter();
+  @Output() removeClicked: EventEmitter<ShopListItemUI> = new EventEmitter();
   @Output() reordered: EventEmitter<ShopListItemUI[]> = new EventEmitter();
 
   constructor() { }
@@ -24,6 +25,10 @@ export class ShoplistItemGroupComponent implements OnInit {
 
   onEditClicked(item: ShopListItemUI) {
     this.editClicked.emit(item);
+  }
+
+  onRemoveClicked(item: ShopListItemUI) {
+    this.removeClicked.emit(item);
   }
 
   doReorder(ev: any) {
