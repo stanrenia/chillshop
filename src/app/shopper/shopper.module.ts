@@ -9,6 +9,7 @@ import { ShoplistManagerComponent } from './components/shoplist-manager/shoplist
 import { ShoplistEditionComponent } from './components/shoplist-edition/shoplist-edition.component';
 import { ShopperRoutingModule } from './shopper-routing.module';
 import { EditionModalComponent } from './components/edition-modal/edition-modal.component';
+import { TemplatesModule } from '../templates/templates.module';
 
 
 
@@ -18,7 +19,8 @@ import { EditionModalComponent } from './components/edition-modal/edition-modal.
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ShopperRoutingModule
+    ShopperRoutingModule,
+    TemplatesModule
   ],
   declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistItemGroupComponent, EditionModalComponent],
   entryComponents: [EditionModalComponent]

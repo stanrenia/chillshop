@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { akitaDevtools } from '@datorama/akita';
 import { ChillModule } from './common/chill.module';
 import { InjectorModule } from './common/injector.module';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { environment } from '../environments/environment';
 
 akitaDevtools();
 
@@ -21,7 +23,8 @@ akitaDevtools();
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    ChillModule
+    ChillModule,
+    environment.production ? [] : AkitaNgDevtools.forRoot()
   ],
   providers: [
     StatusBar,

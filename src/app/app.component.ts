@@ -11,14 +11,14 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 export class AppComponent {
   public appPages = [
     {
-      title: 'ChillShop',
+      title: 'Shopper',
       url: '/shopper',
       icon: 'cart'
     },
     {
-      title: 'Ionic v4',
-      url: '/ionic',
-      icon: 'logo-ionic'
+      title: 'Templates',
+      url: '/templates',
+      icon: 'albums'
     }
   ];
 
