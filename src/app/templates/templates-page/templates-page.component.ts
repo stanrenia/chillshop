@@ -3,6 +3,7 @@ import { TemplatesQuery } from '../state/templates.query';
 import { TemplatesService } from '../state/templates.service';
 import { Observable } from 'rxjs';
 import { Template } from '../state/template.model';
+import { AppTitleService } from 'src/app/common/services/app-title.service';
 
 @Component({
   selector: 'app-templates-page',
@@ -12,7 +13,9 @@ import { Template } from '../state/template.model';
 export class TemplatesPageComponent implements OnInit {
   templates: Observable<Template[]>;
 
-  constructor(private query: TemplatesQuery, private service: TemplatesService) { }
+  constructor(private query: TemplatesQuery, private service: TemplatesService, titleService: AppTitleService) { 
+    titleService.setTitle('Templates');
+  }
 
   ngOnInit() {
     this.templates = this.query.selectAll();

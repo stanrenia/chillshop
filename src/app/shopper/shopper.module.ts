@@ -10,6 +10,7 @@ import { ShoplistEditionComponent } from './components/shoplist-edition/shoplist
 import { ShopperRoutingModule } from './shopper-routing.module';
 import { EditionModalComponent } from './components/edition-modal/edition-modal.component';
 import { TemplatesModule } from '../templates/templates.module';
+import { ChillModule } from '../common/chill.module';
 
 
 
@@ -20,6 +21,7 @@ import { TemplatesModule } from '../templates/templates.module';
     ReactiveFormsModule,
     IonicModule,
     ShopperRoutingModule,
+    ChillModule,
     TemplatesModule
   ],
   declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistItemGroupComponent, EditionModalComponent],

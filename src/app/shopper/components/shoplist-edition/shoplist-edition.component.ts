@@ -3,7 +3,7 @@ import { ShopListQuery, ShopListItemUI, ShopListItemGroup } from '../../state/sh
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
-import { AppTitleService } from '../../services/app-title.service';
+import { AppTitleService } from '../../../common/services/app-title.service';
 import { ActivatedRoute } from '@angular/router';
 import { ID } from '@datorama/akita';
 import { ProductQuery } from '../../state/product.query';
@@ -166,6 +166,10 @@ export class ShoplistEditionComponent implements OnInit {
 
   doReorder(ev: any) {
     ev.detail.complete();
+  }
+
+  saveAsTemplate() {
+    
   }
 
 }

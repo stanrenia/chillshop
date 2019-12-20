@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AppTitleService } from './common/services/app-title.service';
 
 @Component({
   selector: 'app-root',
