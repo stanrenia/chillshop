@@ -11,6 +11,7 @@ import { ShopperRoutingModule } from './shopper-routing.module';
 import { EditionModalComponent } from './components/edition-modal/edition-modal.component';
 import { TemplatesModule } from '../templates/templates.module';
 import { ChillModule } from '../common/chill.module';
+import { CreateEntityComponent } from '../chill/create-entity/create-entity.component';
 
 
 
@@ -25,6 +26,6 @@ import { ChillModule } from '../common/chill.module';
     TemplatesModule
   ],
   declarations: [ShopperPage, ShoplistManagerComponent, ShoplistEditionComponent, ShoplistItemGroupComponent, EditionModalComponent],
-  entryComponents: [EditionModalComponent]
+  entryComponents: [EditionModalComponent, CreateEntityComponent]
 })
 export class ShopperPageModule {}

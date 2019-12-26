@@ -12,6 +12,7 @@ import { ToastController, IonList, ModalController } from '@ionic/angular';
 import { EditionModalComponent } from '../edition-modal/edition-modal.component';
 import { distinctUntilChanged, debounceTime, filter, tap, map } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
+import { CreateEntityComponent, CreateEntityProps } from 'src/app/chill/create-entity/create-entity.component';
 
 @Component({
   selector: 'app-shoplist-edition',
@@ -26,7 +27,7 @@ export class ShoplistEditionComponent implements OnInit {
   itemForm: FormGroup;
   shoplistId: ID;
 
-  @ViewChild('itemList', { static: true }) ionList: IonList;
+  @ViewChild('itemList') ionList: IonList;
 
   constructor(
     private query: ShopListQuery,
@@ -110,7 +111,7 @@ export class ShoplistEditionComponent implements OnInit {
   private async presentToast(itemId: ID, itemName: string) {
     const message = this.getToastMessage(itemId, itemName);
 
-    const toast = await this.toastCtrl.create({
+    const toast = await this.toastCtrl.create(<any>{
       message,
       color: 'secondary',
       cssClass: 'edition-toast-button',
@@ -169,7 +170,15 @@ export class ShoplistEditionComponent implements OnInit {
   }
 
   saveAsTemplate() {
-    
+    this.modalController.create({
+      component: CreateEntityComponent,
+      componentProps: <CreateEntityProps>{
+        placeholder: 'Template name',
+        onConfirmation: (tplName) => {
+          console.info('TPL Create', tplName);
+        }
+      }
+    })
   }
 
 }
