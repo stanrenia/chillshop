@@ -36,20 +36,12 @@ export class ShopListService {
         // If item exists, increment its quantity by 1
         if (existingItem) {
             const quantity = existingItem.quantity + 1;
-            this.shopListStore.update(shoplistId, entity => ({
-                items: arrayUpdate(entity.items, existingItem.id, { quantity })
-            }));
-            
+            this.shopListStore.update(shoplistId, arrayUpdate<ShopList, ShopListItem>('items', existingItem.id, { quantity }));
             entityId = existingItem.id;
         // Otherwise, create the item
         } else {
             const item = { id: guid(), productId, quantity: 1, checked: false } as ShopListItem;
-            
-            this.shopListStore.update(shoplistId, entity => ({
-                items: arrayAdd(entity.items, item)
-            }));
-
-
+            this.shopListStore.update(shoplistId, arrayAdd<ShopList>('items', item));
             entityId = item.id;
         }
 
@@ -69,15 +61,11 @@ export class ShopListService {
             delete propsToUpdate.productCategoryName;
         }
 
-        this.shopListStore.update(shoplistId, entity => ({
-            items: arrayUpdate(entity.items, itemId, propsToUpdate)
-        }));
+        this.shopListStore.update(shoplistId, arrayUpdate<ShopList, ShopListItem>('items', itemId, propsToUpdate));
     }
 
     removeItem(shoplistId: ID, itemId: ID) {
-        this.shopListStore.update(shoplistId, entity => ({
-            items: arrayRemove(entity.items, itemId)
-        }));
+        this.shopListStore.update(shoplistId, arrayRemove<ShopList>('items', itemId));
     }
 
     toggleItemCheck(shoplistId: ID, item: ShopListItem): any {

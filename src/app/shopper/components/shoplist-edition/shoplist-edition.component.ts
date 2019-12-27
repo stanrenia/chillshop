@@ -13,6 +13,8 @@ import { EditionModalComponent } from '../edition-modal/edition-modal.component'
 import { distinctUntilChanged, debounceTime, filter, tap, map } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
 import { CreateEntityComponent, CreateEntityProps } from 'src/app/chill/create-entity/create-entity.component';
+import { TemplatesService } from 'src/app/templates/state/templates.service';
+import { Template } from 'src/app/templates/state/template.model';
 
 @Component({
   selector: 'app-shoplist-edition',
@@ -37,6 +39,7 @@ export class ShoplistEditionComponent implements OnInit {
     private route: ActivatedRoute,
     private productQuery: ProductQuery,
     private productService: ProductService,
+    private templateService: TemplatesService,
     private modalController: ModalController,
     private toastCtrl: ToastController
   ) {
@@ -169,8 +172,8 @@ export class ShoplistEditionComponent implements OnInit {
     ev.detail.complete();
   }
 
-  saveAsTemplate() {
-    this.modalController.create({
+  async saveAsTemplate() {
+    const modal = await this.modalController.create({
       component: CreateEntityComponent,
       componentProps: <CreateEntityProps>{
         placeholder: 'Template name',
@@ -178,7 +181,15 @@ export class ShoplistEditionComponent implements OnInit {
           console.info('TPL Create', tplName);
         }
       }
-    })
+    });
+
+    await modal.present();
+
+    const modalResult = await modal.onWillDismiss();
+    this.templateService.add({
+      items: this.query.getEntity(this.shoplistId).items,
+      label: modalResult.data
+    } as Template);
   }
 
 }

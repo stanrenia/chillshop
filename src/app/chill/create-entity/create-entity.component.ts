@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NavParams, ModalController } from '@ionic/angular';
 
 export interface CreateEntityProps {
   placeholder: string;
@@ -12,14 +13,17 @@ export interface CreateEntityProps {
 })
 export class CreateEntityComponent implements OnInit {
 
-  @Input('props') props: CreateEntityProps;
+  props: CreateEntityProps;
 
-  constructor() { }
+  constructor(private navParams: NavParams, private modalCtrl: ModalController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.props = <CreateEntityProps>this.navParams.data;
+  }
 
   create(val: string) {
     this.props.onConfirmation(val);
+    this.modalCtrl.dismiss(val);
   }
 
 }
