@@ -129,4 +129,8 @@ export class ShopListService {
 
         this.shopListStore.updateUIState(nextUiState);
     }
+
+    setAsTemplate(shoplistId: ID): void {
+        this.shopListStore.update(shoplistId, { isTemplate: true });
+    }
 }

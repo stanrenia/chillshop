@@ -4,7 +4,7 @@ import { ShopListItem } from 'src/app/shopper/state/shoplist.state';
 export interface Template {
   id: ID;
   label: string;
-  items: ShopListItem[];
+  shoplistId: ID;
 }
 
 /**

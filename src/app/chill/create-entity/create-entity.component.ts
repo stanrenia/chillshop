@@ -1,9 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavParams, ModalController } from '@ionic/angular';
 
 export interface CreateEntityProps {
   placeholder: string;
-  onConfirmation: (val: string) => any;
 }
 
 @Component({
@@ -22,7 +21,6 @@ export class CreateEntityComponent implements OnInit {
   }
 
   create(val: string) {
-    this.props.onConfirmation(val);
     this.modalCtrl.dismiss(val);
   }
 

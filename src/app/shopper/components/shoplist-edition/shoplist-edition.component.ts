@@ -177,9 +177,6 @@ export class ShoplistEditionComponent implements OnInit {
       component: CreateEntityComponent,
       componentProps: <CreateEntityProps>{
         placeholder: 'Template name',
-        onConfirmation: (tplName) => {
-          console.info('TPL Create', tplName);
-        }
       }
     });
 
@@ -187,7 +184,7 @@ export class ShoplistEditionComponent implements OnInit {
 
     const modalResult = await modal.onWillDismiss();
     this.templateService.add({
-      items: this.query.getEntity(this.shoplistId).items,
+      shoplistId: this.shoplistId,
       label: modalResult.data
     } as Template);
   }

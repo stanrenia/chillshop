@@ -18,7 +18,7 @@ export class TemplatesPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.templates = this.query.selectAll();
+    this.templates = this.query.getTemplates();
   }
 
 }
