@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppTitleService } from '../../../common/services/app-title.service';
+import { ShopperPaths } from '../../shopper-routing.module';
 
 @Component({
   selector: 'app-shoplist-manager',
@@ -60,7 +61,7 @@ export class ShoplistManagerComponent implements OnInit {
   }
 
   goToEdit(shoplist: ShopListUI) {
-    this.router.navigate(['edit', shoplist.id], { relativeTo: this.route });
+    this.router.navigate([ShopperPaths.EDIT, shoplist.id], { relativeTo: this.route });
   }
 
 }

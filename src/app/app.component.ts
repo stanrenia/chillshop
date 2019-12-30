@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppTitleService } from './common/services/app-title.service';
+import { AppPaths } from './app-routing.module';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,12 @@ export class AppComponent {
   public appPages = [
     {
       title: 'Shopper',
-      url: '/shopper',
+      url: `/${AppPaths.SHOPPER}`,
       icon: 'cart'
     },
     {
       title: 'Templates',
-      url: '/templates',
+      url: `/${AppPaths.TEMPLATES}`,
       icon: 'albums'
     }
   ];

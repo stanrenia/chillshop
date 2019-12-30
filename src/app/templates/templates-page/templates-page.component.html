@@ -1,10 +1,21 @@
 <app-title-bar></app-title-bar>
 <ion-content>
-  <div>
-    <ul>
-      <li *ngFor="let template of templates | async">
-        {{ template.label }}
-      </li>
-    </ul>
-  </div>
+  <ion-list>
+    <ion-item-sliding *ngFor="let template of templates | async">
+      <ion-item-options side="start">
+        <ion-item-option (click)="onEditClicked(template)">
+          <ion-icon name="create"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="onRemoveClicked(template)">
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item (click)="goToEdit(template)">
+        <ion-icon name="albums" slot="start"></ion-icon>
+        <span>{{ template.label }}</span>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
