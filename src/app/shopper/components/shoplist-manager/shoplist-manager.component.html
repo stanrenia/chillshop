@@ -6,32 +6,44 @@
 
   <form *ngIf="displayForm" [formGroup]="shopListForm" (submit)="createShopList(shopListForm.value)"
     (keydown.enter)="createShopList(shopListForm.value)">
-    <ion-item>
-      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-      <ion-input #inShoplist clearInput placeholder="Name" formControlName="label" required></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="bookmark" slot="start"></ion-icon>
-      <ion-input clearInput placeholder="Category ?" formControlName="category"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>From a Template ?</ion-label>
-      <ion-select formControlName="selectedTemplate">
-          <ion-select-option *ngFor="let template of templates | async" [value]="template">{{ template.label }}</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item>
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        <ion-input #inShoplist clearInput placeholder="Name" formControlName="label" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="bookmark" slot="start"></ion-icon>
+        <ion-input clearInput placeholder="Category ?" formControlName="category"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>From a Template ?</ion-label>
+        <ion-select formControlName="selectedTemplate">
+            <ion-select-option *ngFor="let template of templates | async" [value]="template">{{ template.label }}</ion-select-option>
+        </ion-select>
+      </ion-item>
     <ion-button (click)="createShopList(shopListForm.value)">Create</ion-button>
   </form>
 </div>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let shoplist of shoplists$ | async" (click)="goToEdit(shoplist)">
-      <ion-icon name="list" slot="start"></ion-icon>
-      {{shoplist.label}}
-      <div class="item-note" slot="end">
-        {{shoplist.categoryName}}
-      </div>
-    </ion-item>
+    <ion-item-sliding *ngFor="let shoplist of shoplists$ | async">
+      <ion-item-options side="start">
+        <ion-item-option  (click)="onEditClicked(shoplist)">
+          <ion-icon name="create"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="onRemoveClicked(shoplist)">
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item  (click)="goToEdit(shoplist)">
+        <ion-icon name="list" slot="start"></ion-icon>
+        {{shoplist.label}}
+        <div class="item-note" slot="end">
+          {{shoplist.categoryName}}
+        </div>
+      </ion-item>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

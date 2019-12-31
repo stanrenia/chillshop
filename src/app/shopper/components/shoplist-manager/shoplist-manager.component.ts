@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ShopListQuery, ShopListUI } from '../../state/shoplist.query';
+import { ShopListQuery, ShopListUI, ShopListItemUI } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
@@ -68,5 +68,14 @@ export class ShoplistManagerComponent implements OnInit {
     this.router.navigate([ShopperPaths.EDIT, shoplist.id], {
       relativeTo: this.route
     });
+  }
+
+  onEditClicked(shoplist: ShopListItemUI) {
+    // TODO Open Shoplist Edition Modal
+    // TODO Rename existing component "EditionModalComponent" to "ShoplistItemEditionModalComponent"
+  }
+
+  onRemoveClicked(shoplist: ShopListUI) {
+    this.service.remove(shoplist.id);
   }
 }
