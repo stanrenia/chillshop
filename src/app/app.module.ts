@@ -9,8 +9,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { akitaDevtools } from '@datorama/akita';
-import { ChillModule } from './common/chill.module';
-import { InjectorModule } from './common/injector.module';
+import { ChillModule } from './chill/chill.module';
+import { InjectorModule } from './chill/injector.module';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
 

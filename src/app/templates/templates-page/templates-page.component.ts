@@ -3,10 +3,10 @@ import { TemplatesQuery } from '../state/templates.query';
 import { TemplatesService } from '../state/templates.service';
 import { Observable } from 'rxjs';
 import { Template } from '../state/template.model';
-import { AppTitleService } from 'src/app/common/services/app-title.service';
+import { AppTitleService } from 'src/app/chill/services/app-title.service';
 import { Router } from '@angular/router';
-import { ShopperPaths } from '../../shopper/shopper-routing.module';
-import { AppPaths } from 'src/app/app-routing.module';
+import { ShopperPaths } from '../../shopper/shopper.constants';
+import { AppPaths } from 'src/app/app.constants';
 
 
 @Component({

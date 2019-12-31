@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AppPaths } from './app.constants';
 
-export const AppPaths = {
-  SHOPPER: 'shopper',
-  TEMPLATES: 'templates'
-};
 
 const routes: Routes = [
   { path: `${AppPaths.SHOPPER}`, loadChildren: () => import('./shopper/shopper.module').then(m => m.ShopperPageModule) },

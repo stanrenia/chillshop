@@ -10,7 +10,7 @@ import { ShoplistEditionComponent } from './components/shoplist-edition/shoplist
 import { ShopperRoutingModule } from './shopper-routing.module';
 import { EditionModalComponent } from './components/edition-modal/edition-modal.component';
 import { TemplatesModule } from '../templates/templates.module';
-import { ChillModule } from '../common/chill.module';
+import { ChillModule } from '../chill/chill.module';
 import { CreateEntityComponent } from '../chill/create-entity/create-entity.component';
 
 

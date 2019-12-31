@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppTitleService } from '../../../common/services/app-title.service';
-import { ShopperPaths } from '../../shopper-routing.module';
+import { AppTitleService } from '../../../chill/services/app-title.service';
+import { ShopperPaths } from '../../shopper.constants';
 
 @Component({
   selector: 'app-shoplist-manager',
