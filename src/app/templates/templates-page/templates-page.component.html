@@ -1,6 +1,6 @@
 <app-title-bar></app-title-bar>
 <ion-content>
-  <ion-list>
+  <ion-list #itemList>
     <ion-item-sliding *ngFor="let template of templates | async">
       <ion-item-options side="start">
         <ion-item-option (click)="onEditClicked(template)">

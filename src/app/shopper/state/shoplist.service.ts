@@ -64,36 +64,13 @@ export class ShopListService {
         this.shopListStore.update(shoplistId, arrayUpdate<ShopList, ShopListItem>('items', itemId, propsToUpdate));
     }
 
+    remove(shoplistId: ID) {
+        this.shopListStore.remove(shoplistId);
+    }
+
     removeItem(shoplistId: ID, itemId: ID) {
         this.shopListStore.update(shoplistId, arrayRemove<ShopList>('items', itemId));
     }
-
-    toggleItemCheck(shoplistId: ID, item: ShopListItem): any {
-        this.updateItem(shoplistId, item.id, { checked: !item.checked });
-    }
-
-    toggleItemGroupVisibility(itemGroup: ShopListItemGroup): void {
-        const uiState = this.query.getValue().ui;
-
-        const hiddenIds = [...uiState.itemGroups.hiddenIds];
-        if (itemGroup.hideItems) {
-            const indexToRemove = hiddenIds.findIndex(id => id === itemGroup.categoryId);
-            hiddenIds.splice(indexToRemove, 1);
-        } else {
-            hiddenIds.push(itemGroup.categoryId);
-        }
-
-        const nextUiState = <ShopListUIState>{
-            ...uiState,
-            itemGroups: {
-                ...uiState.itemGroups,
-                hiddenIds
-            }
-        };
-
-        this.shopListStore.updateUIState(nextUiState);
-    }
-
 
     setCategoryFilter(categoryName): void {
         const uiState = this.query.getValue().ui;
@@ -132,5 +109,31 @@ export class ShopListService {
 
     setAsTemplate(shoplistId: ID): void {
         this.shopListStore.update(shoplistId, { isTemplate: true });
+    }
+
+    toggleItemCheck(shoplistId: ID, item: ShopListItem): any {
+        this.updateItem(shoplistId, item.id, { checked: !item.checked });
+    }
+
+    toggleItemGroupVisibility(itemGroup: ShopListItemGroup): void {
+        const uiState = this.query.getValue().ui;
+
+        const hiddenIds = [...uiState.itemGroups.hiddenIds];
+        if (itemGroup.hideItems) {
+            const indexToRemove = hiddenIds.findIndex(id => id === itemGroup.categoryId);
+            hiddenIds.splice(indexToRemove, 1);
+        } else {
+            hiddenIds.push(itemGroup.categoryId);
+        }
+
+        const nextUiState = <ShopListUIState>{
+            ...uiState,
+            itemGroups: {
+                ...uiState.itemGroups,
+                hiddenIds
+            }
+        };
+
+        this.shopListStore.updateUIState(nextUiState);
     }
 }

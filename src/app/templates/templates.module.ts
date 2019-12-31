@@ -5,12 +5,15 @@ import { TemplatesRoutingModule } from './templates-routing.module';
 import { TemplatesPageComponent } from './templates-page/templates-page.component';
 import { IonicModule } from '@ionic/angular';
 import { ChillModule } from '../chill/chill.module';
+import { TemplateEditionModalComponent } from './template-edition-modal/template-edition-modal.component';
 
 
 @NgModule({
   declarations: [
-    TemplatesPageComponent
+    TemplatesPageComponent,
+    TemplateEditionModalComponent
   ],
+  entryComponents: [TemplateEditionModalComponent],
   imports: [
     CommonModule,
     IonicModule,

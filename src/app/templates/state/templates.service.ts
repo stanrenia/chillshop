@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ID, guid } from '@datorama/akita';
+import { ID, guid, transaction } from '@datorama/akita';
 import { TemplatesStore } from './templates.store';
 import { Template } from './template.model';
 import { TemplatesQuery } from './templates.query';
@@ -35,7 +35,9 @@ export class TemplatesService {
     this.templatesStore.update(id, template);
   }
 
-  remove(id: ID) {
-    this.templatesStore.remove(id);
+  @transaction()
+  remove(templateId: ID, shoplistId: ID) {
+    this.templatesStore.remove(templateId);
+    this.shoplistService.remove(shoplistId);
   }
 }
