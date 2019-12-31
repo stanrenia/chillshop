@@ -13,6 +13,7 @@ export interface ShopList {
     label: string;
     categoryId: string;
     items: ShopListItem[];
+    isTemplate: boolean;
 }
 
 export interface ShopListState extends EntityState<ShopList> {

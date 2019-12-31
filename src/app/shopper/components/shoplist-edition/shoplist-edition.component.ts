@@ -3,7 +3,7 @@ import { ShopListQuery, ShopListItemUI, ShopListItemGroup } from '../../state/sh
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
-import { AppTitleService } from '../../services/app-title.service';
+import { AppTitleService } from '../../../chill/services/app-title.service';
 import { ActivatedRoute } from '@angular/router';
 import { ID } from '@datorama/akita';
 import { ProductQuery } from '../../state/product.query';
@@ -12,6 +12,9 @@ import { ToastController, IonList, ModalController } from '@ionic/angular';
 import { EditionModalComponent } from '../edition-modal/edition-modal.component';
 import { distinctUntilChanged, debounceTime, filter, tap, map } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
+import { CreateEntityComponent, CreateEntityProps } from 'src/app/chill/create-entity/create-entity.component';
+import { TemplatesService } from 'src/app/templates/state/templates.service';
+import { Template } from 'src/app/templates/state/template.model';
 
 @Component({
   selector: 'app-shoplist-edition',
@@ -36,6 +39,7 @@ export class ShoplistEditionComponent implements OnInit {
     private route: ActivatedRoute,
     private productQuery: ProductQuery,
     private productService: ProductService,
+    private templateService: TemplatesService,
     private modalController: ModalController,
     private toastCtrl: ToastController
   ) {
@@ -110,7 +114,7 @@ export class ShoplistEditionComponent implements OnInit {
   private async presentToast(itemId: ID, itemName: string) {
     const message = this.getToastMessage(itemId, itemName);
 
-    const toast = await this.toastCtrl.create({
+    const toast = await this.toastCtrl.create(<any>{
       message,
       color: 'secondary',
       cssClass: 'edition-toast-button',
@@ -166,6 +170,23 @@ export class ShoplistEditionComponent implements OnInit {
 
   doReorder(ev: any) {
     ev.detail.complete();
+  }
+
+  async saveAsTemplate() {
+    const modal = await this.modalController.create({
+      component: CreateEntityComponent,
+      componentProps: <CreateEntityProps>{
+        placeholder: 'Template name',
+      }
+    });
+
+    await modal.present();
+
+    const modalResult = await modal.onWillDismiss();
+    this.templateService.add({
+      shoplistId: this.shoplistId,
+      label: modalResult.data
+    } as Template);
   }
 
 }

@@ -18,7 +18,7 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
 
   public getAllForUI(): Observable<ShopListUI[]> {
     return combineLatest([
-      this.selectAll(),
+      this.selectAll({ filterBy: e => !e.isTemplate }),
       this.categoryQuery.selectAll({ asObject: true })
     ]).pipe(
       auditTime(0),

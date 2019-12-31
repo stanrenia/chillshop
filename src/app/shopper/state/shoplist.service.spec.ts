@@ -1,6 +1,6 @@
 import { ShopListService } from './shoplist.service';
 import { ShopListStore, ShopList } from './shoplist.state';
-import { InjectorModule } from 'src/app/common/injector.module';
+import { InjectorModule } from 'src/app/chill/injector.module';
 import { Injector } from '@angular/core';
 import * as akita from '@datorama/akita';
 import { ShopListQuery } from './shoplist.query';
