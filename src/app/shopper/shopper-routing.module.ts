@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShopperPage } from './shopper.page';
 import { ShoplistManagerComponent } from './components/shoplist-manager/shoplist-manager.component';
 import { ShoplistEditionComponent } from './components/shoplist-edition/shoplist-edition.component';
+import { ShopperPaths } from './shopper.constants';
 
 const routes: Routes = [
     {
@@ -14,7 +15,7 @@ const routes: Routes = [
                 component: ShoplistManagerComponent
             },
             {
-                path: 'edit/:id',
+                path: `${ShopperPaths.EDIT}/:id`,
                 component: ShoplistEditionComponent
             }
         ]

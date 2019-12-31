@@ -3,7 +3,7 @@ import { ProductStore, Product, ProductFilter } from './product.state';
 import { ProductQuery } from './product.query';
 import { guid, ID } from '@datorama/akita';
 import { ProductCategoryService } from './product-category.service';
-import { EnableOffline } from 'src/app/common/decorators/offline.service';
+import { EnableOffline } from 'src/app/chill/decorators/offline.service';
 import { ProductOfflineService } from './product-offline.service';
 
 @Injectable({ providedIn: 'root' })

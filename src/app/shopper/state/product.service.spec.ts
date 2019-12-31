@@ -2,7 +2,7 @@ import { ProductService } from './product.service';
 import { ProductStore, Product } from './product.state';
 import { ProductQuery } from './product.query';
 import { ProductCategoryService } from './product-category.service';
-import { InjectorModule } from 'src/app/common/injector.module';
+import { InjectorModule } from 'src/app/chill/injector.module';
 import { Injector } from '@angular/core';
 import * as akita from '@datorama/akita';
 

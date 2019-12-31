@@ -10,10 +10,17 @@
       <ion-icon name="add-circle-outline" slot="start"></ion-icon>
       <ion-input #inShoplist clearInput placeholder="Name" formControlName="label" required></ion-input>
     </ion-item>
-    <ion-item *ngIf="inShoplist.value && inShoplist.value.length > 0">
+    <ion-item>
       <ion-icon name="bookmark" slot="start"></ion-icon>
       <ion-input clearInput placeholder="Category ?" formControlName="category"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>From a Template ?</ion-label>
+      <ion-select formControlName="selectedTemplate">
+          <ion-select-option *ngFor="let template of templates | async" [value]="template">{{ template.label }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button (click)="createShopList(shopListForm.value)">Create</ion-button>
   </form>
 </div>
 

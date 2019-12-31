@@ -5,6 +5,7 @@ import { ShoplistCategoryService } from './shoplist-category.service';
 import { transaction, ID, guid, arrayUpdate, arrayAdd, arrayRemove } from '@datorama/akita';
 import { ProductService } from './product.service';
 import { ProductCategoryService } from './product-category.service';
+import { Template } from 'src/app/templates/state/template.model';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListService {
@@ -13,15 +14,20 @@ export class ShopListService {
         private productService: ProductService, private productCategoryService: ProductCategoryService) { }
 
     @transaction()
-    createShopList(label: string, categoryName: string) {
+    createShopList(label: string, categoryName: string, template: Template = null) {
         let categoryId;
         if (categoryName) {
             const cat = this.categoryService.createCategory(categoryName);
             categoryId = cat && cat.id;
         }
 
-        const count = this.query.getCount();
-        this.shopListStore.add({ id: count + 1, label, items: [], categoryId } as ShopList);
+        let items = [];
+        if (template) {
+            const shopListTemplate = this.query.getEntity(template.shoplistId);
+            items = [...shopListTemplate.items];
+        }
+
+        this.shopListStore.add({ id: guid(), label, items, categoryId } as ShopList);
     }
 
     @transaction()
@@ -36,20 +42,12 @@ export class ShopListService {
         // If item exists, increment its quantity by 1
         if (existingItem) {
             const quantity = existingItem.quantity + 1;
-            this.shopListStore.update(shoplistId, entity => ({
-                items: arrayUpdate(entity.items, existingItem.id, { quantity })
-            }));
-            
+            this.shopListStore.update(shoplistId, arrayUpdate<ShopList, ShopListItem>('items', existingItem.id, { quantity }));
             entityId = existingItem.id;
         // Otherwise, create the item
         } else {
             const item = { id: guid(), productId, quantity: 1, checked: false } as ShopListItem;
-            
-            this.shopListStore.update(shoplistId, entity => ({
-                items: arrayAdd(entity.items, item)
-            }));
-
-
+            this.shopListStore.update(shoplistId, arrayAdd<ShopList>('items', item));
             entityId = item.id;
         }
 
@@ -69,43 +67,16 @@ export class ShopListService {
             delete propsToUpdate.productCategoryName;
         }
 
-        this.shopListStore.update(shoplistId, entity => ({
-            items: arrayUpdate(entity.items, itemId, propsToUpdate)
-        }));
+        this.shopListStore.update(shoplistId, arrayUpdate<ShopList, ShopListItem>('items', itemId, propsToUpdate));
+    }
+
+    remove(shoplistId: ID) {
+        this.shopListStore.remove(shoplistId);
     }
 
     removeItem(shoplistId: ID, itemId: ID) {
-        this.shopListStore.update(shoplistId, entity => ({
-            items: arrayRemove(entity.items, itemId)
-        }));
+        this.shopListStore.update(shoplistId, arrayRemove<ShopList>('items', itemId));
     }
-
-    toggleItemCheck(shoplistId: ID, item: ShopListItem): any {
-        this.updateItem(shoplistId, item.id, { checked: !item.checked });
-    }
-
-    toggleItemGroupVisibility(itemGroup: ShopListItemGroup): void {
-        const uiState = this.query.getValue().ui;
-
-        const hiddenIds = [...uiState.itemGroups.hiddenIds];
-        if (itemGroup.hideItems) {
-            const indexToRemove = hiddenIds.findIndex(id => id === itemGroup.categoryId);
-            hiddenIds.splice(indexToRemove, 1);
-        } else {
-            hiddenIds.push(itemGroup.categoryId);
-        }
-
-        const nextUiState = <ShopListUIState>{
-            ...uiState,
-            itemGroups: {
-                ...uiState.itemGroups,
-                hiddenIds
-            }
-        };
-
-        this.shopListStore.updateUIState(nextUiState);
-    }
-
 
     setCategoryFilter(categoryName): void {
         const uiState = this.query.getValue().ui;
@@ -138,6 +109,36 @@ export class ShopListService {
                 }
             }
          };
+
+        this.shopListStore.updateUIState(nextUiState);
+    }
+
+    setAsTemplate(shoplistId: ID): void {
+        this.shopListStore.update(shoplistId, { isTemplate: true });
+    }
+
+    toggleItemCheck(shoplistId: ID, item: ShopListItem): any {
+        this.updateItem(shoplistId, item.id, { checked: !item.checked });
+    }
+
+    toggleItemGroupVisibility(itemGroup: ShopListItemGroup): void {
+        const uiState = this.query.getValue().ui;
+
+        const hiddenIds = [...uiState.itemGroups.hiddenIds];
+        if (itemGroup.hideItems) {
+            const indexToRemove = hiddenIds.findIndex(id => id === itemGroup.categoryId);
+            hiddenIds.splice(indexToRemove, 1);
+        } else {
+            hiddenIds.push(itemGroup.categoryId);
+        }
+
+        const nextUiState = <ShopListUIState>{
+            ...uiState,
+            itemGroups: {
+                ...uiState.itemGroups,
+                hiddenIds
+            }
+        };
 
         this.shopListStore.updateUIState(nextUiState);
     }
