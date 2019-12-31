@@ -5,6 +5,7 @@ import { ShoplistCategoryService } from './shoplist-category.service';
 import { transaction, ID, guid, arrayUpdate, arrayAdd, arrayRemove } from '@datorama/akita';
 import { ProductService } from './product.service';
 import { ProductCategoryService } from './product-category.service';
+import { Template } from 'src/app/templates/state/template.model';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListService {
@@ -13,15 +14,20 @@ export class ShopListService {
         private productService: ProductService, private productCategoryService: ProductCategoryService) { }
 
     @transaction()
-    createShopList(label: string, categoryName: string) {
+    createShopList(label: string, categoryName: string, template: Template = null) {
         let categoryId;
         if (categoryName) {
             const cat = this.categoryService.createCategory(categoryName);
             categoryId = cat && cat.id;
         }
 
-        const count = this.query.getCount();
-        this.shopListStore.add({ id: count + 1, label, items: [], categoryId } as ShopList);
+        let items = [];
+        if (template) {
+            const shopListTemplate = this.query.getEntity(template.shoplistId);
+            items = [...shopListTemplate.items];
+        }
+
+        this.shopListStore.add({ id: guid(), label, items, categoryId } as ShopList);
     }
 
     @transaction()
