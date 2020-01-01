@@ -54,6 +54,11 @@ export class ShopListService {
         return entityId;
     }
 
+    update(id: ID, label: string, categoryName: string) {
+        const category = this.categoryService.createCategory(categoryName);
+        this.shopListStore.update(id, { label, categoryId: category && category.id });
+    }
+
     updateItem(shoplistId: ID, itemId: ID, propsToUpdate: Partial<ShopListItemUI>) {
         const item = this.query.getEntity(shoplistId).items.find(i => i.id === itemId);
         
