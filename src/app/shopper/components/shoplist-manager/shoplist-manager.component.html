@@ -25,7 +25,7 @@
 </div>
 
 <ion-content>
-  <ion-list>
+  <ion-list #listWithSlidings>
     <ion-item-sliding *ngFor="let shoplist of shoplists$ | async">
       <ion-item-options side="start">
         <ion-item-option  (click)="onEditClicked(shoplist)">

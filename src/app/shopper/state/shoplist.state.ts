@@ -11,7 +11,7 @@ export interface ShopListItem {
 export interface ShopList {
     id: ID;
     label: string;
-    categoryId: string;
+    categoryId: ID;
     items: ShopListItem[];
     isTemplate: boolean;
 }

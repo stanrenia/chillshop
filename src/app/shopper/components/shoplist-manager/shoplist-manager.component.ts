@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ShopListQuery, ShopListUI, ShopListItemUI } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -8,6 +8,8 @@ import { AppTitleService } from '../../../chill/services/app-title.service';
 import { ShopperPaths } from '../../shopper.constants';
 import { TemplatesQuery } from 'src/app/templates/state/templates.query';
 import { Template } from 'src/app/templates/state/template.model';
+import { ModalController, IonList } from '@ionic/angular';
+import { ShoplistEditionModalComponent, ShoplistEditionModalProps } from '../shoplist-edition-modal/shoplist-edition-modal.component';
 
 @Component({
   selector: 'app-shoplist-manager',
@@ -21,6 +23,8 @@ export class ShoplistManagerComponent implements OnInit {
   displayForm = false;
   templates: Observable<Template[]>;
 
+  @ViewChild('listWithSlidings', { static: true }) ionList: IonList;
+
   constructor(
     private query: ShopListQuery,
     private service: ShopListService,
@@ -28,7 +32,8 @@ export class ShoplistManagerComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private appTitleService: AppTitleService,
-    private templatesQuery: TemplatesQuery
+    private templatesQuery: TemplatesQuery,
+    private modalCtrl: ModalController
   ) {
     this.makeForm();
   }
@@ -63,16 +68,31 @@ export class ShoplistManagerComponent implements OnInit {
       selectedTemplate: null
     });
   }
-
+  
   goToEdit(shoplist: ShopListUI) {
     this.router.navigate([ShopperPaths.EDIT, shoplist.id], {
       relativeTo: this.route
     });
   }
 
-  onEditClicked(shoplist: ShopListItemUI) {
-    // TODO Open Shoplist Edition Modal
-    // TODO Rename existing component "EditionModalComponent" to "ShoplistItemEditionModalComponent"
+  async onEditClicked(shoplist: ShopListUI) {
+    const modal = await this.modalCtrl.create({
+      component: ShoplistEditionModalComponent,
+      componentProps: {
+        label: shoplist.label,
+        categoryName: shoplist.categoryName
+      } as ShoplistEditionModalProps
+    });
+
+    await modal.present();
+    const modalResult = await modal.onWillDismiss();
+
+    if (modalResult.data) {
+      const { label, categoryName } = <ShoplistEditionModalProps>modalResult.data;
+      this.service.update(shoplist.id, label, categoryName);
+    }
+
+    this.ionList.closeSlidingItems();
   }
 
   onRemoveClicked(shoplist: ShopListUI) {
