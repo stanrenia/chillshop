@@ -9,11 +9,11 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-edition-modal',
-  templateUrl: './edition-modal.component.html',
-  styleUrls: ['./edition-modal.component.scss'],
+  selector: 'app-shoplist-item-edition-modal',
+  templateUrl: './shoplist-item-edition-modal.component.html',
+  styleUrls: ['./shoplist-item-edition-modal.component.scss'],
 })
-export class EditionModalComponent {
+export class ShoplistItemEditionModalComponent {
 
   itemForm: FormGroup;
   item$: Observable<ShopListItemUI>;
@@ -60,7 +60,7 @@ export class EditionModalComponent {
   cancel() {
     this.modalCtrl.dismiss();
   }
-  
+
   selectCategory(categoryName) {
     this.itemForm.patchValue({
       productCategoryName: categoryName

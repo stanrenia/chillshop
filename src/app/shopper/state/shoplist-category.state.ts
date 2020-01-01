@@ -7,13 +7,30 @@ export interface ShoplistCategory {
     icon: string;
 }
 
-export interface ShoplistCategoryState extends EntityState<ShoplistCategory>{
+export interface ShoplistCategoryFilter {
+  name: string;
 }
+
+export interface ShoplistCategoryState extends EntityState<ShoplistCategory> {
+  ui: {
+    filter: ShoplistCategoryFilter
+  };
+}
+
+const initialState: Partial<ShoplistCategoryState> = {
+  ui: {
+    filter: { name: null }
+  }
+};
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'category' })
 export class ShoplistCategoryStore extends EntityStore<ShoplistCategoryState, ShoplistCategory> {
   constructor() {
-    super();
+    super(initialState);
+  }
+
+  setFilter(filter: ShoplistCategoryFilter) {
+    this.update( { ui: { filter } } );
   }
 }
