@@ -14,7 +14,7 @@ export class ShopListService {
         private productService: ProductService, private productCategoryService: ProductCategoryService) { }
 
     @transaction()
-    createShopList(label: string, categoryName: string, template: Template = null) {
+    createShopList(label: string, categoryName: string, template: Template = null): ShopList {
         let categoryId;
         if (categoryName) {
             const cat = this.categoryService.createCategory(categoryName);
@@ -27,7 +27,27 @@ export class ShopListService {
             items = [...shopListTemplate.items];
         }
 
-        this.shopListStore.add({ id: guid(), label, items, categoryId } as ShopList);
+        const newShoplist = { id: guid(), label, items, categoryId } as ShopList;
+        this.shopListStore.add(newShoplist);
+
+        return newShoplist;
+    }
+
+    createShopListFromUncheckedItems(shoplistId: ID): ShopList {
+        const uncheckedItems = this.query.getUncheckedItems(shoplistId);
+        if (uncheckedItems && uncheckedItems.length) {
+            const newShoplist = this.createShopList('Remaining shoplist of ' + new Date().toDateString(), null);
+            this.shopListStore.update(newShoplist.id, {
+                items: uncheckedItems.map(i => {
+                    return {
+                        ...i,
+                        id: guid()
+                    };
+                })
+            });
+
+            return newShoplist;
+        }
     }
 
     @transaction()
@@ -116,6 +136,10 @@ export class ShopListService {
          };
 
         this.shopListStore.updateUIState(nextUiState);
+    }
+
+    setAsDone(shoplistId: ID): void {
+        this.shopListStore.update(shoplistId, { done: true });
     }
 
     setAsTemplate(shoplistId: ID): void {

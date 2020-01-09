@@ -6,10 +6,16 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AppTitleService {
   private title$$ = new BehaviorSubject<string>('Shopper');
+  private isDisplayed$$ = new BehaviorSubject<boolean>(true);
 
   public title$ = this.title$$.asObservable();
+  public isDisplayed$ = this.isDisplayed$$.asObservable();
 
   public setTitle(title: string) {
     this.title$$.next(title);
+  }
+
+  public setDisplay(isDisplayed: boolean) {
+    this.isDisplayed$$.next(isDisplayed);
   }
 }

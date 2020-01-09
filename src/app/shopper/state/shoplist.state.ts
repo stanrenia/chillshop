@@ -14,6 +14,7 @@ export interface ShopList {
     categoryId: ID;
     items: ShopListItem[];
     isTemplate: boolean;
+    done: boolean;
 }
 
 export interface ShopListState extends EntityState<ShopList> {

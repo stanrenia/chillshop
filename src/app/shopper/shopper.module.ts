@@ -11,7 +11,6 @@ import { ShopperRoutingModule } from './shopper-routing.module';
 import { ShoplistItemEditionModalComponent } from './components/shoplist-item-edition-modal/shoplist-item-edition-modal.component';
 import { TemplatesModule } from '../templates/templates.module';
 import { ChillModule } from '../chill/chill.module';
-import { CreateEntityComponent } from '../chill/create-entity/create-entity.component';
 import { ShoplistEditionModalComponent } from './components/shoplist-edition-modal/shoplist-edition-modal.component';
 
 @NgModule({
@@ -34,8 +33,7 @@ import { ShoplistEditionModalComponent } from './components/shoplist-edition-mod
   ],
   entryComponents: [
     ShoplistItemEditionModalComponent,
-    CreateEntityComponent,
-    ShoplistEditionModalComponent
+    ShoplistEditionModalComponent,
   ]
 })
 export class ShopperPageModule {}

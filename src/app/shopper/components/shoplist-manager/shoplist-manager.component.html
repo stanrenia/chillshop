@@ -38,7 +38,7 @@
         </ion-item-option>
       </ion-item-options>
       <ion-item  (click)="goToEdit(shoplist)">
-        <ion-icon name="list" slot="start"></ion-icon>
+        <ion-icon name="{{shoplist.done ? 'done-all' : 'list'}}" slot="start"></ion-icon>
         {{shoplist.label}}
         <div class="item-note" slot="end">
           {{shoplist.categoryName}}
@@ -46,4 +46,10 @@
       </ion-item>
     </ion-item-sliding>
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="displayForm = !displayForm">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

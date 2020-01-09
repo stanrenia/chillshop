@@ -1,0 +1,17 @@
+<ion-header translucent>
+  <ion-toolbar>
+  <ion-title>{{ props.title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal($event)">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <p>{{ props.content }}</p>
+</ion-content>
+<ion-footer>
+  <ion-buttons>
+    <ion-button (click)="dismissModal($event)">NO</ion-button>
+    <ion-button (click)="confirm($event)">YES</ion-button>
+  </ion-buttons>
+</ion-footer>
