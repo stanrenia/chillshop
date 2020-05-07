@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateEntityComponent } from './create-entity.component';
+import { ModalController, NavParams } from '@ionic/angular';
 
 describe('CreateEntityComponent', () => {
   let component: CreateEntityComponent;
@@ -10,6 +11,10 @@ describe('CreateEntityComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ CreateEntityComponent ],
+      providers: [
+        { provide: ModalController, useValue: {} },
+        { provide: NavParams, useValue: {} }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
