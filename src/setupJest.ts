@@ -1,5 +1,7 @@
 import 'jest-preset-angular';
 
+const esModules = ['@ionic-native' , '@ionic'].join('|');
+
 module.exports = {
   globals: {
     'ts-jest': {
@@ -12,6 +14,7 @@ module.exports = {
   },
   transform: {
     '^.+\\.(ts|js|html)$': 'ts-jest',
+    '^.+\\.js$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'html', 'js', 'json'],
   moduleNameMapper: {
@@ -20,7 +23,7 @@ module.exports = {
     '^assets/(.*)$': '<rootDir>/src/assets/$1',
     '^environments/(.*)$': '<rootDir>/src/environments/$1',
   },
-  transformIgnorePatterns: ['node_modules/(?!@ngrx|@ionic-native|@ionic)'],
+  transformIgnorePatterns: [`<rootDir>/node_modules/(?!${esModules})`],
   snapshotSerializers: [
     'jest-preset-angular/build/AngularSnapshotSerializer.js',
     'jest-preset-angular/build/HTMLCommentSerializer.js',
