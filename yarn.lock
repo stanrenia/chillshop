@@ -1219,10 +1219,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@datorama/akita-cli@^4.0.2":
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@datorama/akita-cli/-/akita-cli-4.0.4.tgz#441701b871f5c4e7299b9d88e10acc027b874433"
-  integrity sha512-GNxkKecRBaSARWtIGW4WzxglF+tg5sbc+hSj7Ce0lZ31RMO7mADwu0LEGVEPtNFGXshNQv2Sdm7aqYnd0IiT9Q==
+"@datorama/akita-cli@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@datorama/akita-cli/-/akita-cli-6.1.0.tgz#5631f8b33f70d1776fb9658534ed43b784bc2b9b"
+  integrity sha512-hxFsAUxW8tbvP92g2ZT4iaWXjD5KL47G/T7gcPc5H9smPjWA39rHO3zZYjAGQ/RahGRf9vFZV7rsTQA5VeRuRw==
   dependencies:
     find-package-json "1.2.0"
     inquirer-fuzzy-path "2.0.3"
@@ -1232,39 +1232,38 @@
     pluralize "7.0.0"
     shelljs "0.8.3"
 
-"@datorama/akita-ngdevtools@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@datorama/akita-ngdevtools/-/akita-ngdevtools-1.0.4.tgz#c72ac8da09cb4b5bca8e25d89b35b29c7b57b9c0"
-  integrity sha512-gn+4KsxdtG6vuWQYD0FlbIUh5yFHrDJcB6vx2YNelBeH/ehWprKety5OkQN5IBEx45eoEBa/kFoz5aahclr1NQ==
+"@datorama/akita-ngdevtools@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@datorama/akita-ngdevtools/-/akita-ngdevtools-4.0.0.tgz#fd898f3e78bcfa569e3f0729e3acd1486b96fe42"
+  integrity sha512-5jfj1/mDgUv8gpRRR01UNl/qa9wj4Z2Y9KfTVovVS7iIoCKLCKs3SdFQeBo28zamzreS2XsIISpHG6wznYZIgg==
   dependencies:
     tslib "^1.9.0"
 
-"@datorama/akita@^3.12.1":
-  version "3.13.1"
-  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-3.13.1.tgz#72e536de93f9f081f05ba17be7ec45fec6a346ed"
-  integrity sha512-0qVB5bGxFcotwQ9BPSJt8gGK+3U5t6hmO925nvjAh9OH92dRK+YMeq8wnByk72ush343A1XQHPmQg7y5Sg270Q==
+"@datorama/akita@^4.23.1":
+  version "4.23.1"
+  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-4.23.1.tgz#f6f4a425632f97241f4a7c088015e75984482db0"
+  integrity sha512-ehZ9c+kJrnZuja7e5CCCb0D/5B93oYJvPaZ8ZwNZhR5OueE4sSzHFbtZy1ppivbV4Q97PtHo/sv0TD+exbv5lQ==
   dependencies:
     schematics-utilities "^1.1.1"
-    tslib "^1.9.0"
 
-"@ionic-native/core@^5.0.0":
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.7.0.tgz#5ad30f73f418f363b045f8214084cd94f2ee571a"
-  integrity sha512-UjSNnS6dPZjzBXrHqY2+UWBwfm8kGctq2l8di16m0+kDZrrSblH73lgjTHeNx/wlkpmZCJoatRwmV6CwiAK4hw==
+"@ionic-native/core@^5.25.0":
+  version "5.25.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.25.0.tgz#b502cd9da2772250d81c38c23dbf2f04e95a28bb"
+  integrity sha512-nNV+wQrgyI1lTl0kslL2i3VaGLGSj+S9hL11MQvAwQ0ZlCnNJr3E3fliu1UvJqBZXUgLgDzGaMEBN7556awebg==
   dependencies:
     "@types/cordova" latest
 
-"@ionic-native/splash-screen@^5.0.0":
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-5.7.0.tgz#bee2160bdecced10b01110ea8f9b8fd58726b8e6"
-  integrity sha512-+bWYKN6WSIlP9TwqKV/pILf0A4jdZs/sZD0EO8NyWVVq+FypwNLDsIQ0eDU0oENyu9+I/JghvcrlDExC/hyZwQ==
+"@ionic-native/splash-screen@^5.25.0":
+  version "5.25.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-5.25.0.tgz#849c3f269edcc4f234021b72d725dca335bae73a"
+  integrity sha512-Xkzxsi9IzstYxRbD2DfSwRemLBQllMpSrl0aMjAiQtpL13xF+W3D833TmJFpnF0P3awxbtL/HiQ/FI4KMfzaWQ==
   dependencies:
     "@types/cordova" latest
 
-"@ionic-native/status-bar@^5.0.0":
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/status-bar/-/status-bar-5.7.0.tgz#2afe1e6fbbd8987ad6e9a10287a5d75b0ed8c565"
-  integrity sha512-8Ak4Mm2IrX3QebaIahFyJv+SS7GZx/Lf1r3X0cEfJeZ3k04F1CFuRF27PAx2eidQYl0VaJwlxoiqGhq31LY25A==
+"@ionic-native/status-bar@^5.25.0":
+  version "5.25.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/status-bar/-/status-bar-5.25.0.tgz#88c0bb24e58ec0c029f36d19ac6719bd1eae4b3c"
+  integrity sha512-VGE64vY1tbaEAcovgJNvmTmaVF9+xIinZJSmxY2cTx7E4A6Zo2Cn0guk+gtKlCHxbsbghPSYMVwWnj70mbhh9A==
   dependencies:
     "@types/cordova" latest
 

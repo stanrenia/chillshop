@@ -24,7 +24,7 @@ akitaDevtools();
     IonicModule.forRoot(),
     AppRoutingModule,
     ChillModule,
-    environment.production ? [] : AkitaNgDevtools.forRoot()
+    environment.production ? [] : AkitaNgDevtools
   ],
   providers: [
     StatusBar,

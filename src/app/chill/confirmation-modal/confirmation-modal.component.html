@@ -2,7 +2,7 @@
   <ion-toolbar>
   <ion-title>{{ props?.title }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismissModal($event)">Close</ion-button>
+      <ion-button (click)="dismissModal()">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -11,7 +11,7 @@
 </ion-content>
 <ion-footer>
   <ion-buttons>
-    <ion-button (click)="dismissModal($event)">NO</ion-button>
-    <ion-button (click)="confirm($event)">YES</ion-button>
+    <ion-button (click)="dismissModal()">NO</ion-button>
+    <ion-button (click)="confirm()">YES</ion-button>
   </ion-buttons>
 </ion-footer>
