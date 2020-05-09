@@ -27,7 +27,7 @@
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/splash-screen": "^5.0.0",
     "@ionic-native/status-bar": "^5.0.0",
-    "@ionic/angular": "^4.7.0",
+    "@ionic/angular": "^5.1.0",
     "core-js": "^2.5.4",
     "lodash": "^4.17.12",
     "rxjs": "~6.5.2",
@@ -45,7 +45,7 @@
     "@angular/language-service": "~8.2.2",
     "@datorama/akita-cli": "^4.0.2",
     "@datorama/akita-ngdevtools": "^1.0.4",
-    "@ionic/angular-toolkit": "2.0.0",
+    "@ionic/angular-toolkit": "^2.2.0",
     "@types/jest": "^24.0.18",
     "@types/node": "~10.12.0",
     "codelyzer": "^5.1.0",
@@ -63,6 +63,8 @@
   },
   "jest": {
     "preset": "jest-preset-angular",
-    "setupFilesAfterEnv": ["<rootDir>/src/setupJest.ts"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupJest.ts"
+    ]
   }
 }
