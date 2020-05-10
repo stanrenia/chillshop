@@ -12,6 +12,7 @@ import { ShoplistItemEditionModalComponent } from './components/shoplist-item-ed
 import { TemplatesModule } from '../templates/templates.module';
 import { ChillModule } from '../chill/chill.module';
 import { ShoplistEditionModalComponent } from './components/shoplist-edition-modal/shoplist-edition-modal.component';
+import { ShoplistCreationModalComponent } from './components/shoplist-creation-modal/shoplist-creation-modal.component';
 
 @NgModule({
   imports: [
@@ -29,11 +30,13 @@ import { ShoplistEditionModalComponent } from './components/shoplist-edition-mod
     ShoplistEditionComponent,
     ShoplistItemGroupComponent,
     ShoplistItemEditionModalComponent,
-    ShoplistEditionModalComponent
+    ShoplistEditionModalComponent,
+    ShoplistCreationModalComponent
   ],
   entryComponents: [
     ShoplistItemEditionModalComponent,
     ShoplistEditionModalComponent,
+    ShoplistCreationModalComponent
   ]
 })
 export class ShopperPageModule {}
