@@ -52,6 +52,7 @@ export class ShopListService {
             dueDate: args.dueDate,
             items,
             categoryId,
+            created: new Date()
         } as ShopList;
         this.shopListStore.add(newShoplist);
 

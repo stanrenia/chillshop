@@ -6,6 +6,7 @@ import { ProductService } from './product.service';
 import { ShoplistCategoryService } from './shoplist-category.service';
 import { ID } from '@datorama/akita';
 import { TestBed } from '@angular/core/testing';
+import * as TestUtils from 'src/testing/test-utils';
 
 describe('ShoplistService', () => {
     let shoplistService: ShopListService;
@@ -17,6 +18,9 @@ describe('ShoplistService', () => {
     jest.mock('@datorama/akita');
     const GUID = '12';
     jest.spyOn(akita, 'guid').mockReturnValue(GUID);
+
+    const nowDate = new Date('2020-05-10T09:00:00Z');
+    TestUtils.setupMockedDateForAllTests(nowDate);
 
     beforeEach(() => {
         query = { getAll: () => {} } as any;
@@ -60,6 +64,7 @@ describe('ShoplistService', () => {
             label,
             dueDate,
             items: [],
+            created: nowDate
         } as ShopList);
     });
 
