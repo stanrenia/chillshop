@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
@@ -11,8 +11,8 @@ import { ShopperRoutingModule } from './shopper-routing.module';
 import { ShoplistItemEditionModalComponent } from './components/shoplist-item-edition-modal/shoplist-item-edition-modal.component';
 import { TemplatesModule } from '../templates/templates.module';
 import { ChillModule } from '../chill/chill.module';
-import { CreateEntityComponent } from '../chill/create-entity/create-entity.component';
 import { ShoplistEditionModalComponent } from './components/shoplist-edition-modal/shoplist-edition-modal.component';
+import { ShoplistCreationModalComponent } from './components/shoplist-creation-modal/shoplist-creation-modal.component';
 
 @NgModule({
   imports: [
@@ -30,12 +30,13 @@ import { ShoplistEditionModalComponent } from './components/shoplist-edition-mod
     ShoplistEditionComponent,
     ShoplistItemGroupComponent,
     ShoplistItemEditionModalComponent,
-    ShoplistEditionModalComponent
+    ShoplistEditionModalComponent,
+    ShoplistCreationModalComponent
   ],
   entryComponents: [
     ShoplistItemEditionModalComponent,
-    CreateEntityComponent,
-    ShoplistEditionModalComponent
+    ShoplistEditionModalComponent,
+    ShoplistCreationModalComponent
   ]
 })
 export class ShopperPageModule {}

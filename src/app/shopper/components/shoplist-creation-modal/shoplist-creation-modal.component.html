@@ -1,0 +1,41 @@
+<form [formGroup]="shopListForm">
+  <ion-item>
+    <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+    <ion-input
+      #inShoplist
+      clearInput
+      placeholder="Name"
+      formControlName="label"
+    ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="bookmark" slot="start"></ion-icon>
+    <ion-input
+      clearInput
+      placeholder="Category ?"
+      formControlName="category"
+    ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Due date</ion-label>
+    <ion-datetime
+      displayFormat="DD MM YY"
+      placeholder="Due date ?"
+      formControlName="dueDate"
+    ></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label>From a Template ?</ion-label>
+    <ion-select formControlName="selectedTemplate">
+      <ion-select-option
+        *ngFor="let template of templates$ | async"
+        [value]="template"
+        >{{ template.label }}</ion-select-option
+      >
+    </ion-select>
+  </ion-item>
+</form>
+<div class="button-group">
+  <ion-button color="light" (click)="close()">Cancel</ion-button>
+  <ion-button (click)="create()">Create</ion-button>
+</div>

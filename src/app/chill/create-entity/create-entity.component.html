@@ -1,5 +1,5 @@
 <ion-item>
-  <ion-input #input (keyup.enter)="create(input.value)" clearInput [placeholder]="props.placeholder" required>
+  <ion-input #input (keyup.enter)="create(input.value)" clearInput [placeholder]="props?.placeholder" required>
   </ion-input>
 </ion-item>
 <ion-button color="primary" (click)="create(input.value)">Create<ion-icon slot="start" name="save"></ion-icon>

@@ -3,7 +3,7 @@ import { NavParams, ModalController } from '@ionic/angular';
 import { ShopListQuery, ShopListItemUI } from '../../state/shoplist.query';
 import { map, tap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { ShopListService } from '../../state/shoplist.service';
-import { ID } from '@datorama/akita/src';
+import { ID } from '@datorama/akita';
 import { ProductCategory } from '../../state/product-category.state';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';

@@ -1,4 +1,4 @@
-<app-title-bar></app-title-bar>
+<app-title-bar *ngIf="appTitleService.isDisplayed$ | async"></app-title-bar>
 <ion-content>
   <ion-router-outlet></ion-router-outlet>
 </ion-content>

@@ -15,6 +15,8 @@ import { ProductService } from '../../state/product.service';
 import { CreateEntityComponent, CreateEntityProps } from 'src/app/chill/create-entity/create-entity.component';
 import { TemplatesService } from 'src/app/templates/state/templates.service';
 import { Template } from 'src/app/templates/state/template.model';
+import { ConfirmationModalComponent, ConfirmationModalProps } from 'src/app/chill/confirmation-modal/confirmation-modal.component';
+import { ModalService } from 'src/app/chill/services/modal.service';
 
 @Component({
   selector: 'app-shoplist-edition',
@@ -28,6 +30,7 @@ export class ShoplistEditionComponent implements OnInit {
 
   itemForm: FormGroup;
   shoplistId: ID;
+  toolbarTitle: string;
 
   @ViewChild('itemList', { static: true }) ionList: IonList;
 
@@ -40,8 +43,8 @@ export class ShoplistEditionComponent implements OnInit {
     private productQuery: ProductQuery,
     private productService: ProductService,
     private templateService: TemplatesService,
-    private modalController: ModalController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private modalService: ModalService
   ) {
     this.makeForm();
   }
@@ -54,10 +57,12 @@ export class ShoplistEditionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.appTitleService.setDisplay(false);
+
     this.route.params.subscribe(params => {
       this.shoplistId = params.id;
       this.itemGroups$ = this.query.getItemsGroupByCategory(this.shoplistId);
-      this.appTitleService.setTitle(`Shopper - Edition : ${this.query.getShopListName(this.shoplistId)}`);
+      this.toolbarTitle = `Shopper - Edition : ${this.query.getShopListName(this.shoplistId)}`;
     });
 
     this.setFormObservables();
@@ -144,12 +149,11 @@ export class ShoplistEditionComponent implements OnInit {
   }
 
   private async presentModal(itemId: ID) {
-    const modal = await this.modalController.create({
-      component: ShoplistItemEditionModalComponent,
-      componentProps: { edition: { shoplistId: this.shoplistId, itemId } }
-    });
+    await this.modalService.displayModal(
+      ShoplistItemEditionModalComponent,
+      { edition: { shoplistId: this.shoplistId, itemId } }
+    );
 
-    await modal.present();
     this.ionList.closeSlidingItems();
   }
 
@@ -173,20 +177,34 @@ export class ShoplistEditionComponent implements OnInit {
   }
 
   async saveAsTemplate() {
-    const modal = await this.modalController.create({
-      component: CreateEntityComponent,
-      componentProps: <CreateEntityProps>{
-        placeholder: 'Template name',
+    await this.modalService.displayModal(
+      CreateEntityComponent,
+      <CreateEntityProps>{ placeholder: 'Template name' },
+      (result) => {
+        this.templateService.add({
+          shoplistId: this.shoplistId,
+          label: result.data
+        } as Template);
       }
-    });
+    );
+  }
 
-    await modal.present();
+  async markAsDone() {
+    // Get remaining items and if any then display "complete shoplist popup"
+    const shoplistId = this.shoplistId;
+    if (this.query.hasAnyUncheckedItems(shoplistId)) {
+      await this.modalService.displayModal(
+        ConfirmationModalComponent,
+        <ConfirmationModalProps>{ title: 'Create shoplist ?', content: 'Do you want to create a new shoplist of the remaining items ?' },
+        (result) => {
+          // If popup returns yes, then create new shoplist with remaining items
+          this.service.createShopListFromUncheckedItems(shoplistId);
+        }
+      );
+    }
 
-    const modalResult = await modal.onWillDismiss();
-    this.templateService.add({
-      shoplistId: this.shoplistId,
-      label: modalResult.data
-    } as Template);
+    // Set as Done
+    this.service.setAsDone(this.shoplistId);
   }
 
 }

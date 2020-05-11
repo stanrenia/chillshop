@@ -10,13 +10,16 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
 
-  let statusBarSpy, splashScreenSpy, platformReadySpy, platformSpy;
+  let statusBarSpy: Partial<StatusBar>
+    , splashScreenSpy: Partial<SplashScreen>
+    , platformReadySpy: Promise<string>
+    , platformSpy: Partial<Platform>;
 
   beforeEach(async(() => {
-    statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
-    splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
-    platformReadySpy = Promise.resolve();
-    platformSpy = { ready: jest.fn() };
+    statusBarSpy = { styleDefault: jest.fn() };
+    splashScreenSpy = { hide: jest.fn() };
+    platformReadySpy = new Promise<string>((resolve, reject) => { resolve(); });
+    platformSpy = { ready: jest.fn().mockReturnValue(platformReadySpy) };
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
@@ -50,8 +53,8 @@ describe('AppComponent', () => {
     const app = fixture.nativeElement;
     const menuItems = app.querySelectorAll('ion-label');
     expect(menuItems.length).toEqual(2);
-    expect(menuItems[0].textContent).toContain('Home');
-    expect(menuItems[1].textContent).toContain('List');
+    expect(menuItems[0].textContent.trim()).toContain('Shopper');
+    expect(menuItems[1].textContent.trim()).toContain('Templates');
   });
 
   it('should have urls', async () => {
@@ -60,8 +63,8 @@ describe('AppComponent', () => {
     const app = fixture.nativeElement;
     const menuItems = app.querySelectorAll('ion-item');
     expect(menuItems.length).toEqual(2);
-    expect(menuItems[0].getAttribute('ng-reflect-router-link')).toEqual('/home');
-    expect(menuItems[1].getAttribute('ng-reflect-router-link')).toEqual('/list');
+    expect(menuItems[0].getAttribute('ng-reflect-router-link')).toEqual('/shopper');
+    expect(menuItems[1].getAttribute('ng-reflect-router-link')).toEqual('/templates');
   });
 
 });
