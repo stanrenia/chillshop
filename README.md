@@ -37,12 +37,15 @@ Create an issue with the **Bug** label
 ### When the project will be updated ?
 As soon as I got time and motivation to work on it :)
 ### Why Ionic ?
-I just gave Ionic a try to work along with Akita.js
+I just gave `Ionic` a try to work along with `Akita.js`
 
-For the moment, I'm not a big fan of Ionic. I faced up too many problems for this kind of framework, plus the documentation didn't help. I think it lacks of real world examples with the V4 version. Need to give Ionic's team more time.
+**For the moment, I think Ionic v4 is good at its job**
 
-Note I also could have pick NativeScript or Flutter, maybe it will change later (for a rewrite).
+At the beginning, I faced up some problems with it and the documentation didn't help. Now in 2020, Ionic v4 got mature.
+I'd like to add some stuff like a local database on device, we'll see if it fits good with `Akita.js`.
+
+Note I also could have pick NativeScript or Flutter, maybe i'll give them a try later on.
 
 ### What about a Backend-side ?
 Yeah that would be cool to have a tiny CRM.
-I'm thinking about an architecture using NodeJs and some libs to get things done easily, though I'm not sure to work on it pretty soon.
+I'm thinking about an architecture using NodeJs and some libs to get things done easily, though I wont work on it pretty soon.
