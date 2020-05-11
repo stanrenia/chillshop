@@ -11,6 +11,7 @@ export interface ShopListItem {
 export interface ShopList {
     id: ID;
     label: string;
+    dueDate: Date;
     categoryId: ID;
     items: ShopListItem[];
     isTemplate: boolean;
