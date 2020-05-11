@@ -1,9 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ toolbarTitle }}</ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-button color="secondary" (click)="saveAsTemplate()"><ion-icon slot="start" name="albums"></ion-icon></ion-button>
+      <ion-button color="primary" (click)="markAsDone()"><ion-icon slot="start" name="checkmark-circle"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <form [formGroup]="itemForm">
   <ion-item>
     <ion-icon name="add-circle-outline" slot="start"></ion-icon>
     <ion-input (keyup.enter)="createShoplistItem(itemForm.value.name)" clearInput placeholder="New Item"
       formControlName="name" required></ion-input>
-    <ion-button color="primary" (click)="saveAsTemplate()">Save<ion-icon slot="start" name="albums"></ion-icon></ion-button>
   </ion-item>
   <div class="autocomplete-container" *ngIf="itemForm.value.name?.length > 2 && (products$ | async) as products">
     <ion-list>

@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ShopListQuery, ShopListUI, ShopListItemUI } from '../../state/shoplist.query';
+import { ShopListQuery, ShopListUI } from '../../state/shoplist.query';
 import { Observable } from 'rxjs';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppTitleService } from '../../../chill/services/app-title.service';
 import { ShopperPaths } from '../../shopper.constants';
-import { TemplatesQuery } from 'src/app/templates/state/templates.query';
 import { Template } from 'src/app/templates/state/template.model';
 import { ModalController, IonList } from '@ionic/angular';
 import { ShoplistEditionModalComponent, ShoplistEditionModalProps } from '../shoplist-edition-modal/shoplist-edition-modal.component';
+import { ShoplistCreationModalComponent, ShoplistCreationModalResult } from '../shoplist-creation-modal/shoplist-creation-modal.component';
 
 @Component({
   selector: 'app-shoplist-manager',
@@ -19,8 +18,6 @@ import { ShoplistEditionModalComponent, ShoplistEditionModalProps } from '../sho
 export class ShoplistManagerComponent implements OnInit {
   shoplists$: Observable<ShopListUI[]>;
 
-  shopListForm: FormGroup;
-  displayForm = false;
   templates: Observable<Template[]>;
 
   @ViewChild('listWithSlidings', { static: true }) ionList: IonList;
@@ -28,47 +25,40 @@ export class ShoplistManagerComponent implements OnInit {
   constructor(
     private query: ShopListQuery,
     private service: ShopListService,
-    private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private appTitleService: AppTitleService,
-    private templatesQuery: TemplatesQuery,
     private modalCtrl: ModalController
   ) {
-    this.makeForm();
-  }
-
-  makeForm(): any {
-    this.shopListForm = this.fb.group({
-      label: ['', Validators.required],
-      category: [undefined],
-      selectedTemplate : [null]
-    });
   }
 
   ngOnInit() {
     this.appTitleService.setTitle('Shopper');
     this.shoplists$ = this.query.getAllForUI();
-    this.templates = this.templatesQuery.getTemplates();
   }
 
   ionViewWillEnter() {}
 
-  createShopList(formValue) {
-    if (!this.shopListForm.valid) {
-      return;
+  async showCreateForm() {
+    const modal = await this.modalCtrl.create({
+      component: ShoplistCreationModalComponent
+    });
+
+    await modal.present();
+    const modalResult = await modal.onWillDismiss();
+
+    if (modalResult.data) {
+      const data: ShoplistCreationModalResult = modalResult.data;
+      this.service.createShopList({
+        label: data.label,
+        categoryName: data.category,
+        dueDate: data.dueDate,
+        template: data.selectedTemplate
+      });
     }
 
-    this.service.createShopList(formValue.label, formValue.category, formValue.selectedTemplate);
-
-    // Clear inputs
-    this.shopListForm.patchValue({
-      label: '',
-      category: '',
-      selectedTemplate: null
-    });
   }
-  
+
   goToEdit(shoplist: ShopListUI) {
     this.router.navigate([ShopperPaths.EDIT, shoplist.id], {
       relativeTo: this.route

@@ -1,16 +1,16 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateEntityComponent } from './create-entity.component';
+import { ConfirmationModalComponent } from './confirmation-modal.component';
 import { ModalController, NavParams } from '@ionic/angular';
 
-describe('CreateEntityComponent', () => {
-  let component: CreateEntityComponent;
-  let fixture: ComponentFixture<CreateEntityComponent>;
+describe('ConfirmationModalComponent', () => {
+  let component: ConfirmationModalComponent;
+  let fixture: ComponentFixture<ConfirmationModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateEntityComponent ],
+      declarations: [ ConfirmationModalComponent ],
       providers: [
         { provide: ModalController, useValue: {} },
         { provide: NavParams, useValue: {} }
@@ -21,7 +21,7 @@ describe('CreateEntityComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateEntityComponent);
+    fixture = TestBed.createComponent(ConfirmationModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

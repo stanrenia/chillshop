@@ -30,7 +30,8 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
             id: sl.id,
             label: sl.label,
             categoryName: cat && cat.label,
-            itemCount: sl.items && sl.items.length
+            itemCount: sl.items && sl.items.length,
+            done: sl.done
           };
         })
       })
@@ -130,6 +131,16 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
       })
     );
   }
+
+  public hasAnyUncheckedItems(shoplistId: ID): boolean {
+    const items = this.getEntity(shoplistId).items;
+    return items && items.length && items.some(i => !i.checked);
+  }
+
+  public getUncheckedItems(shoplistId: ID): ShopListItem[] {
+    const items = this.getEntity(shoplistId).items;
+    return items && items.length && items.filter(i => !i.checked);
+  }
 }
 
 export interface ShopListUI {
@@ -137,6 +148,7 @@ export interface ShopListUI {
   label: string;
   categoryName?: string;
   itemCount?: number;
+  done: boolean;
 }
 
 export interface ShopListItemUI extends ShopListItem {
