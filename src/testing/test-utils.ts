@@ -1,15 +1,10 @@
-export const setupMockedDateForAllTests = (mockedDate: Date) => {
+export const mockDateNowForAllTests = (givenDate: Date) => {
 
-    const OriginalDate = global.Date;
+    const OriginalDateNowFunc = global.Date.now;
 
-    (global.Date as any) = class extends OriginalDate {
-        constructor() {
-            super();
-            return new OriginalDate(mockedDate);
-        }
-    };
+    global.Date.now = () => givenDate.getTime();
 
     afterAll(() => {
-        global.Date = OriginalDate;
+        global.Date.now = OriginalDateNowFunc;
     });
 };

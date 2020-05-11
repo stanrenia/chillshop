@@ -49,7 +49,12 @@ export class ShoplistManagerComponent implements OnInit {
 
     if (modalResult.data) {
       const data: ShoplistCreationModalResult = modalResult.data;
-      this.service.createShopList(data.label, data.category, data.selectedTemplate);
+      this.service.createShopList({
+        label: data.label,
+        categoryName: data.category,
+        dueDate: data.dueDate,
+        template: data.selectedTemplate
+      });
     }
 
   }

@@ -20,8 +20,8 @@ import {
     arrayRemove,
 } from '@datorama/akita';
 import { ProductService } from './product.service';
-import { ProductCategoryService } from './product-category.service';
 import { Template } from 'src/app/templates/state/template.model';
+import { DatePipe } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListService {
@@ -29,7 +29,8 @@ export class ShopListService {
         private shopListStore: ShopListStore,
         private query: ShopListQuery,
         private categoryService: ShoplistCategoryService,
-        private productService: ProductService
+        private productService: ProductService,
+        private datePipe: DatePipe
     ) {}
 
     @transaction()
@@ -46,13 +47,16 @@ export class ShopListService {
             items = [...shopListTemplate.items];
         }
 
+        const created = new Date(Date.now());
+        const label = this.getLabelOrDefault(args, created);
+
         const newShoplist = {
             id: guid(),
-            label: args.label,
+            label,
             dueDate: args.dueDate,
             items,
             categoryId,
-            created: new Date()
+            created
         } as ShopList;
         this.shopListStore.add(newShoplist);
 
@@ -236,6 +240,15 @@ export class ShopListService {
         };
 
         this.shopListStore.updateUIState(nextUiState);
+    }
+
+    private getLabelOrDefault(args: CreateShopListArgs, created: Date): string {
+        if (args.label?.trim()) {
+            return args.label.trim();
+        }
+
+        const refDate = args.dueDate || created;
+        return `List of ${this.datePipe.transform(refDate, 'dd/MM/yyyy')}`;
     }
 }
 

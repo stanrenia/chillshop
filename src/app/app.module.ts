@@ -13,6 +13,7 @@ import { ChillModule } from './chill/chill.module';
 import { InjectorModule } from './chill/injector.module';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
+import { DatePipe } from '@angular/common';
 
 akitaDevtools();
 
@@ -29,7 +30,8 @@ akitaDevtools();
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
