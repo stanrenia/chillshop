@@ -1,19 +1,20 @@
-<ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
-  <ion-item-sliding *ngFor="let item of itemGroup.items; trackBy: trackByIdFn">
+<ion-reorder-group (ionItemReorder)="doReorder($event)" [disabled]="disabled">
+  <ion-item-sliding *ngFor="let item of itemGroup.items; trackBy: trackByIdFn" [disabled]="disabled">
     <ion-item-options side="start">
-      <ion-item-option (click)="onEditClicked(item)">
+      <ion-item-option (click)="onEditClicked(item)" [disabled]="disabled">
         <ion-icon name="create"></ion-icon>
       </ion-item-option>
     </ion-item-options>
     <ion-item-options side="end">
-      <ion-item-option color="danger" (click)="onRemoveClicked(item)">
+      <ion-item-option color="danger" (click)="onRemoveClicked(item)" [disabled]="disabled">
         <ion-icon name="close-circle"></ion-icon>
       </ion-item-option>
     </ion-item-options>
-    <ion-item [button]="false">
+    <ion-item [button]="false" [ngClass]="{'disabled': disabled}">
       <ion-checkbox
         [checked]="item.checked"
         (ionChange)="onCheckChanged(item)"
+        [disabled]="disabled"
         slot="start"
       ></ion-checkbox>
       <ion-label [ngClass]="{ 'text-line-through': item.checked }">{{ item.productName }}</ion-label>
