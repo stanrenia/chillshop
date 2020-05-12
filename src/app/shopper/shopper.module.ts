@@ -5,14 +5,15 @@ import { IonicModule } from '@ionic/angular';
 
 import { ShopperPage } from './shopper.page';
 import { ShoplistItemGroupComponent } from './components/shoplist-item-group/shoplist-item-group.component';
-import { ShoplistManagerComponent } from './components/shoplist-manager/shoplist-manager.component';
-import { ShoplistEditionComponent } from './components/shoplist-edition/shoplist-edition.component';
+import { ShoplistManagerComponent } from './pages/shoplist-manager/shoplist-manager.component';
+import { ShoplistEditionComponent } from './pages/shoplist-edition/shoplist-edition.component';
 import { ShopperRoutingModule } from './shopper-routing.module';
 import { ShoplistItemEditionModalComponent } from './components/shoplist-item-edition-modal/shoplist-item-edition-modal.component';
 import { TemplatesModule } from '../templates/templates.module';
 import { ChillModule } from '../chill/chill.module';
 import { ShoplistEditionModalComponent } from './components/shoplist-edition-modal/shoplist-edition-modal.component';
 import { ShoplistCreationModalComponent } from './components/shoplist-creation-modal/shoplist-creation-modal.component';
+import { ArchivesComponent } from './pages/archives/archives.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { ShoplistCreationModalComponent } from './components/shoplist-creation-m
     ShoplistItemGroupComponent,
     ShoplistItemEditionModalComponent,
     ShoplistEditionModalComponent,
-    ShoplistCreationModalComponent
+    ShoplistCreationModalComponent,
+    ArchivesComponent
   ],
   entryComponents: [
     ShoplistItemEditionModalComponent,

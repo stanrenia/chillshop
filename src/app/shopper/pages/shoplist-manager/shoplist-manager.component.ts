@@ -7,8 +7,8 @@ import { AppTitleService } from '../../../chill/services/app-title.service';
 import { ShopperPaths } from '../../shopper.constants';
 import { Template } from 'src/app/templates/state/template.model';
 import { ModalController, IonList } from '@ionic/angular';
-import { ShoplistEditionModalComponent, ShoplistEditionModalProps } from '../shoplist-edition-modal/shoplist-edition-modal.component';
-import { ShoplistCreationModalComponent, ShoplistCreationModalResult } from '../shoplist-creation-modal/shoplist-creation-modal.component';
+import { ShoplistEditionModalComponent, ShoplistEditionModalProps } from '../../components/shoplist-edition-modal/shoplist-edition-modal.component';
+import { ShoplistCreationModalComponent, ShoplistCreationModalResult } from '../../components/shoplist-creation-modal/shoplist-creation-modal.component';
 
 @Component({
   selector: 'app-shoplist-manager',

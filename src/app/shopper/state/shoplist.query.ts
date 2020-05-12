@@ -16,9 +16,9 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
     super(store);
   }
 
-  public getAllForUI(): Observable<ShopListUI[]> {
+  public getAllForUI(args: GetAllForUIArgs = { archived: false }): Observable<ShopListUI[]> {
     return combineLatest([
-      this.selectAll({ filterBy: e => !e.isTemplate }),
+      this.selectAll({ filterBy: e => !e.isTemplate && (args.archived ? e.done : !e.done) }),
       this.categoryQuery.selectAll({ asObject: true })
     ]).pipe(
       auditTime(0),
@@ -163,4 +163,8 @@ export interface ShopListItemGroup {
   items: ShopListItemUI[];
   hideItems: boolean;
   checkedCount: number;
+}
+
+export interface GetAllForUIArgs {
+  archived: boolean;
 }

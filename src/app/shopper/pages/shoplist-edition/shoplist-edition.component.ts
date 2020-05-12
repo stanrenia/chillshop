@@ -9,7 +9,7 @@ import { ID } from '@datorama/akita';
 import { ProductQuery } from '../../state/product.query';
 import { Product } from '../../state/product.state';
 import { ToastController, IonList } from '@ionic/angular';
-import { ShoplistItemEditionModalComponent } from '../shoplist-item-edition-modal/shoplist-item-edition-modal.component';
+import { ShoplistItemEditionModalComponent } from '../../components/shoplist-item-edition-modal/shoplist-item-edition-modal.component';
 import { distinctUntilChanged, debounceTime, filter, tap, map } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
 import { CreateEntityComponent, CreateEntityProps } from 'src/app/chill/create-entity/create-entity.component';

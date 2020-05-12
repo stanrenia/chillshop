@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppPaths } from './app.constants';
+import { ShopperPaths } from './shopper/shopper.constants';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,11 @@ export class AppComponent {
       title: 'Templates',
       url: `/${AppPaths.TEMPLATES}`,
       icon: 'albums'
+    },
+    {
+      title: 'Archives',
+      url: `/${AppPaths.SHOPPER}/${ShopperPaths.ARCHIVES}`,
+      icon: 'file-tray-stacked-outline'
     }
   ];
 
