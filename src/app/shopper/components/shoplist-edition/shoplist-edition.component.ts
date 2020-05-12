@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShopListService } from '../../state/shoplist.service';
 import { AppTitleService } from '../../../chill/services/app-title.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ID } from '@datorama/akita';
 import { ProductQuery } from '../../state/product.query';
 import { Product } from '../../state/product.state';
-import { ToastController, IonList, ModalController } from '@ionic/angular';
+import { ToastController, IonList } from '@ionic/angular';
 import { ShoplistItemEditionModalComponent } from '../shoplist-item-edition-modal/shoplist-item-edition-modal.component';
 import { distinctUntilChanged, debounceTime, filter, tap, map } from 'rxjs/operators';
 import { ProductService } from '../../state/product.service';
@@ -17,6 +17,7 @@ import { TemplatesService } from 'src/app/templates/state/templates.service';
 import { Template } from 'src/app/templates/state/template.model';
 import { ConfirmationModalComponent, ConfirmationModalProps } from 'src/app/chill/confirmation-modal/confirmation-modal.component';
 import { ModalService } from 'src/app/chill/services/modal.service';
+import { AppPaths } from 'src/app/app.constants';
 
 @Component({
   selector: 'app-shoplist-edition',
@@ -40,6 +41,7 @@ export class ShoplistEditionComponent implements OnInit {
     private fb: FormBuilder,
     private appTitleService: AppTitleService,
     private route: ActivatedRoute,
+    private router: Router,
     private productQuery: ProductQuery,
     private productService: ProductService,
     private templateService: TemplatesService,
@@ -205,6 +207,8 @@ export class ShoplistEditionComponent implements OnInit {
 
     // Set as Done
     this.service.setAsDone(this.shoplistId);
+
+    this.router.navigate([AppPaths.SHOPPER]);
   }
 
 }

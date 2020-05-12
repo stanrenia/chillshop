@@ -60,9 +60,7 @@ export class ShoplistManagerComponent implements OnInit {
   }
 
   goToEdit(shoplist: ShopListUI) {
-    this.router.navigate([ShopperPaths.EDIT, shoplist.id], {
-      relativeTo: this.route
-    });
+    this.router.navigate([ShopperPaths.EDIT, shoplist.id], { relativeTo: this.route });
   }
 
   async onEditClicked(shoplist: ShopListUI) {
