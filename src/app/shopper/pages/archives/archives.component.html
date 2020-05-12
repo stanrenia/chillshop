@@ -1,0 +1,11 @@
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let shoplist of shoplists$ | async" (click)="goToEdit(shoplist.id)">
+            <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
+            {{ shoplist.label }}
+            <div class="item-note" slot="end">
+                {{ shoplist.categoryName }}
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -1,4 +1,5 @@
 export const ShopperPaths = {
     LIST: '',
-    EDIT: 'edit'
+    EDIT: 'edit',
+    ARCHIVES: 'archives'
 };

@@ -1,4 +1,5 @@
 export const AppPaths = {
     SHOPPER: 'shopper',
-    TEMPLATES: 'templates'
+    TEMPLATES: 'templates',
+    ARCHIVES: 'archives'
   };

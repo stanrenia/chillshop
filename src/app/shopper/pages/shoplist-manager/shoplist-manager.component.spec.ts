@@ -8,7 +8,7 @@ import { ShopListQuery } from '../../state/shoplist.query';
 import { ShopListService } from '../../state/shoplist.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppTitleService } from 'src/app/chill/services/app-title.service';
-import { ShoplistCreationModalResult } from '../shoplist-creation-modal/shoplist-creation-modal.component';
+import { ShoplistCreationModalResult } from '../../components/shoplist-creation-modal/shoplist-creation-modal.component';
 import { Template } from 'src/app/templates/state/template.model';
 
 describe('ShoplistManagerComponent', () => {
