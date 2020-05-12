@@ -28,6 +28,7 @@ export class ShoplistEditionComponent implements OnInit {
 
   itemGroups$: Observable<ShopListItemGroup[]>;
   products$: Observable<Product[]>;
+  done$: Observable<boolean>;
 
   itemForm: FormGroup;
   shoplistId: ID;
@@ -64,7 +65,8 @@ export class ShoplistEditionComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.shoplistId = params.id;
       this.itemGroups$ = this.query.getItemsGroupByCategory(this.shoplistId);
-      this.toolbarTitle = `Shopper - Edition : ${this.query.getShopListName(this.shoplistId)}`;
+      this.toolbarTitle = `${this.query.getShopListName(this.shoplistId)}`;
+      this.done$ = this.query.selectEntity(this.shoplistId).pipe(map(list => list.done));
     });
 
     this.setFormObservables();

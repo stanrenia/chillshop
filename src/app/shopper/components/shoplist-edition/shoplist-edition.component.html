@@ -3,22 +3,30 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ toolbarTitle }}</ion-title>
+    <ion-title>
+      <ion-icon *ngIf="(done$ | async)" name="checkmark-done-outline"></ion-icon>
+      {{ toolbarTitle }}
+    </ion-title>
     
     <ion-buttons slot="end">
       <ion-button color="secondary" (click)="saveAsTemplate()"><ion-icon slot="start" name="albums"></ion-icon></ion-button>
-      <ion-button color="primary" (click)="markAsDone()"><ion-icon slot="start" name="checkmark-circle"></ion-icon></ion-button>
+      <ion-button *ngIf="!(done$ | async)" color="primary" (click)="markAsDone()"><ion-icon slot="start" name="checkmark-circle"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
+<ion-chip *ngIf="(done$ | async)" outline color="primary" class="done-chip">
+  <ion-icon name="checkmark-done-outline"></ion-icon>
+  <ion-label>Done</ion-label>
+</ion-chip>
+
 <form [formGroup]="itemForm">
-  <ion-item>
+  <ion-item *ngIf="!(done$ | async)">
     <ion-icon name="add-circle-outline" slot="start"></ion-icon>
     <ion-input (keyup.enter)="createShoplistItem(itemForm.value.name)" clearInput placeholder="New Item"
       formControlName="name" required></ion-input>
   </ion-item>
-  <div class="autocomplete-container" *ngIf="itemForm.value.name?.length > 2 && (products$ | async) as products">
+  <div class="autocomplete-container" *ngIf="!(done$ | async) && itemForm.value.name?.length > 2 && (products$ | async) as products">
     <ion-list>
       <ion-item *ngFor="let product of products; trackBy: trackByIdFn" (click)="createShoplistItem(product.name)" [button]="true">
         {{ product.name }}</ion-item>
@@ -36,7 +44,7 @@
       </ion-item-divider>
 
       <app-shoplist-item-group *ngIf="!itemGroup.hideItems" 
-        [itemGroup]="itemGroup" (editClicked)="editItem($event)" (checkChanged)="toggleItemCheck($event)"
+        [itemGroup]="itemGroup" [disabled]="(done$ | async)" (editClicked)="editItem($event)" (checkChanged)="toggleItemCheck($event)"
         (removeClicked)="removeItem($event)" (reordered)="setItemsOrder(itemGroup, $event)"></app-shoplist-item-group>
       
     </ion-item-group>

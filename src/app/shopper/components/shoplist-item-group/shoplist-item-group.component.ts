@@ -10,6 +10,7 @@ import { ShopListItemGroup, ShopListItemUI } from '../../state/shoplist.query';
 export class ShoplistItemGroupComponent implements OnInit {
 
   @Input() itemGroup: ShopListItemGroup;
+  @Input() disabled = false;
   @Output() checkChanged: EventEmitter<ShopListItemUI> = new EventEmitter();
   @Output() editClicked: EventEmitter<ShopListItemUI> = new EventEmitter();
   @Output() removeClicked: EventEmitter<ShopListItemUI> = new EventEmitter();
