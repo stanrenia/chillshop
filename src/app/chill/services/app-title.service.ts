@@ -13,6 +13,9 @@ export class AppTitleService {
 
   public setTitle(title: string) {
     this.title$$.next(title);
+    if (title) {
+      this.setDisplay(true);
+    }
   }
 
   public setDisplay(isDisplayed: boolean) {

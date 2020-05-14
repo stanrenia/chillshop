@@ -6,9 +6,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AppTitleService } from '../../../chill/services/app-title.service';
 import { ShopperPaths } from '../../shopper.constants';
 import { Template } from 'src/app/templates/state/template.model';
-import { ModalController, IonList } from '@ionic/angular';
+import { IonList } from '@ionic/angular';
 import { ShoplistEditionModalComponent, ShoplistEditionModalProps } from '../../components/shoplist-edition-modal/shoplist-edition-modal.component';
 import { ShoplistCreationModalComponent, ShoplistCreationModalResult } from '../../components/shoplist-creation-modal/shoplist-creation-modal.component';
+import { ModalService } from 'src/app/chill/services/modal.service';
 
 @Component({
   selector: 'app-shoplist-manager',
@@ -28,35 +29,30 @@ export class ShoplistManagerComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private appTitleService: AppTitleService,
-    private modalCtrl: ModalController
+    private modalService: ModalService
   ) {
   }
 
   ngOnInit() {
-    this.appTitleService.setTitle('Shopper');
     this.shoplists$ = this.query.getAllForUI();
   }
 
-  ionViewWillEnter() {}
+  ionViewWillEnter() {
+    this.appTitleService.setTitle('Shopper');
+  }
 
   async showCreateForm() {
-    const modal = await this.modalCtrl.create({
-      component: ShoplistCreationModalComponent
+    await this.modalService.displayModal(
+      ShoplistCreationModalComponent,
+      {},
+      (data: ShoplistCreationModalResult) => {
+        this.service.createShopList({
+          label: data.label,
+          categoryName: data.category,
+          dueDate: data.dueDate,
+          template: data.selectedTemplate
+        });
     });
-
-    await modal.present();
-    const modalResult = await modal.onWillDismiss();
-
-    if (modalResult.data) {
-      const data: ShoplistCreationModalResult = modalResult.data;
-      this.service.createShopList({
-        label: data.label,
-        categoryName: data.category,
-        dueDate: data.dueDate,
-        template: data.selectedTemplate
-      });
-    }
-
   }
 
   goToEdit(shoplist: ShopListUI) {
@@ -64,22 +60,16 @@ export class ShoplistManagerComponent implements OnInit {
   }
 
   async onEditClicked(shoplist: ShopListUI) {
-    const modal = await this.modalCtrl.create({
-      component: ShoplistEditionModalComponent,
-      componentProps: {
+    await this.modalService.displayModal(
+      ShoplistEditionModalComponent,
+      {
         label: shoplist.label,
         categoryName: shoplist.categoryName
-      } as ShoplistEditionModalProps
-    });
-
-    await modal.present();
-    const modalResult = await modal.onWillDismiss();
-
-    if (modalResult.data) {
-      const { label, categoryName } = <ShoplistEditionModalProps>modalResult.data;
-      this.service.update(shoplist.id, label, categoryName);
-    }
-
+      } as ShoplistEditionModalProps,
+      ({ label, categoryName }: ShoplistEditionModalProps) => {
+        this.service.update(shoplist.id, label, categoryName);
+      }
+    );
     this.ionList.closeSlidingItems();
   }
 
