@@ -8,54 +8,62 @@ import { Router } from '@angular/router';
 import { ShopperPaths } from '../../shopper/shopper.constants';
 import { AppPaths } from 'src/app/app.constants';
 import { ModalController, IonList } from '@ionic/angular';
-import { TemplateEditionModalComponent, TemplateEditionProps } from '../template-edition-modal/template-edition-modal.component';
-
+import {
+    TemplateEditionModalComponent,
+    TemplateEditionProps,
+} from '../template-edition-modal/template-edition-modal.component';
 
 @Component({
-  selector: 'app-templates-page',
-  templateUrl: './templates-page.component.html',
-  styleUrls: ['./templates-page.component.scss']
+    selector: 'app-templates-page',
+    templateUrl: './templates-page.component.html',
+    styleUrls: ['./templates-page.component.scss'],
 })
 export class TemplatesPageComponent implements OnInit {
-  templates: Observable<Template[]>;
+    templates$: Observable<Template[]>;
 
-  @ViewChild('itemList', { static: true }) ionList: IonList;
+    @ViewChild('itemList', { static: true }) ionList: IonList;
 
-  constructor(
-    private query: TemplatesQuery,
-    private service: TemplatesService,
-    private titleService: AppTitleService,
-    private router: Router,
-    private modalCtrl: ModalController
-  ) {
-    titleService.setTitle('Templates');
-  }
+    constructor(
+        private query: TemplatesQuery,
+        private service: TemplatesService,
+        private titleService: AppTitleService,
+        private router: Router,
+        private modalCtrl: ModalController
+    ) {}
 
-  ngOnInit() {
-    this.templates = this.query.getTemplates();
-  }
-
-  goToEdit(template: Template) {
-    this.router.navigate([AppPaths.SHOPPER, ShopperPaths.EDIT, template.shoplistId]);
-  }
-
-  async onEditClicked(template: Template) {
-    const modal = await this.modalCtrl.create({
-      component: TemplateEditionModalComponent,
-      componentProps: <TemplateEditionProps>{ template },
-    });
-
-    await modal.present();
-    const modalResult = await modal.onWillDismiss();
-
-    if (modalResult.data) {
-      this.service.update(template.id, { label: modalResult.data });
+    ngOnInit() {
+        this.templates$ = this.query.getTemplates();
     }
 
-    this.ionList.closeSlidingItems();
-  }
+    ionViewWillEnter() {
+        this.titleService.setTitle('Templates');
+    }
 
-  onRemoveClicked(template: Template) {
-    this.service.remove(template.id, template.shoplistId);
-  }
+    goToEdit(template: Template) {
+        this.router.navigate([
+            AppPaths.SHOPPER,
+            ShopperPaths.EDIT,
+            template.shoplistId,
+        ]);
+    }
+
+    async onEditClicked(template: Template) {
+        const modal = await this.modalCtrl.create({
+            component: TemplateEditionModalComponent,
+            componentProps: <TemplateEditionProps>{ template },
+        });
+
+        await modal.present();
+        const modalResult = await modal.onWillDismiss();
+
+        if (modalResult.data) {
+            this.service.update(template.id, { label: modalResult.data });
+        }
+
+        this.ionList.closeSlidingItems();
+    }
+
+    onRemoveClicked(template: Template) {
+        this.service.remove(template.id, template.shoplistId);
+    }
 }

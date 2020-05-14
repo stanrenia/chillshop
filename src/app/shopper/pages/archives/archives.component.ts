@@ -21,11 +21,14 @@ export class ArchivesComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.appTitleService.setTitle('Archives');
         this.shoplists$ = this.query.getAllForUI({ archived: true });
     }
 
+    ionViewWillEnter() {
+        this.appTitleService.setTitle('Archives');
+    }
+
     goToEdit(shoplistId) {
-      this.router.navigate([AppPaths.SHOPPER, ShopperPaths.EDIT, shoplistId]);
+        this.router.navigate([AppPaths.SHOPPER, ShopperPaths.EDIT, shoplistId]);
     }
 }
