@@ -8,11 +8,12 @@ import { ProductQuery } from './product.query';
 import { ProductCategoryQuery } from './product-category.query';
 import { ProductCategory } from './product-category.state';
 import { ArrayUtils } from '../services/utils/array-utils';
+import { TemplatesQuery } from 'src/app/templates/state/templates.query';
 
 @Injectable({ providedIn: 'root' })
 export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   constructor(protected store: ShopListStore, private categoryQuery: ShoplistCategoryQuery, private productQuery: ProductQuery,
-    private productCategoryQuery: ProductCategoryQuery, private arrayUtils: ArrayUtils) {
+    private productCategoryQuery: ProductCategoryQuery, private templateQuery: TemplatesQuery, private arrayUtils: ArrayUtils) {
     super(store);
   }
 
@@ -92,7 +93,13 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
   }
 
   public getShopListName(id: string | number): string {
-    return this.getEntity(id).label;
+    const shoplist = this.getEntity(id);
+    if (shoplist.isTemplate) {
+      const tpl = this.templateQuery.getAll({ limitTo: 1, filterBy: t => t.shoplistId === id })?.[0];
+      return tpl?.label || '';
+    } else {
+      return shoplist.label;
+    }
   }
 
   public getShopListItem(shoplistId: ID, itemId: ID): ShopListItem {
