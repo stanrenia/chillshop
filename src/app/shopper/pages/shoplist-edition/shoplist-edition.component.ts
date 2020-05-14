@@ -184,10 +184,10 @@ export class ShoplistEditionComponent implements OnInit {
     await this.modalService.displayModal(
       CreateEntityComponent,
       <CreateEntityProps>{ placeholder: 'Template name' },
-      (result) => {
+      (templateLabel: string) => {
         this.templateService.add({
           shoplistId: this.shoplistId,
-          label: result.data
+          label: templateLabel
         } as Template);
       }
     );
