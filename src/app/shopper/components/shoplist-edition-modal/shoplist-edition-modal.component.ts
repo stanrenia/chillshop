@@ -53,9 +53,9 @@ export class ShoplistEditionModalComponent implements OnInit {
 
   private setFormObservables(): any {
     this.shoplistForm
-      .get('label')
+      .get('categoryName')
       .valueChanges.pipe(
-        filter((name: string) => name && name.length > 2),
+        // filter((name: string) => name?.length > 1),
         distinctUntilChanged(),
         debounceTime(200),
         tap(nextName => {
@@ -76,7 +76,7 @@ export class ShoplistEditionModalComponent implements OnInit {
   selectCategory(cat: ShoplistCategory) {
     this.shoplistForm.patchValue({
       categoryName: cat.label
-    });
+    }, { emitEvent: false });
     this.categoriesService.setFilter({ name: null });
   }
 

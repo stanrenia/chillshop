@@ -19,7 +19,7 @@
         <ion-label>Category ?</ion-label>
         <ion-input formControlName="categoryName" clearInput></ion-input>
       </ion-item>
-        <div class="autocomplete-container" *ngIf="shoplistForm.dirty && shoplistForm.value.categoryName?.length > 2 && (categories$ | async) as categories">
+        <div class="autocomplete-container" *ngIf="shoplistForm.get('categoryName').dirty && shoplistForm.value.categoryName?.length > 0 && (categories$ | async) as categories">
           <ion-list>
             <ion-item *ngFor="let category of categories; trackBy: trackByIdFn" (click)="selectCategory(category)" [button]="true">
               {{ category.label }}</ion-item>

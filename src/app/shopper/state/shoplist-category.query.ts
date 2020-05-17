@@ -14,7 +14,7 @@ export class ShoplistCategoryQuery extends QueryEntity<ShoplistCategoryState, Sh
     return this.select(state => state.ui.filter)
       .pipe(
         map(filter => this.getAll({ filterBy: cat => {
-          const substr = filter.name && filter.name.toLocaleLowerCase();
+          const substr = filter?.name?.length > 0 && filter.name.toLocaleLowerCase();
           return cat.label && cat.label.toLocaleLowerCase().includes(substr);
         }}))
       );
