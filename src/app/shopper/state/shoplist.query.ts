@@ -133,7 +133,7 @@ export class ShopListQuery extends QueryEntity<ShopListState, ShopList> {
       this.select(state => state.ui.filters.categories)
     ]).pipe(
       map(([categories, categoryFilter]) => {
-        const substr = categoryFilter && categoryFilter.toLocaleLowerCase();
+        const substr = categoryFilter?.length > 0 && categoryFilter.toLocaleLowerCase();
         return categories.filter(cat => cat.name.toLocaleLowerCase().includes(substr));
       })
     );
