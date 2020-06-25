@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "my-app": {
+      "hosting": {
+        "app": [
+          "my-app"
+        ]
+      }
+    }
+  }
+}

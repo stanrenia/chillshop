@@ -3,9 +3,5 @@
   "appName": "chillshop",
   "bundledWebRuntime": false,
   "webDir": "www",
-  "windowsAndroidStudioPath": "D:\\Program 64 HDD\\Android\\Android Studio\\bin\\studio64.exe",
-  "server": {
-    "url": "http://localhost:8100",
-    "cleartext": true
-  }
+  "windowsAndroidStudioPath": "D:\\Program 64 HDD\\Android\\Android Studio\\bin\\studio64.exe"
 }

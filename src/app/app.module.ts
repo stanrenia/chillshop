@@ -14,6 +14,8 @@ import { InjectorModule } from './chill/injector.module';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
 import { DatePipe } from '@angular/common';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 akitaDevtools();
 
@@ -23,6 +25,8 @@ akitaDevtools();
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     AppRoutingModule,
     ChillModule,
     environment.production ? [] : AkitaNgDevtools
