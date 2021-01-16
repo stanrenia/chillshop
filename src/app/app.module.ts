@@ -27,8 +27,8 @@ akitaDevtools();
     IonicModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AppRoutingModule,
     ChillModule,
+    AppRoutingModule,
     environment.production ? [] : AkitaNgDevtools
   ],
   providers: [

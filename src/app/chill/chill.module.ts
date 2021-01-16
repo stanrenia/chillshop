@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
-  providers: [ConnectionService, ModalService, AuthService, AuthStore],
+  providers: [ConnectionService, ModalService],
   imports: [InjectorModule, CommonModule, IonicModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule],

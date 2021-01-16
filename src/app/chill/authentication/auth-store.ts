@@ -9,7 +9,13 @@ export interface Profile {
 
 export interface AuthState extends FireAuthState<Profile> {}
 
-const initialAuthState = {};
+const initialAuthState: AuthState = {
+    uid: null,
+    profile: null,
+    roles: {},
+    loading: false,
+    emailVerified: false,
+};
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'auth' })

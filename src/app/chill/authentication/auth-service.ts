@@ -9,3 +9,11 @@ export class AuthService extends FireAuthService<AuthState> {
         super(store);
     }
 }
+
+@Injectable({ providedIn: 'root' })
+export class TotoService {
+    constructor() {
+    }
+
+    log = () => console.info('TOTO IS HERE');
+}

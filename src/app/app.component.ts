@@ -5,7 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppPaths } from './app.constants';
 import { ShopperPaths } from './shopper/shopper.constants';
-import { AuthService } from './chill/authentication/auth-service';
+import { AuthService, TotoService } from './chill/authentication/auth-service';
+import { AuthStore } from './chill/authentication/auth-store';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,9 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authService: AuthService
+    private authStore: AuthStore,
+    private authService: AuthService,
+    private totoService: TotoService
   ) {
     this.initializeApp();
   }
@@ -47,7 +50,9 @@ export class AppComponent {
   }
 
   async login() {
-    const user = await this.authService.signin('google');
+    // const user = await this.authService.signin('google');
+    const user = this.totoService.log();
+    this.authStore.reset();
     console.info('USER', user);
   }
 }
