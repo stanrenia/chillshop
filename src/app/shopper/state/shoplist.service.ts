@@ -22,8 +22,10 @@ import {
 import { ProductService } from './product.service';
 import { Template } from 'src/app/templates/state/template.model';
 import { DatePipe } from '@angular/common';
+import { CollectionConfig } from 'akita-ng-fire';
 
 @Injectable({ providedIn: 'root' })
+// @CollectionConfig({ path: 'shoplists' })
 export class ShopListService {
     constructor(
         private shopListStore: ShopListStore,

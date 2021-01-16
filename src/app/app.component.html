@@ -3,7 +3,15 @@
     <ion-menu contentId="main-content">
       <ion-header>
         <ion-toolbar color="primary">
-          <ion-title (click)="login()">Menu</ion-title>
+          <ng-container *ngIf="profile$ | async as profile; else loginBtn">
+            <ion-thumbnail slot="start">
+              <ion-img [src]="profile.photoURL"></ion-img>
+            </ion-thumbnail>
+            <ion-label style="margin-left: 1rem;">{{profile.displayName}}</ion-label>
+          </ng-container>
+          <ng-template #loginBtn>
+            <ion-title (click)="login()">Se connecter</ion-title>
+          </ng-template>
         </ion-toolbar>
       </ion-header>
       <ion-content>

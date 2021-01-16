@@ -1,18 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppPaths } from './app.constants';
 import { ShopperPaths } from './shopper/shopper.constants';
-import { AuthService, TotoService } from './chill/authentication/auth-service';
-import { AuthStore } from './chill/authentication/auth-store';
+import { AuthService } from './chill/authentication/auth-service';
+import { AuthQuery } from './chill/authentication/auth-query';
+import { Observable } from 'rxjs';
+import { Profile } from './chill/authentication/auth-store';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html'
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public appPages = [
     {
       title: 'Shopper',
@@ -31,15 +34,21 @@ export class AppComponent {
     }
   ];
 
+  profile$: Observable<Profile>;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authStore: AuthStore,
-    private authService: AuthService,
-    private totoService: TotoService
+    public authService: AuthService,
+    private authQuery: AuthQuery
   ) {
     this.initializeApp();
+  }
+
+  ngOnInit() {
+    this.profile$ = this.authQuery.profile$;
+    this.authService.sync().subscribe();
   }
 
   initializeApp() {
@@ -49,10 +58,11 @@ export class AppComponent {
     });
   }
 
-  async login() {
-    // const user = await this.authService.signin('google');
-    const user = this.totoService.log();
-    this.authStore.reset();
-    console.info('USER', user);
+  login() {
+    this.authService.signin('google');
   }
+}
+
+interface User {
+  email: string;
 }
